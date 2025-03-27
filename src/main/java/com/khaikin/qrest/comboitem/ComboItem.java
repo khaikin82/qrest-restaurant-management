@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class ComboItem {
     @Id
     @GeneratedValue
-    private Integer id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "food_id")

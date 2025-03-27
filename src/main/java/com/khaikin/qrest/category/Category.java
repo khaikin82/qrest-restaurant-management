@@ -1,4 +1,4 @@
-package com.khaikin.qrest.foodtype;
+package com.khaikin.qrest.category;
 
 import com.khaikin.qrest.food.Food;
 import jakarta.persistence.*;
@@ -13,14 +13,14 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class FoodType {
+public class Category {
     @Id
     @GeneratedValue
-    private Integer id;
+    private Long id;
 
     private String name;
     private String description;
 
-    @OneToMany(mappedBy = "foodType")
+    @OneToMany(mappedBy = "category")
     private List<Food> foods = new ArrayList<>();
 }

@@ -16,9 +16,9 @@ public class ComboServiceImpl implements ComboService {
     }
 
     @Override
-    public Combo getComboById(Integer id) {
+    public Combo getComboById(Long id) {
         return comboRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Combo", "comboId", String.valueOf(id)));
+                .orElseThrow(() -> new ResourceNotFoundException("Combo", "comboId", id));
     }
 
     @Override
@@ -27,8 +27,10 @@ public class ComboServiceImpl implements ComboService {
     }
 
     @Override
-    public Combo updateCombo(Integer id, Combo combo) {
-        Combo existingCombo = getComboById(id);
+    public Combo updateCombo(Long id, Combo combo) {
+        Combo existingCombo = comboRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Combo", "comboId", id));
+
         existingCombo.setName(combo.getName());
         existingCombo.setDescription(combo.getDescription());
         existingCombo.setPrice(combo.getPrice());
@@ -36,9 +38,9 @@ public class ComboServiceImpl implements ComboService {
     }
 
     @Override
-    public String deleteCombo(Integer id) {
-        Combo combo = getComboById(id);
-        comboRepository.deleteById(id);
-        return "Combo with comboId: " + id + " deleted successfully !!!";
+    public void deleteComboById(Long id) {
+        Combo existingCombo = comboRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Combo", "comboId", id));
+        comboRepository.delete(existingCombo);
     }
 }

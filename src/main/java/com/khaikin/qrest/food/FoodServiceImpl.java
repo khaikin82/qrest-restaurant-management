@@ -1,7 +1,6 @@
 package com.khaikin.qrest.food;
 
 import com.khaikin.qrest.exception.ResourceNotFoundException;
-import com.khaikin.qrest.payloads.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +17,9 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public Food getFoodById(Integer id) {
-        Food food = foodRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Food", "foodId", String.valueOf(id)));
-        return food;
+    public Food getFoodById(Long id) {
+        return foodRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Food", "foodId", id));
     }
 
     @Override
@@ -30,28 +28,25 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public Food updateFood(Integer id, Food updateFood) {
-        Food food = foodRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Food", "foodId", String.valueOf(id)));
+    public Food updateFood(Long id, Food food) {
+        Food existingFood = foodRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Food", "foodId", id));
 
-        food.setName(updateFood.getName());
-        food.setDescription(updateFood.getDescription());
-        food.setPrice(updateFood.getPrice());
-        food.setQuantity(updateFood.getQuantity());
-        food.setFoodType(updateFood.getFoodType());
+        existingFood.setName(food.getName());
+        existingFood.setDescription(food.getDescription());
+        existingFood.setPrice(food.getPrice());
+        existingFood.setQuantity(food.getQuantity());
+        existingFood.setCategory(food.getCategory());
 
-        return foodRepository.save(food);
+        return foodRepository.save(existingFood);
     }
 
 
     @Override
-    public ApiResponse deleteFoodById(Integer id) {
-        Food food = foodRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Food", "foodId", String.valueOf(id)));
+    public void deleteFoodById(Long id) {
+        Food existingFood = foodRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Food", "foodId", id));
 
-        foodRepository.delete(food);
-        String message = "Food with foodId: " + id + " deleted successfully !!!";
-
-        return new ApiResponse(message, false);
+        foodRepository.delete(existingFood);
     }
 }

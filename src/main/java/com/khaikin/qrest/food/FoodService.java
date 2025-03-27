@@ -1,17 +1,16 @@
 package com.khaikin.qrest.food;
 
-import com.khaikin.qrest.payloads.ApiResponse;
 
 import java.util.List;
 
 public interface FoodService {
     List<Food> getAllFoods();
 
-    Food getFoodById(Integer id);
+    Food getFoodById(Long id);
 
     Food createFood(Food food);
 
-    Food updateFood(Integer id, Food updateFood);
+    Food updateFood(Long id, Food food);
 
-    ApiResponse deleteFoodById(Integer id);
+    void deleteFoodById(Long id);
 }

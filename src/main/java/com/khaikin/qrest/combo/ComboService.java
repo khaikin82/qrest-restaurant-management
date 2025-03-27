@@ -4,8 +4,8 @@ import java.util.List;
 
 public interface ComboService {
     List<Combo> getAllCombos();
-    Combo getComboById(Integer id);
+    Combo getComboById(Long id);
     Combo createCombo(Combo combo);
-    Combo updateCombo(Integer id, Combo combo);
-    String deleteCombo(Integer id);
+    Combo updateCombo(Long id, Combo combo);
+    void deleteComboById(Long id);
 }

@@ -19,7 +19,7 @@ import java.util.List;
 public class Combo {
     @Id
     @GeneratedValue
-    private Integer id;
+    private Long id;
 
     private String name;
     private String description;

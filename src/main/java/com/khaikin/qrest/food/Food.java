@@ -35,4 +35,28 @@ public class Food {
 
     @OneToMany(mappedBy = "food")
     private List<FoodOrder> foodOrders = new ArrayList<>();
+
+    public Food(String name, String description, Double price, Integer quantity, String imageUrl, Category category) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.quantity = quantity;
+        this.imageUrl = imageUrl;
+        this.category = category;
+    }
+
+    public Food(String name, String description, Double price, Integer quantity, String imageUrl) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.quantity = quantity;
+        this.imageUrl = imageUrl;
+    }
+
+    public Food(String name, String description, Double price, Integer quantity) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.quantity = quantity;
+    }
 }

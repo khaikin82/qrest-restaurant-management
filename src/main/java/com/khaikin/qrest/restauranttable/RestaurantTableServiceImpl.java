@@ -1,9 +1,11 @@
 package com.khaikin.qrest.restauranttable;
 
 import com.khaikin.qrest.exception.ResourceNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,6 +27,24 @@ public class RestaurantTableServiceImpl implements RestaurantTableService {
     @Override
     public RestaurantTable createTable(RestaurantTable restaurantTable) {
         return restaurantTableRepository.save(restaurantTable);
+    }
+
+    // Phương thức tạo nhiều bàn với tiền tố, tổng số bàn và số ghế
+    @Transactional
+    public List<RestaurantTable> createMultipleTables(MultipleTableRequestDto multipleTableRequest) {
+        List<RestaurantTable> tables = new ArrayList<>();
+
+        // Tạo các bàn theo yêu cầu
+        for (int i = multipleTableRequest.getStartTableNumber(); i <= multipleTableRequest.getEndTableNumber(); i++) {
+            // Tạo tên bàn theo tiền tố và số thứ tự (ví dụ: Bàn 1, Bàn 2, D1, D2...)
+            String tableName = multipleTableRequest.getPrefix() + i;
+            // Tạo bàn mới với số ghế và tên bàn
+            RestaurantTable table = new RestaurantTable(tableName, multipleTableRequest.getCapacity(), true); // mặc định là có sẵn
+            tables.add(table);
+        }
+
+        // Lưu tất cả bàn vào cơ sở dữ liệu
+        return restaurantTableRepository.saveAll(tables);
     }
 
     @Override

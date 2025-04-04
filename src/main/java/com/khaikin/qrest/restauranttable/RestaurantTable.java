@@ -19,9 +19,10 @@ public class RestaurantTable {
     @GeneratedValue
     private Long id;
 
+    @Column(unique = true)
     private String name; // có thể là số bàn hoặc id bàn (bàn 1, bàn D2,..)
     private int capacity;
-    private boolean isAvailable;
+    private boolean isAvailable = true;
 
     @OneToMany(mappedBy = "restaurantTable")
     private List<Reservation> reservations = new ArrayList<>();
@@ -29,4 +30,14 @@ public class RestaurantTable {
     @OneToMany(mappedBy = "restaurantTable")
     private List<Order> orders = new ArrayList<>();
 
+    public RestaurantTable(String name, int capacity) {
+        this.name = name;
+        this.capacity = capacity;
+    }
+
+    public RestaurantTable(String name, int capacity, boolean isAvailable) {
+        this.name = name;
+        this.capacity = capacity;
+        this.isAvailable = isAvailable;
+    }
 }

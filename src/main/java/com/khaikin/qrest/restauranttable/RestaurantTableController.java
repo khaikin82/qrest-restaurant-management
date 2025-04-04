@@ -34,6 +34,13 @@ public class RestaurantTableController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdRestaurantTable);
     }
 
+    // API nhận yêu cầu tạo nhiều bàn
+    @PostMapping("/create-multiple")
+    public ResponseEntity<List<RestaurantTable>> createMultipleTables(@RequestBody MultipleTableRequestDto tableRequest) {
+        List<RestaurantTable> createdTables = restaurantTableService.createMultipleTables(tableRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdTables);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<RestaurantTable> updateTable(@PathVariable @Positive Long id, @RequestBody RestaurantTable restaurantTable) {
         RestaurantTable updatedRestaurantTable = restaurantTableService.updateTable(id, restaurantTable);

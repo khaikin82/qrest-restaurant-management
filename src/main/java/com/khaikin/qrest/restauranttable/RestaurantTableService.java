@@ -9,6 +9,8 @@ public interface RestaurantTableService {
 
     RestaurantTable createTable(RestaurantTable restaurantTable);
 
+    List<RestaurantTable> createMultipleTables(MultipleTableRequestDto multipleTableRequest);
+
     RestaurantTable updateTable(Long id, RestaurantTable restaurantTable);
 
     void deleteTableById(Long id);

@@ -1,4 +1,4 @@
-package com.khaikin.qrest.comboitem;
+package com.khaikin.qrest.combofood;
 
 import com.khaikin.qrest.combo.Combo;
 import com.khaikin.qrest.food.Food;
@@ -11,19 +11,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class ComboItem {
+public class ComboFood {
     @Id
     @GeneratedValue
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "food_id")
-    private Food food;
-
-    @ManyToOne
     @JoinColumn(name = "combo_id")
     private Combo combo;
 
-    private Integer quantity;
-    private Double comboItemPrice;
+    @ManyToOne
+    @JoinColumn(name = "food_id")
+    private Food food;
 }

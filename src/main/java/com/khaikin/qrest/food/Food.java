@@ -1,11 +1,15 @@
 package com.khaikin.qrest.food;
 
-import com.khaikin.qrest.combo.Combo;
 import com.khaikin.qrest.category.Category;
+import com.khaikin.qrest.combofood.ComboFood;
+import com.khaikin.qrest.foodorder.FoodOrder;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -26,7 +30,9 @@ public class Food {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToOne
-    @JoinColumn(name = "combo_id")
-    private Combo combo;
+    @OneToMany(mappedBy = "food")
+    private List<ComboFood> comboFoods = new ArrayList<>();
+
+    @OneToMany(mappedBy = "food")
+    private List<FoodOrder> foodOrders = new ArrayList<>();
 }

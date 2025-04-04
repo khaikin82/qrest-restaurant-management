@@ -1,10 +1,8 @@
 package com.khaikin.qrest.combo;
 
-import com.khaikin.qrest.food.Food;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import com.khaikin.qrest.combofood.ComboFood;
+import com.khaikin.qrest.comboorder.ComboOrder;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +22,11 @@ public class Combo {
     private String name;
     private String description;
     private Double price;
+    private String imageUrl;
 
     @OneToMany(mappedBy = "combo")
-    private List<Food> foods = new ArrayList<>();
+    private List<ComboFood> comboFoods = new ArrayList<>();
+
+    @OneToMany(mappedBy = "combo")
+    private List<ComboOrder> comboOrders = new ArrayList<>();
 }

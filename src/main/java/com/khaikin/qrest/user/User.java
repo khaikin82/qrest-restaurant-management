@@ -29,7 +29,7 @@ public class User implements UserDetails {
 
     @NaturalId
     @Column(nullable = false, unique = true)
-    private String email;
+    private String username;
 
     @Column(nullable = false)
     private String password;
@@ -37,7 +37,7 @@ public class User implements UserDetails {
     private LocalDate dob;
 
     @Enumerated(EnumType.STRING)
-    private Role role;  // OWNER, WAITER, CASHIER,CHEF
+    private Role role;  // OWNER, WAITER, CASHIER, CHEF
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -51,7 +51,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return username;
     }
 
     @Override

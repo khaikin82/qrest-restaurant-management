@@ -2,7 +2,7 @@ package com.khaikin.qrest.food;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.khaikin.qrest.category.Category;
-import com.khaikin.qrest.combofood.ComboFood;
+import com.khaikin.qrest.combo.Combo;
 import com.khaikin.qrest.foodorder.FoodOrder;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -32,8 +34,8 @@ public class Food {
     private Category category;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "food")
-    private List<ComboFood> comboFoods = new ArrayList<>();
+    @ManyToMany(mappedBy = "foods")
+    private Set<Combo> combos = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "food")

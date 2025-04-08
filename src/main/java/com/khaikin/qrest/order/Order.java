@@ -24,7 +24,7 @@ public class Order {
     @GeneratedValue
     private Long id;
 
-    private Double price;
+    private Double totalPrice;
     private String note;
 
     private OrderStatus orderStatus;

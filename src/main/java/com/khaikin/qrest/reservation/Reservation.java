@@ -1,5 +1,6 @@
 package com.khaikin.qrest.reservation;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.khaikin.qrest.customer.Customer;
 import com.khaikin.qrest.order.Order;
 import com.khaikin.qrest.restauranttable.RestaurantTable;
@@ -34,6 +35,7 @@ public class Reservation {
     @JoinColumn(name = "restaurant_table_id")
     private RestaurantTable restaurantTable;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "reservation")
     private Order order;
 }

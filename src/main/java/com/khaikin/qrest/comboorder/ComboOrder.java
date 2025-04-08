@@ -1,5 +1,6 @@
 package com.khaikin.qrest.comboorder;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.khaikin.qrest.combo.Combo;
 import com.khaikin.qrest.order.Order;
 import jakarta.persistence.*;
@@ -23,6 +24,7 @@ public class ComboOrder {
     @JoinColumn(name = "combo_id")
     private Combo combo;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;

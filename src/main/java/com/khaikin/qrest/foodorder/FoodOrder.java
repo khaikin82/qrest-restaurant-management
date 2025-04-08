@@ -1,5 +1,6 @@
 package com.khaikin.qrest.foodorder;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.khaikin.qrest.food.Food;
 import com.khaikin.qrest.order.Order;
 import jakarta.persistence.*;
@@ -23,6 +24,7 @@ public class FoodOrder {
     @JoinColumn(name = "food_id")
     private Food food;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;

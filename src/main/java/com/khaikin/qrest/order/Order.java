@@ -1,5 +1,6 @@
 package com.khaikin.qrest.order;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.khaikin.qrest.comboorder.ComboOrder;
 import com.khaikin.qrest.foodorder.FoodOrder;
 import com.khaikin.qrest.reservation.Reservation;

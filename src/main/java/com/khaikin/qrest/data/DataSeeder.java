@@ -56,15 +56,15 @@ public class DataSeeder implements CommandLineRunner {
         // Tạo các món ăn mẫu và liên kết với Category
         List<Food> foods = new ArrayList<>();
 
-        foods.add(new Food("Beef Noodles", "Noodles stir-fried with tender beef and vegetables", 7.99, 50, "https://example.com/beef_noodles.jpg", categories.get(0))); // Noodles
-        foods.add(new Food("Chicken Fried Rice", "Fried rice with juicy chicken and mixed vegetables", 6.99, 75, "https://example.com/chicken_fried_rice.jpg", categories.get(1))); // Rice
-        foods.add(new Food("Vegetarian Salad", "A healthy mix of fresh vegetables and herbs", 5.49, 30, "https://example.com/vegetarian_salad.jpg", categories.get(2))); // Vege
-        foods.add(new Food("Pineapple Fried Rice", "Fragrant rice stir-fried with pineapple, shrimp, and cashews", 8.49, 100, "https://example.com/pineapple_fried_rice.jpg", categories.get(1))); // Rice
+        foods.add(new Food("Beef Noodles", "Noodles stir-fried with tender beef and vegetables", 7.99, 50, "https://img.freepik.com/free-photo/high-angle-vietnamese-dish-with-mint_23-2148381198.jpg?t=st=1744032896~exp=1744036496~hmac=bb2d5b91377fd0f77afdb5b0d486d350f8c9a5d5e794092e06b61939100ea10b&w=826", categories.get(0))); // Noodles
+        foods.add(new Food("Chicken Fried Rice", "Fried rice with juicy chicken and mixed vegetables", 6.99, 75, "https://img.freepik.com/free-photo/high-angle-traditional-asian-meal-with-chopsticks_23-2148694371.jpg?ga=GA1.1.1324529926.1734790422&semt=ais_hybrid&w=740", categories.get(1))); // Rice
+        foods.add(new Food("Vegetarian Salad", "A healthy mix of fresh vegetables and herbs", 5.49, 30, "https://img.freepik.com/free-photo/top-view-tasty-salad-with-vegetables_23-2148515491.jpg?ga=GA1.1.1324529926.1734790422&semt=ais_hybrid&w=740", categories.get(2))); // Vege
+        foods.add(new Food("Pineapple Fried Rice", "Fragrant rice stir-fried with pineapple, shrimp, and cashews", 8.49, 100, "https://img.freepik.com/free-photo/high-view-pineapple-plate-with-cutlery_23-2148494708.jpg?ga=GA1.1.1324529926.1734790422&semt=ais_hybrid&w=740", categories.get(1))); // Rice
         foods.add(new Food("Spaghetti Bolognese", "Classic Italian spaghetti with a rich meat sauce", 9.99, 50, "https://example.com/spaghetti_bolognese.jpg", categories.get(0))); // Noodles
         foods.add(new Food("Vegetable Soup", "A warming soup made from seasonal vegetables", 4.99, 40, "https://example.com/vegetable_soup.jpg", categories.get(2))); // Vege
         foods.add(new Food("Fried Chicken", "Crispy and juicy fried chicken pieces", 6.49, 150, "https://example.com/fried_chicken.jpg", categories.get(5))); // Fried Food
         foods.add(new Food("Chicken Wings", "Spicy grilled chicken wings served with dipping sauce", 5.99, 120, "https://example.com/chicken_wings.jpg", categories.get(5))); // Fried Food
-        foods.add(new Food("Beef Burger", "Juicy beef patty with fresh lettuce, tomato, and cheese", 7.49, 80, "https://example.com/beef_burger.jpg", categories.get(5))); // Fried Food
+        foods.add(new Food("Beef Burger", "Juicy beef patty with fresh lettuce, tomato, and cheese", 7.49, 80, "https://img.freepik.com/free-photo/side-view-double-cheeseburger-with-grilled-beef-patties-cheese-lettuce-leaf-burger-buns_141793-4883.jpg?ga=GA1.1.1324529926.1734790422&semt=ais_hybrid&w=740", categories.get(5))); // Fried Food
         foods.add(new Food("Veggie Burger", "Delicious veggie patty with fresh vegetables", 6.49, 60, "https://example.com/veggie_burger.jpg", categories.get(2))); // Vege
         foods.add(new Food("Grilled Fish", "Grilled fish served with a lemon butter sauce", 10.49, 40, "https://example.com/grilled_fish.jpg", categories.get(0))); // Noodles
         foods.add(new Food("Tacos", "Mexican tacos filled with beef, lettuce, and salsa", 5.49, 90, "https://example.com/tacos.jpg", categories.get(5))); // Fried Food

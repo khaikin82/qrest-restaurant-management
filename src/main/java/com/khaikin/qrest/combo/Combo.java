@@ -1,5 +1,6 @@
 package com.khaikin.qrest.combo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.khaikin.qrest.combofood.ComboFood;
 import com.khaikin.qrest.comboorder.ComboOrder;
 import jakarta.persistence.*;
@@ -24,9 +25,11 @@ public class Combo {
     private Double price;
     private String imageUrl;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "combo")
     private List<ComboFood> comboFoods = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "combo")
     private List<ComboOrder> comboOrders = new ArrayList<>();
 }

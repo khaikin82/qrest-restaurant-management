@@ -1,5 +1,6 @@
 package com.khaikin.qrest.customer;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.khaikin.qrest.order.Order;
 import com.khaikin.qrest.reservation.Reservation;
 import jakarta.persistence.*;
@@ -26,6 +27,7 @@ public class Customer {
     private String lastname;
     private String phone;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "customer")
     private List<Reservation> reservations = new ArrayList<>();
 

@@ -1,5 +1,6 @@
 package com.khaikin.qrest.food;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.khaikin.qrest.category.Category;
 import com.khaikin.qrest.combofood.ComboFood;
 import com.khaikin.qrest.foodorder.FoodOrder;
@@ -30,9 +31,11 @@ public class Food {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "food")
     private List<ComboFood> comboFoods = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "food")
     private List<FoodOrder> foodOrders = new ArrayList<>();
 

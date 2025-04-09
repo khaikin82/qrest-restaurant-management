@@ -3,6 +3,7 @@ package com.khaikin.qrest.food;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.khaikin.qrest.category.Category;
 import com.khaikin.qrest.combo.Combo;
+import com.khaikin.qrest.combofood.ComboFood;
 import com.khaikin.qrest.foodorder.FoodOrder;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -34,8 +35,8 @@ public class Food {
     private Category category;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "foods")
-    private Set<Combo> combos = new HashSet<>();
+    @OneToMany(mappedBy = "food")
+    private List<ComboFood> comboFoods = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "food")

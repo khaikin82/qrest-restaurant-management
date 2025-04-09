@@ -1,17 +1,17 @@
 package com.khaikin.qrest.reservation;
 
-import com.khaikin.qrest.customer.CustomerRepository;
 import com.khaikin.qrest.exception.ResourceNotFoundException;
 import com.khaikin.qrest.restauranttable.RestaurantTableRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ReservationServiceImpl implements ReservationService {
     private final ReservationRepository reservationRepository;
-    private final CustomerRepository customerRepository;
     private final RestaurantTableRepository restaurantTableRepository;
 
     @Override
@@ -27,10 +27,9 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public Reservation createReservation(Reservation reservation) {
-        customerRepository.findById(reservation.getCustomer().getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Customer", "id", reservation.getCustomer().getId()));
         restaurantTableRepository.findById(reservation.getRestaurantTable().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("RestaurantTable", "id", reservation.getRestaurantTable().getId()));
+        reservation.setBookingTime(LocalDateTime.now());
         return reservationRepository.save(reservation);
     }
 
@@ -44,11 +43,9 @@ public class ReservationServiceImpl implements ReservationService {
         existingReservation.setNumberOfGuests(reservation.getNumberOfGuests());
         existingReservation.setConfirmed(reservation.isConfirmed());
         existingReservation.setDeposit(reservation.getDeposit());
+        existingReservation.setCustomerName(reservation.getCustomerName());
+        existingReservation.setCustomerPhone(reservation.getCustomerPhone());
 
-        if (reservation.getCustomer() != null) {
-            existingReservation.setCustomer(customerRepository.findById(reservation.getCustomer().getId())
-                                                    .orElseThrow(() -> new ResourceNotFoundException("Customer", "id", reservation.getCustomer().getId())));
-        }
         if (reservation.getRestaurantTable() != null) {
             existingReservation.setRestaurantTable(restaurantTableRepository.findById(reservation.getRestaurantTable().getId())
                                                            .orElseThrow(() -> new ResourceNotFoundException("RestaurantTable", "id", reservation.getRestaurantTable().getId())));

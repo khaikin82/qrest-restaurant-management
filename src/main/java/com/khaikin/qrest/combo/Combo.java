@@ -1,6 +1,7 @@
 package com.khaikin.qrest.combo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.khaikin.qrest.combofood.ComboFood;
 import com.khaikin.qrest.comboorder.ComboOrder;
 import com.khaikin.qrest.food.Food;
 import jakarta.persistence.*;
@@ -27,13 +28,8 @@ public class Combo {
     private Double price;
     private String imageUrl;
 
-    @ManyToMany
-    @JoinTable(
-            name = "combo_food",
-            joinColumns = @JoinColumn(name = "combo_id"),
-            inverseJoinColumns = @JoinColumn(name = "food_id")
-    )
-    private Set<Food> foods = new HashSet<>();
+    @OneToMany(mappedBy = "combo")
+    private List<ComboFood> comboFoods = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "combo")

@@ -26,8 +26,8 @@ public class ComboController {
     }
 
     @PostMapping
-    public ResponseEntity<Combo> createCombo(@RequestBody Combo combo) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(comboService.createCombo(combo));
+    public ResponseEntity<Combo> createCombo(@RequestBody ComboRequest comboRequest) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(comboService.createCombo(comboRequest));
     }
 
     @PutMapping("/{id}")

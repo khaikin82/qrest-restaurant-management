@@ -4,6 +4,7 @@ spring:
     username: root
     password: Deptrai4@
     driver-class-name: com.mysql.cj.jdbc.Driver
+
   jpa:
     hibernate:
       ddl-auto: create
@@ -12,3 +13,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
+
+#server:
+#  address: localhost
+#  port: 8080

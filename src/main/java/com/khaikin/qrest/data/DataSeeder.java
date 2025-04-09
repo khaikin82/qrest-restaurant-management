@@ -2,6 +2,8 @@ package com.khaikin.qrest.data;
 
 import com.khaikin.qrest.category.Category;
 import com.khaikin.qrest.category.CategoryService;
+import com.khaikin.qrest.combo.ComboItem;
+import com.khaikin.qrest.combo.ComboRequest;
 import com.khaikin.qrest.combo.ComboService;
 import com.khaikin.qrest.food.Food;
 import com.khaikin.qrest.food.FoodService;
@@ -77,8 +79,65 @@ public class DataSeeder implements CommandLineRunner {
         foods.add(new Food("Pizza Margherita", "Simple pizza with fresh mozzarella, basil, and tomato sauce", 9.49, 80, "https://example.com/pizza_margherita.jpg", categories.get(0))); // Noodles
         foods.add(new Food("Chocolate Cake", "Rich chocolate cake with creamy frosting", 5.99, 60, "https://example.com/chocolate_cake.jpg", categories.get(4))); // Dessert
 
+        foods.add(new Food("Pho Bo", "Traditional Vietnamese beef noodle soup with herbs", 7.49, 60, "https://img.freepik.com/free-photo/vietnamese-noodle-soup-table_23-2149251213.jpg?w=740", categories.get(0))); // Noodles
+        foods.add(new Food("Bun Cha", "Grilled pork served with rice vermicelli noodles and dipping sauce", 6.99, 40, "https://img.freepik.com/free-photo/traditional-vietnamese-bun-cha-meal_23-2149261021.jpg?w=740", categories.get(0))); // Noodles
+        foods.add(new Food("Broken Rice with Grilled Pork", "Broken rice with grilled pork chop, egg, and pickled vegetables", 7.99, 80, "https://img.freepik.com/free-photo/vietnamese-broken-rice-dish-with-egg-meat_23-2149261018.jpg?w=740", categories.get(1))); // Rice
+        foods.add(new Food("Yangzhou Fried Rice", "Colorful fried rice with sausage, shrimp, and vegetables", 6.49, 90, "https://img.freepik.com/free-photo/fried-rice-with-vegetables-white-plate_123827-21332.jpg?w=740", categories.get(1))); // Rice
+        foods.add(new Food("Fresh Spring Rolls", "Fresh rolls with shrimp, herbs, and rice vermicelli, served with peanut sauce", 4.99, 70, "https://img.freepik.com/free-photo/vietnamese-spring-rolls-served-with-peanut-sauce_114579-2257.jpg?w=740", categories.get(2))); // Vege
+        foods.add(new Food("Bubble Milk Tea", "Sweet milk tea with chewy tapioca pearls", 3.99, 120, "https://img.freepik.com/free-photo/bubble-tea-drink-glass_1150-35609.jpg?w=740", categories.get(3))); // Drink
+        foods.add(new Food("Three-Color Dessert", "Vietnamese dessert with mung beans, jelly, and coconut milk", 4.49, 65, "https://img.freepik.com/free-photo/vietnamese-dessert-che-ba-mau_1150-34687.jpg?w=740", categories.get(4))); // Dessert
+        foods.add(new Food("Fried Spring Rolls", "Crispy fried rolls stuffed with minced pork and vegetables", 5.49, 85, "https://img.freepik.com/free-photo/top-view-fried-spring-rolls-with-chili-sauce_23-2148822692.jpg?w=740", categories.get(5))); // Fried Food
+
         for (Food food : foods) {
             foodService.createFood(food);
         }
+
+        List<ComboRequest> comboRequests = new ArrayList<>();
+
+        comboRequests.add(new ComboRequest(
+                "Vietnamese Classic",
+                "A traditional combo featuring Pho Bo, Fried Spring Rolls, and Bubble Milk Tea.",
+                14.99,
+                "https://img.freepik.com/free-photo/vietnamese-noodle-soup-table_23-2149251213.jpg?w=740",
+                List.of(new ComboItem(21L, 1), new ComboItem(28L, 1), new ComboItem(26L, 1)) // Pho Bo, Fried Spring Rolls, Bubble Tea
+        ));
+
+        comboRequests.add(new ComboRequest(
+                "Tropical Rice Set",
+                "Fried rice lovers’ dream: Pineapple Fried Rice, Yangzhou Fried Rice, and Chicken Wings.",
+                15.99,
+                "https://img.freepik.com/free-photo/high-view-pineapple-plate-with-cutlery_23-2148494708.jpg",
+                List.of(new ComboItem(3L, 1), new ComboItem(23L, 1), new ComboItem(7L, 1)) // Pineapple Fried Rice, Yangzhou Fried Rice, Chicken Wings
+        ));
+
+        comboRequests.add(new ComboRequest(
+                "Vegetarian Delight",
+                "A healthy and colorful mix of Vegetarian Salad, Vegetable Soup, and Mushroom Risotto.",
+                13.49,
+                "https://img.freepik.com/free-photo/top-view-tasty-salad-with-vegetables_23-2148515491.jpg",
+                List.of(new ComboItem(2L, 1), new ComboItem(6L, 1), new ComboItem(17L, 1)) // Vegetarian Salad, Soup, Risotto
+        ));
+
+        comboRequests.add(new ComboRequest(
+                "Grill and Chill",
+                "Perfect for meat lovers – Grilled Fish, Chicken Wings, and Chocolate Cake for dessert.",
+                16.99,
+                "https://example.com/grilled_fish.jpg",
+                List.of(new ComboItem(11L, 1), new ComboItem(7L, 1), new ComboItem(20L, 1)) // Grilled Fish, Chicken Wings, Chocolate Cake
+        ));
+
+        comboRequests.add(new ComboRequest(
+                "Fried Feast",
+                "A crispy combo of Fried Chicken, Fried Spring Rolls, and Fish and Chips.",
+                16.49,
+                "https://img.freepik.com/free-photo/top-view-fried-spring-rolls-with-chili-sauce_23-2148822692.jpg?w=740",
+                List.of(new ComboItem(7L, 1), new ComboItem(28L, 1), new ComboItem(13L, 1)) // Fried Chicken, Fried Spring Rolls, Fish & Chips
+        ));
+
+
+        for (ComboRequest comboRequest : comboRequests) {
+            comboService.createCombo(comboRequest);
+        }
+
     }
 }

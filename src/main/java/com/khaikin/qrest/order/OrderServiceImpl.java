@@ -77,6 +77,7 @@ public class OrderServiceImpl implements OrderService {
                 foodOrder.setPrice(food.getPrice());
                 foodOrder.setFood(food);
                 foodOrder.setOrder(order);
+
                 foodOrders.add(foodOrder);
 
                 totalPrice += foodOrder.getPrice() * quantity;

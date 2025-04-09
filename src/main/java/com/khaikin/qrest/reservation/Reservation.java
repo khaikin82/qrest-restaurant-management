@@ -1,7 +1,6 @@
 package com.khaikin.qrest.reservation;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.khaikin.qrest.customer.Customer;
 import com.khaikin.qrest.order.Order;
 import com.khaikin.qrest.restauranttable.RestaurantTable;
 import jakarta.persistence.*;
@@ -27,9 +26,8 @@ public class Reservation {
     private boolean isConfirmed; // cọc tiền xong sẽ là true
     private Double deposit;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    private String customerName;
+    private String customerPhone;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_table_id")

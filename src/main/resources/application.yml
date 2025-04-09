@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/qrest_management
     username: root
-    password: Deptrai4@
+    password: your_password
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:

@@ -26,8 +26,8 @@ public class ReservationController {
     }
 
     @PostMapping
-    public ResponseEntity<Reservation> createReservation(@RequestBody Reservation reservation) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.createReservation(reservation));
+    public ResponseEntity<Reservation> createReservation(@RequestBody ReservationRequest reservationRequest) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.createReservation(reservationRequest));
     }
 
     @PutMapping("/{id}")

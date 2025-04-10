@@ -9,7 +9,9 @@ import com.khaikin.qrest.food.Food;
 import com.khaikin.qrest.food.FoodRepository;
 import com.khaikin.qrest.foodorder.FoodOrder;
 import com.khaikin.qrest.foodorder.FoodOrderRepository;
+import com.khaikin.qrest.reservation.Reservation;
 import com.khaikin.qrest.reservation.ReservationRepository;
+import com.khaikin.qrest.restauranttable.RestaurantTable;
 import com.khaikin.qrest.restauranttable.RestaurantTableRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -46,18 +48,19 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public Order createOrder(OrderRequest orderRequest) {
+        RestaurantTable table = restaurantTableRepository.findById(orderRequest.getRestaurantTableId())
+                .orElseThrow(() -> new ResourceNotFoundException("RestaurantTable", "id",
+                                                                 orderRequest.getRestaurantTableId()));
+        Reservation reservation = null;
+        if (orderRequest.getReservationId() != null) {
+            reservation =  reservationRepository.findById(orderRequest.getReservationId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Reservation", "id",
+                                                                     orderRequest.getReservationId()));
+        }
         Order order = new Order();
-        if (orderRequest.getRestaurantTable() != null) {
-            restaurantTableRepository.findById(orderRequest.getRestaurantTable().getId())
-                    .orElseThrow(() -> new ResourceNotFoundException("RestaurantTable", "id", orderRequest.getRestaurantTable().getId()));
-            order.setRestaurantTable(orderRequest.getRestaurantTable());
-        }
 
-        if (orderRequest.getReservation() != null) {
-            reservationRepository.findById(orderRequest.getReservation().getId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Reservation", "id", orderRequest.getReservation().getId()));
-            order.setReservation(orderRequest.getReservation());
-        }
+        order.setRestaurantTable(table);
+        order.setReservation(reservation);
 
         order.setNote(orderRequest.getNote());
         order.setOrderStatus(OrderStatus.PENDING);

@@ -1,6 +1,7 @@
 package com.khaikin.qrest.reservation;
 
 import com.khaikin.qrest.exception.ResourceNotFoundException;
+import com.khaikin.qrest.restauranttable.RestaurantTable;
 import com.khaikin.qrest.restauranttable.RestaurantTableRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,10 +27,20 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public Reservation createReservation(Reservation reservation) {
-        restaurantTableRepository.findById(reservation.getRestaurantTable().getId())
-                .orElseThrow(() -> new ResourceNotFoundException("RestaurantTable", "id", reservation.getRestaurantTable().getId()));
+    public Reservation createReservation(ReservationRequest reservationRequest) {
+        RestaurantTable table = restaurantTableRepository.findById(reservationRequest.getRestaurantTableId())
+                .orElseThrow(() -> new ResourceNotFoundException("RestaurantTable", "id",
+                                                                 reservationRequest.getRestaurantTableId()));
+        Reservation reservation = new Reservation();
+        reservation.setRestaurantTable(table);
+
         reservation.setBookingTime(LocalDateTime.now());
+        reservation.setArrivalTime(reservationRequest.getArrivalTime());
+        reservation.setNumberOfGuests(reservation.getNumberOfGuests());
+        reservation.setConfirmed(reservationRequest.isConfirmed());
+        reservation.setDeposit(reservationRequest.getDeposit());
+        reservation.setCustomerName(reservationRequest.getCustomerName());
+        reservation.setCustomerPhone(reservationRequest.getCustomerPhone());
         return reservationRepository.save(reservation);
     }
 

@@ -11,6 +11,6 @@ public class OrderRequest {
     private String note;
     private List<OrderItem> foodOrderItems;
     private List<OrderItem> comboOrderItems;
-    private RestaurantTable restaurantTable;
-    private Reservation reservation;
+    private Long restaurantTableId;
+    private Long reservationId;
 }

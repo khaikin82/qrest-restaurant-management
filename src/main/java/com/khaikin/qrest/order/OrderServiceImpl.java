@@ -58,10 +58,8 @@ public class OrderServiceImpl implements OrderService {
                                                                      orderRequest.getReservationId()));
         }
         Order order = new Order();
-
         order.setRestaurantTable(table);
         order.setReservation(reservation);
-
         order.setNote(orderRequest.getNote());
         order.setOrderStatus(OrderStatus.PENDING);
         order.setOrderTime(LocalDateTime.now());
@@ -69,7 +67,6 @@ public class OrderServiceImpl implements OrderService {
         List<FoodOrder> foodOrders = new ArrayList<>();
         List<ComboOrder> comboOrders = new ArrayList<>();
         double totalPrice = 0;
-
         if (orderRequest.getFoodOrderItems() != null) {
             for (OrderItem foodOrderItem : orderRequest.getFoodOrderItems()) {
                 Food food = foodRepository.findById(foodOrderItem.id())
@@ -82,7 +79,6 @@ public class OrderServiceImpl implements OrderService {
                 foodOrder.setOrder(order);
 
                 foodOrders.add(foodOrder);
-
                 totalPrice += foodOrder.getPrice() * quantity;
             }
             foodOrderRepository.saveAll(foodOrders);

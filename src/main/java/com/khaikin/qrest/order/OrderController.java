@@ -20,6 +20,16 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
 
+    @GetMapping("/completed")
+    public ResponseEntity<List<Order>> getCompletedOrders() {
+        return ResponseEntity.ok(orderService.getCompletedOrders());
+    }
+
+    @GetMapping("/completed/without-payment")
+    public ResponseEntity<List<Order>> getCompletedOrdersWithoutPayment() {
+        return ResponseEntity.ok(orderService.getCompletedOrdersWithoutPayment());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Order> getOrderById(@PathVariable @Positive Long id) {
         return ResponseEntity.ok(orderService.getOrderById(id));

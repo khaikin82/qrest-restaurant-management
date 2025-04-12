@@ -27,6 +27,7 @@ public class Order {
     private Double totalPrice;
     private String note;
 
+    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
     private LocalDateTime orderTime;
 

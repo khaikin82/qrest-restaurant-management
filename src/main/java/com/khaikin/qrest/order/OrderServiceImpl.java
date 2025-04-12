@@ -135,4 +135,14 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new ResourceNotFoundException("Order", "id", id));
         orderRepository.delete(existingOrder);
     }
+
+    @Override
+    public List<Order> getCompletedOrders() {
+        return orderRepository.findByOrderStatus(OrderStatus.COMPLETED);
+    }
+
+    @Override
+    public List<Order> getCompletedOrdersWithoutPayment() {
+        return orderRepository.findCompletedOrdersWithoutPayment(OrderStatus.COMPLETED);
+    }
 }

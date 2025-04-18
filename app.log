@@ -1,0 +1,362 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.4.3)
+
+2025-04-18T17:06:55.876Z  INFO 79096 --- [qrest-management-app] [           main] com.khaikin.qrest.QrestApplication       : Starting QrestApplication v0.0.1-SNAPSHOT using Java 17.0.14 with PID 79096 (/home/hoangdangkhai/my-project/qrest-restaurant-management/target/qrest-0.0.1-SNAPSHOT.jar started by hoangdangkhai in /home/hoangdangkhai/my-project/qrest-restaurant-management)
+2025-04-18T17:06:55.880Z  INFO 79096 --- [qrest-management-app] [           main] com.khaikin.qrest.QrestApplication       : No active profile set, falling back to 1 default profile: "default"
+2025-04-18T17:06:56.940Z  INFO 79096 --- [qrest-management-app] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-04-18T17:06:57.043Z  INFO 79096 --- [qrest-management-app] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 90 ms. Found 10 JPA repository interfaces.
+2025-04-18T17:06:57.741Z  INFO 79096 --- [qrest-management-app] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 18080 (http)
+2025-04-18T17:06:57.756Z  INFO 79096 --- [qrest-management-app] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-04-18T17:06:57.756Z  INFO 79096 --- [qrest-management-app] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-04-18T17:06:57.790Z  INFO 79096 --- [qrest-management-app] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-04-18T17:06:57.792Z  INFO 79096 --- [qrest-management-app] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1845 ms
+2025-04-18T17:06:57.994Z  INFO 79096 --- [qrest-management-app] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-04-18T17:06:58.078Z  INFO 79096 --- [qrest-management-app] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.8.Final
+2025-04-18T17:06:58.130Z  INFO 79096 --- [qrest-management-app] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-04-18T17:06:58.460Z  INFO 79096 --- [qrest-management-app] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-04-18T17:06:58.491Z  INFO 79096 --- [qrest-management-app] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-04-18T17:06:58.863Z  INFO 79096 --- [qrest-management-app] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6febec41
+2025-04-18T17:06:58.865Z  INFO 79096 --- [qrest-management-app] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-04-18T17:06:58.920Z  WARN 79096 --- [qrest-management-app] [           main] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-04-18T17:06:58.921Z  WARN 79096 --- [qrest-management-app] [           main] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-04-18T17:06:58.960Z  INFO 79096 --- [qrest-management-app] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-04-18T17:07:00.316Z  INFO 79096 --- [qrest-management-app] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-04-18T17:07:00.320Z  INFO 79096 --- [qrest-management-app] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-04-18T17:07:00.844Z  INFO 79096 --- [qrest-management-app] [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-04-18T17:07:02.002Z  WARN 79096 --- [qrest-management-app] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-04-18T17:07:02.578Z  INFO 79096 --- [qrest-management-app] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 18080 (http) with context path '/'
+2025-04-18T17:07:02.597Z  INFO 79096 --- [qrest-management-app] [           main] com.khaikin.qrest.QrestApplication       : Started QrestApplication in 7.353 seconds (process running for 7.994)
+2025-04-18T17:07:10.997Z  INFO 79096 --- [qrest-management-app] [.0-18080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-04-18T17:07:10.997Z  INFO 79096 --- [qrest-management-app] [.0-18080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-04-18T17:07:10.999Z  INFO 79096 --- [qrest-management-app] [.0-18080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2025-04-18T17:07:12.985Z  INFO 79096 --- [qrest-management-app] [.0-18080-exec-9] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 971 ms
+Hibernate: 
+    insert 
+    into
+        restaurant_table
+        (capacity, name, status) 
+    values
+        (?, ?, ?)
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.arrival_time,
+        r1_0.booking_time,
+        r1_0.customer_name,
+        r1_0.customer_phone,
+        r1_0.deposit,
+        r1_0.is_confirmed,
+        r1_0.number_of_guests,
+        r1_0.restaurant_table_id 
+    from
+        reservation r1_0
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.note,
+        o1_0.order_status,
+        o1_0.order_time,
+        r1_0.id,
+        r1_0.arrival_time,
+        r1_0.booking_time,
+        r1_0.customer_name,
+        r1_0.customer_phone,
+        r1_0.deposit,
+        r1_0.is_confirmed,
+        r1_0.number_of_guests,
+        rt1_0.id,
+        rt1_0.capacity,
+        rt1_0.name,
+        rt1_0.status,
+        rt2_0.id,
+        rt2_0.capacity,
+        rt2_0.name,
+        rt2_0.status,
+        o1_0.total_price 
+    from
+        restaurant_order o1_0 
+    left join
+        reservation r1_0 
+            on r1_0.id=o1_0.reservation_id 
+    left join
+        restaurant_table rt1_0 
+            on rt1_0.id=r1_0.restaurant_table_id 
+    left join
+        restaurant_table rt2_0 
+            on rt2_0.id=o1_0.restaurant_table_id 
+    where
+        o1_0.reservation_id=?
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.note,
+        o1_0.order_status,
+        o1_0.order_time,
+        r1_0.id,
+        r1_0.arrival_time,
+        r1_0.booking_time,
+        r1_0.customer_name,
+        r1_0.customer_phone,
+        r1_0.deposit,
+        r1_0.is_confirmed,
+        r1_0.number_of_guests,
+        rt1_0.id,
+        rt1_0.capacity,
+        rt1_0.name,
+        rt1_0.status,
+        rt2_0.id,
+        rt2_0.capacity,
+        rt2_0.name,
+        rt2_0.status,
+        o1_0.total_price 
+    from
+        restaurant_order o1_0 
+    left join
+        reservation r1_0 
+            on r1_0.id=o1_0.reservation_id 
+    left join
+        restaurant_table rt1_0 
+            on rt1_0.id=r1_0.restaurant_table_id 
+    left join
+        restaurant_table rt2_0 
+            on rt2_0.id=o1_0.restaurant_table_id 
+    where
+        o1_0.reservation_id=?
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.note,
+        o1_0.order_status,
+        o1_0.order_time,
+        r1_0.id,
+        r1_0.arrival_time,
+        r1_0.booking_time,
+        r1_0.customer_name,
+        r1_0.customer_phone,
+        r1_0.deposit,
+        r1_0.is_confirmed,
+        r1_0.number_of_guests,
+        rt1_0.id,
+        rt1_0.capacity,
+        rt1_0.name,
+        rt1_0.status,
+        rt2_0.id,
+        rt2_0.capacity,
+        rt2_0.name,
+        rt2_0.status,
+        o1_0.total_price 
+    from
+        restaurant_order o1_0 
+    left join
+        reservation r1_0 
+            on r1_0.id=o1_0.reservation_id 
+    left join
+        restaurant_table rt1_0 
+            on rt1_0.id=r1_0.restaurant_table_id 
+    left join
+        restaurant_table rt2_0 
+            on rt2_0.id=o1_0.restaurant_table_id 
+    where
+        o1_0.reservation_id=?
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.note,
+        o1_0.order_status,
+        o1_0.order_time,
+        r1_0.id,
+        r1_0.arrival_time,
+        r1_0.booking_time,
+        r1_0.customer_name,
+        r1_0.customer_phone,
+        r1_0.deposit,
+        r1_0.is_confirmed,
+        r1_0.number_of_guests,
+        rt1_0.id,
+        rt1_0.capacity,
+        rt1_0.name,
+        rt1_0.status,
+        rt2_0.id,
+        rt2_0.capacity,
+        rt2_0.name,
+        rt2_0.status,
+        o1_0.total_price 
+    from
+        restaurant_order o1_0 
+    left join
+        reservation r1_0 
+            on r1_0.id=o1_0.reservation_id 
+    left join
+        restaurant_table rt1_0 
+            on rt1_0.id=r1_0.restaurant_table_id 
+    left join
+        restaurant_table rt2_0 
+            on rt2_0.id=o1_0.restaurant_table_id 
+    where
+        o1_0.reservation_id=?
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.note,
+        o1_0.order_status,
+        o1_0.order_time,
+        r1_0.id,
+        r1_0.arrival_time,
+        r1_0.booking_time,
+        r1_0.customer_name,
+        r1_0.customer_phone,
+        r1_0.deposit,
+        r1_0.is_confirmed,
+        r1_0.number_of_guests,
+        rt1_0.id,
+        rt1_0.capacity,
+        rt1_0.name,
+        rt1_0.status,
+        rt2_0.id,
+        rt2_0.capacity,
+        rt2_0.name,
+        rt2_0.status,
+        o1_0.total_price 
+    from
+        restaurant_order o1_0 
+    left join
+        reservation r1_0 
+            on r1_0.id=o1_0.reservation_id 
+    left join
+        restaurant_table rt1_0 
+            on rt1_0.id=r1_0.restaurant_table_id 
+    left join
+        restaurant_table rt2_0 
+            on rt2_0.id=o1_0.restaurant_table_id 
+    where
+        o1_0.reservation_id=?
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.note,
+        o1_0.order_status,
+        o1_0.order_time,
+        r1_0.id,
+        r1_0.arrival_time,
+        r1_0.booking_time,
+        r1_0.customer_name,
+        r1_0.customer_phone,
+        r1_0.deposit,
+        r1_0.is_confirmed,
+        r1_0.number_of_guests,
+        rt1_0.id,
+        rt1_0.capacity,
+        rt1_0.name,
+        rt1_0.status,
+        rt2_0.id,
+        rt2_0.capacity,
+        rt2_0.name,
+        rt2_0.status,
+        o1_0.total_price 
+    from
+        restaurant_order o1_0 
+    left join
+        reservation r1_0 
+            on r1_0.id=o1_0.reservation_id 
+    left join
+        restaurant_table rt1_0 
+            on rt1_0.id=r1_0.restaurant_table_id 
+    left join
+        restaurant_table rt2_0 
+            on rt2_0.id=o1_0.restaurant_table_id 
+    where
+        o1_0.reservation_id=?
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.note,
+        o1_0.order_status,
+        o1_0.order_time,
+        r1_0.id,
+        r1_0.arrival_time,
+        r1_0.booking_time,
+        r1_0.customer_name,
+        r1_0.customer_phone,
+        r1_0.deposit,
+        r1_0.is_confirmed,
+        r1_0.number_of_guests,
+        rt1_0.id,
+        rt1_0.capacity,
+        rt1_0.name,
+        rt1_0.status,
+        rt2_0.id,
+        rt2_0.capacity,
+        rt2_0.name,
+        rt2_0.status,
+        o1_0.total_price 
+    from
+        restaurant_order o1_0 
+    left join
+        reservation r1_0 
+            on r1_0.id=o1_0.reservation_id 
+    left join
+        restaurant_table rt1_0 
+            on rt1_0.id=r1_0.restaurant_table_id 
+    left join
+        restaurant_table rt2_0 
+            on rt2_0.id=o1_0.restaurant_table_id 
+    where
+        o1_0.reservation_id=?
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.note,
+        o1_0.order_status,
+        o1_0.order_time,
+        r1_0.id,
+        r1_0.arrival_time,
+        r1_0.booking_time,
+        r1_0.customer_name,
+        r1_0.customer_phone,
+        r1_0.deposit,
+        r1_0.is_confirmed,
+        r1_0.number_of_guests,
+        rt1_0.id,
+        rt1_0.capacity,
+        rt1_0.name,
+        rt1_0.status,
+        rt2_0.id,
+        rt2_0.capacity,
+        rt2_0.name,
+        rt2_0.status,
+        o1_0.total_price 
+    from
+        restaurant_order o1_0 
+    left join
+        reservation r1_0 
+            on r1_0.id=o1_0.reservation_id 
+    left join
+        restaurant_table rt1_0 
+            on rt1_0.id=r1_0.restaurant_table_id 
+    left join
+        restaurant_table rt2_0 
+            on rt2_0.id=o1_0.restaurant_table_id 
+    where
+        o1_0.reservation_id=?
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.description,
+        c1_0.image_url,
+        c1_0.name 
+    from
+        category c1_0

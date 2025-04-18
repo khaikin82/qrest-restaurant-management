@@ -3,7 +3,6 @@ package com.khaikin.qrest.combo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.khaikin.qrest.combofood.ComboFood;
 import com.khaikin.qrest.comboorder.ComboOrder;
-import com.khaikin.qrest.food.Food;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,9 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -21,7 +18,7 @@ import java.util.Set;
 @Entity
 public class Combo {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;

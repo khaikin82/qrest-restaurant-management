@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 @Entity
 public class FoodOrder {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Integer quantity;

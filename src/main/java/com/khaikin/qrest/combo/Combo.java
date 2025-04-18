@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -25,7 +26,8 @@ public class Combo {
 
     private String name;
     private String description;
-    private Double price;
+    @Column(precision = 10, scale = 2)
+    private BigDecimal price;
     private String imageUrl;
 
     @OneToMany(mappedBy = "combo")

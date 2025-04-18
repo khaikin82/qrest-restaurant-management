@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -26,7 +27,8 @@ public class Food {
 
     private String name;
     private String description;
-    private Double price;
+    @Column(precision = 10, scale = 2)
+    private BigDecimal price;
     private Integer quantity;
     private String imageUrl;
 
@@ -42,7 +44,7 @@ public class Food {
     @OneToMany(mappedBy = "food")
     private List<FoodOrder> foodOrders = new ArrayList<>();
 
-    public Food(String name, String description, Double price, Integer quantity, String imageUrl, Category category) {
+    public Food(String name, String description, BigDecimal price, Integer quantity, String imageUrl, Category category) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -51,7 +53,7 @@ public class Food {
         this.category = category;
     }
 
-    public Food(String name, String description, Double price, Integer quantity, String imageUrl) {
+    public Food(String name, String description, BigDecimal price, Integer quantity, String imageUrl) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -59,7 +61,7 @@ public class Food {
         this.imageUrl = imageUrl;
     }
 
-    public Food(String name, String description, Double price, Integer quantity) {
+    public Food(String name, String description, BigDecimal price, Integer quantity) {
         this.name = name;
         this.description = description;
         this.price = price;

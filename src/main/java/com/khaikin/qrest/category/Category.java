@@ -21,13 +21,15 @@ public class Category {
 
     private String name;
     private String description;
+    private String imageUrl;
 
     @JsonIgnore
     @OneToMany(mappedBy = "category")
     private List<Food> foods = new ArrayList<>();
 
-    public Category(String name, String description) {
+    public Category(String name, String description, String imageUrl) {
         this.name = name;
         this.description = description;
+        this.imageUrl = imageUrl;
     }
 }

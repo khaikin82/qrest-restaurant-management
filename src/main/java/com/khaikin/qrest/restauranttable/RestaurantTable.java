@@ -23,7 +23,9 @@ public class RestaurantTable {
     @Column(unique = true)
     private String name; // có thể là số bàn hoặc id bàn (bàn 1, bàn D2,..)
     private int capacity;
-    private boolean isAvailable = true;
+
+    @Enumerated(EnumType.STRING)
+    private RestaurantTableStatus status = RestaurantTableStatus.AVAILABLE;
 
     @JsonIgnore
     @OneToMany(mappedBy = "restaurantTable")
@@ -38,9 +40,9 @@ public class RestaurantTable {
         this.capacity = capacity;
     }
 
-    public RestaurantTable(String name, int capacity, boolean isAvailable) {
+    public RestaurantTable(String name, int capacity, RestaurantTableStatus status) {
         this.name = name;
         this.capacity = capacity;
-        this.isAvailable = isAvailable;
+        this.status = status;
     }
 }

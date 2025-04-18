@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,8 @@ public class Order {
     @GeneratedValue
     private Long id;
 
-    private Double totalPrice;
+    @Column(precision = 10, scale = 2, nullable = false)
+    private BigDecimal totalPrice;
     private String note;
 
     @Enumerated(EnumType.STRING)

@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -24,7 +25,8 @@ public class Reservation {
 
     private Integer numberOfGuests;
     private boolean isConfirmed; // cọc tiền xong sẽ là true
-    private Double deposit;
+    @Column(precision = 10, scale = 2)
+    private BigDecimal deposit;
 
     private String customerName;
     private String customerPhone;

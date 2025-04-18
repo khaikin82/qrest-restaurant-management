@@ -1,3 +1,4 @@
+USE qrest_management;
 -- Drop tables if they exist (in reverse order of dependencies)
 DROP TABLE IF EXISTS payment;
 DROP TABLE IF EXISTS food_order;
@@ -15,7 +16,8 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE category (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    description TEXT
+    description TEXT,
+    image_url TEXT
 );
 
 CREATE TABLE food (
@@ -41,16 +43,22 @@ CREATE TABLE combo_food (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     combo_id BIGINT,
     food_id BIGINT,
+    quantity INT,
     FOREIGN KEY (combo_id) REFERENCES combo(id),
     FOREIGN KEY (food_id) REFERENCES food(id)
 );
 
 CREATE TABLE restaurant_table (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL UNIQUE,
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) UNIQUE NOT NULL,
     capacity INT NOT NULL,
-    is_available BOOLEAN DEFAULT TRUE
+    status VARCHAR(30) NOT NULL CHECK (
+        status IN (
+            'AVAILABLE', 'OCCUPIED', 'RESERVED'
+        )
+    )
 );
+
 
 CREATE TABLE reservation (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -132,7 +140,7 @@ INSERT INTO food (name, description, price, quantity, image_url, category_id) VA
 ('Chicken Fried Rice', 'Fried rice with juicy chicken and mixed vegetables', 6.99, 75, 'https://img.freepik.com/free-photo/high-angle-traditional-asian-meal-with-chopsticks_23-2148694371.jpg', 2),
 ('Vegetarian Salad', 'A healthy mix of fresh vegetables and herbs', 5.49, 30, 'https://img.freepik.com/free-photo/top-view-tasty-salad-with-vegetables_23-2148515491.jpg', 3),
 ('Pineapple Fried Rice', 'Fragrant rice stir-fried with pineapple, shrimp, and cashews', 8.49, 100, 'https://img.freepik.com/free-photo/high-view-pineapple-plate-with-cutlery_23-2148494708.jpg', 2),
-('Spaghetti Bolognese', 'Classic Italian spaghetti with a rich meat sauce', 9.99, 50, 'https://example.com/spaghetti_bolognese.jpg', 1),
+('Spaghetti Bolognese', 'Classic Italian spaghetti with a rich meat sauce', 9.99, 50, 'https://img.taste.com.au/5qlr1PkR/taste/2016/11/spaghetti-bolognese-106560-1.jpeg', 1),
 ('Vegetable Soup', 'A warming soup made from seasonal vegetables', 4.99, 40, 'https://example.com/vegetable_soup.jpg', 3),
 ('Fried Chicken', 'Crispy and juicy fried chicken pieces', 6.49, 150, 'https://example.com/fried_chicken.jpg', 6),
 ('Chicken Wings', 'Spicy grilled chicken wings served with dipping sauce', 5.99, 120, 'https://example.com/chicken_wings.jpg', 6),
@@ -159,7 +167,7 @@ INSERT INTO food (name, description, price, quantity, image_url, category_id) VA
 
 -- Insert sample data for combos
 INSERT INTO combo (name, description, price, image_url) VALUES
-('Vietnamese Classic', 'A traditional combo featuring Pho Bo, Fried Spring Rolls, and Bubble Milk Tea.', 14.99, 'https://img.freepik.com/free-photo/vietnamese-noodle-soup-table_23-2149251213.jpg'),
+('Vietnamese Classic', 'A traditional combo featuring Pho Bo, Fried Spring Rolls, and Bubble Milk Tea.', 14.99, 'https://hd1.hotdeal.vn/images/uploads/2015/06/27/153681/153681-pho-bo-uc-pho-bo-gia-truyen-solex-body-1.jpg'),
 ('Tropical Rice Set', 'Fried rice lovers'' dream: Pineapple Fried Rice, Yangzhou Fried Rice, and Chicken Wings.', 15.99, 'https://img.freepik.com/free-photo/high-view-pineapple-plate-with-cutlery_23-2148494708.jpg'),
 ('Vegetarian Delight', 'A healthy and colorful mix of Vegetarian Salad, Vegetable Soup, and Mushroom Risotto.', 13.49, 'https://img.freepik.com/free-photo/top-view-tasty-salad-with-vegetables_23-2148515491.jpg'),
 ('Grill and Chill', 'Perfect for meat lovers – Grilled Fish, Chicken Wings, and Chocolate Cake for dessert.', 16.99, 'https://example.com/grilled_fish.jpg'),
@@ -184,34 +192,36 @@ INSERT INTO combo_food (combo_id, food_id) VALUES
 (5, 13); -- Fried Feast: Fish and Chips
 
 -- Insert sample data for restaurant tables
-INSERT INTO restaurant_table (name, capacity, is_available) VALUES
-('A1', 4, TRUE),
-('A2', 4, TRUE),
-('A3', 4, TRUE),
-('A4', 4, TRUE),
-('A5', 4, TRUE),
-('A6', 4, TRUE),
-('A7', 4, TRUE),
-('A8', 4, TRUE),
-('A9', 4, TRUE),
-('A10', 4, TRUE),
-('A11', 4, TRUE),
-('A12', 4, TRUE),
-('B1', 6, TRUE),
-('B2', 6, TRUE),
-('B3', 6, TRUE),
-('B4', 6, TRUE),
-('B5', 6, TRUE),
-('B6', 6, TRUE),
-('B7', 8, TRUE),
-('B8', 8, TRUE),
-('B9', 8, TRUE),
-('B10', 8, TRUE),
-('C1', 12, TRUE),
-('C2', 12, TRUE),
-('C3', 12, TRUE),
-('C4', 12, TRUE),
-('C5', 12, TRUE);
+INSERT INTO restaurant_table (name, capacity, status) VALUES
+('A1', 4, "AVAILABLE"),
+('A2', 4, "AVAILABLE"),
+('A3', 4, "AVAILABLE"),
+('A4', 4, "AVAILABLE"),
+('A5', 4, "AVAILABLE"),
+('A6', 4, "AVAILABLE"),
+('A7', 4, "AVAILABLE"),
+('A8', 4, "AVAILABLE"),
+('A9', 4, "AVAILABLE"),
+('A10', 4, "AVAILABLE"),
+('A11', 4, "AVAILABLE"),
+('A12', 4, "AVAILABLE"),
+('B1', 6, "AVAILABLE"),
+('B2', 6, "AVAILABLE"),
+('B3', 6, "AVAILABLE"),
+('B4', 6, "AVAILABLE"),
+('B5', 6, "AVAILABLE"),
+('B6', 6, "AVAILABLE"),
+('B7', 8, "AVAILABLE"),
+('B8', 8, "AVAILABLE"),
+('B9', 8, "AVAILABLE"),
+('B10', 8, "AVAILABLE"),
+('C1', 12, "AVAILABLE"),
+('C2', 12, "AVAILABLE"),
+('C3', 12, "AVAILABLE"),
+('C4', 12, "AVAILABLE"),
+('C5', 12, "AVAILABLE"),
+('VIP1', 4, "AVAILABLE");
+
 
 -- Insert sample data for reservations
 INSERT INTO reservation (booking_time, arrival_time, number_of_guests, is_confirmed, deposit, customer_name, customer_phone, restaurant_table_id) VALUES

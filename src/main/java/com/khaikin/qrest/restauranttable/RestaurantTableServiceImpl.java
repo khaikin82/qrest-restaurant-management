@@ -39,7 +39,8 @@ public class RestaurantTableServiceImpl implements RestaurantTableService {
             // Tạo tên bàn theo tiền tố và số thứ tự (ví dụ: Bàn 1, Bàn 2, D1, D2...)
             String tableName = multipleTableRequest.getPrefix() + i;
             // Tạo bàn mới với số ghế và tên bàn
-            RestaurantTable table = new RestaurantTable(tableName, multipleTableRequest.getCapacity(), true); // mặc định là có sẵn
+            RestaurantTable table = new RestaurantTable(tableName, multipleTableRequest.getCapacity(), RestaurantTableStatus.AVAILABLE); // mặc
+            // định là có sẵn
             tables.add(table);
         }
 
@@ -54,7 +55,7 @@ public class RestaurantTableServiceImpl implements RestaurantTableService {
 
         existingRestaurantTable.setName(restaurantTable.getName());
         existingRestaurantTable.setCapacity(restaurantTable.getCapacity());
-        existingRestaurantTable.setAvailable(restaurantTable.isAvailable());
+        existingRestaurantTable.setStatus(restaurantTable.getStatus());
 
         return restaurantTableRepository.save(existingRestaurantTable);
     }

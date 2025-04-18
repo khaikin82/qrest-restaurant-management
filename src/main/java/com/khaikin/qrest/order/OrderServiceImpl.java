@@ -17,6 +17,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +67,7 @@ public class OrderServiceImpl implements OrderService {
 
         List<FoodOrder> foodOrders = new ArrayList<>();
         List<ComboOrder> comboOrders = new ArrayList<>();
-        double totalPrice = 0;
+        BigDecimal totalPrice = new BigDecimal(0);
         if (orderRequest.getFoodOrderItems() != null) {
             for (OrderItem foodOrderItem : orderRequest.getFoodOrderItems()) {
                 Food food = foodRepository.findById(foodOrderItem.id())
@@ -79,7 +80,7 @@ public class OrderServiceImpl implements OrderService {
                 foodOrder.setOrder(order);
 
                 foodOrders.add(foodOrder);
-                totalPrice += foodOrder.getPrice() * quantity;
+                totalPrice = totalPrice.add(foodOrder.getPrice().multiply(BigDecimal.valueOf(quantity)));
             }
             foodOrderRepository.saveAll(foodOrders);
             order.setFoodOrders(foodOrders);
@@ -96,7 +97,7 @@ public class OrderServiceImpl implements OrderService {
                 comboOrder.setOrder(order);
                 comboOrders.add(comboOrder);
 
-                totalPrice += comboOrder.getPrice() * quantity;
+                totalPrice = totalPrice.add(comboOrder.getPrice().multiply(BigDecimal.valueOf(quantity)));
             }
             comboOrderRepository.saveAll(comboOrders);
             order.setComboOrders(comboOrders);

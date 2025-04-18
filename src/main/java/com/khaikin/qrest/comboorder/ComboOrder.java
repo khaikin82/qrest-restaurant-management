@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,7 +20,8 @@ public class ComboOrder {
     private Long id;
 
     private Integer quantity;
-    private Double price;
+    @Column(precision = 10, scale = 2, nullable = false)
+    private BigDecimal price;
 
     @ManyToOne
     @JoinColumn(name = "combo_id")

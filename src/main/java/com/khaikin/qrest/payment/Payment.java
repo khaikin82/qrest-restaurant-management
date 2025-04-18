@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -19,7 +20,9 @@ public class Payment {
     private Long id;
 
     private LocalDateTime paymentTime;
-    private Double totalPrice;
+
+    @Column(precision = 10, scale = 2, nullable = false)
+    private BigDecimal totalPrice;
     
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;

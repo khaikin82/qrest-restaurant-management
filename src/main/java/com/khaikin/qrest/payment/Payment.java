@@ -21,7 +21,7 @@ public class Payment {
 
     private LocalDateTime paymentTime;
 
-    @Column(precision = 10, scale = 2, nullable = false)
+    @Column(precision = 15, scale = 2, nullable = false)
     private BigDecimal totalPrice;
     
     @Enumerated(EnumType.STRING)

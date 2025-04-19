@@ -25,7 +25,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(precision = 10, scale = 2, nullable = false)
+    @Column(precision = 15, scale = 2, nullable = false)
     private BigDecimal totalPrice;
     private String note;
 

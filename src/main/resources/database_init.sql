@@ -24,7 +24,7 @@ CREATE TABLE food (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description TEXT,
-    price DECIMAL(10, 2) NOT NULL,
+    price DECIMAL(15, 2) NOT NULL,
     quantity INT NOT NULL,
     image_url TEXT,
     category_id BIGINT,
@@ -35,7 +35,7 @@ CREATE TABLE combo (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description TEXT,
-    price DECIMAL(10, 2) NOT NULL,
+    price DECIMAL(15, 2) NOT NULL,
     image_url TEXT
 );
 
@@ -66,7 +66,7 @@ CREATE TABLE reservation (
     arrival_time DATETIME NOT NULL,
     number_of_guests INT NOT NULL,
     is_confirmed BOOLEAN DEFAULT FALSE,
-    deposit DECIMAL(10, 2) DEFAULT 0.0,
+    deposit DECIMAL(15, 2) DEFAULT 0.0,
     customer_name VARCHAR(100) NOT NULL,
     customer_phone VARCHAR(20) NOT NULL,
     restaurant_table_id BIGINT,
@@ -75,7 +75,7 @@ CREATE TABLE reservation (
 
 CREATE TABLE restaurant_order (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    total_price DECIMAL(10, 2) NOT NULL,
+    total_price DECIMAL(15, 2) NOT NULL,
     note TEXT,
     order_status VARCHAR(20) NOT NULL,
     order_time DATETIME NOT NULL,
@@ -88,7 +88,7 @@ CREATE TABLE restaurant_order (
 CREATE TABLE food_order (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     quantity INT NOT NULL,
-    price DECIMAL(10, 2) NOT NULL,
+    price DECIMAL(15, 2) NOT NULL,
     food_id BIGINT,
     order_id BIGINT,
     FOREIGN KEY (food_id) REFERENCES food(id),
@@ -98,7 +98,7 @@ CREATE TABLE food_order (
 CREATE TABLE combo_order (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     quantity INT NOT NULL,
-    price DECIMAL(10, 2) NOT NULL,
+    price DECIMAL(15, 2) NOT NULL,
     combo_id BIGINT,
     order_id BIGINT,
     FOREIGN KEY (combo_id) REFERENCES combo(id),
@@ -108,7 +108,7 @@ CREATE TABLE combo_order (
 CREATE TABLE payment (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     payment_time DATETIME NOT NULL,
-    total_price DECIMAL(10, 2) NOT NULL,
+    total_price DECIMAL(15, 2) NOT NULL,
     payment_method VARCHAR(20) NOT NULL,
     order_id BIGINT,
     FOREIGN KEY (order_id) REFERENCES restaurant_order(id)

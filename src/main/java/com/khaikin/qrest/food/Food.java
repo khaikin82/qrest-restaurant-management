@@ -25,7 +25,7 @@ public class Food {
 
     private String name;
     private String description;
-    @Column(precision = 10, scale = 2)
+    @Column(precision = 15, scale = 2)
     private BigDecimal price;
     private Integer quantity;
     private String imageUrl;

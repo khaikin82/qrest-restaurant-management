@@ -25,7 +25,7 @@ public class Reservation {
 
     private Integer numberOfGuests;
     private boolean isConfirmed; // cọc tiền xong sẽ là true
-    @Column(precision = 10, scale = 2)
+    @Column(precision = 15, scale = 2)
     private BigDecimal deposit;
 
     private String customerName;

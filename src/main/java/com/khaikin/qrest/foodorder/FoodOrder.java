@@ -20,7 +20,7 @@ public class FoodOrder {
     private Long id;
 
     private Integer quantity;
-    @Column(precision = 10, scale = 2, nullable = false)
+    @Column(precision = 15, scale = 2, nullable = false)
     private BigDecimal price;
 
     @ManyToOne

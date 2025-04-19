@@ -49,16 +49,24 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public Order createOrder(OrderRequest orderRequest) {
-        RestaurantTable table = restaurantTableRepository.findById(orderRequest.getRestaurantTableId())
-                .orElseThrow(() -> new ResourceNotFoundException("RestaurantTable", "id",
-                                                                 orderRequest.getRestaurantTableId()));
+        Order order = new Order();
         Reservation reservation = null;
         if (orderRequest.getReservationId() != null) {
             reservation =  reservationRepository.findById(orderRequest.getReservationId())
                     .orElseThrow(() -> new ResourceNotFoundException("Reservation", "id",
                                                                      orderRequest.getReservationId()));
         }
-        Order order = new Order();
+        RestaurantTable table = null;
+        if (orderRequest.getRestaurantTableId() != null) {
+            table = restaurantTableRepository.findById(orderRequest.getRestaurantTableId())
+                    .orElseThrow(() -> new ResourceNotFoundException("RestaurantTable", "id",
+                                                                     orderRequest.getRestaurantTableId()));
+        } else {
+            if (reservation != null) {
+                table = reservation.getRestaurantTable();
+            }
+        }
+        
         order.setRestaurantTable(table);
         order.setReservation(reservation);
         order.setNote(orderRequest.getNote());
@@ -123,8 +131,13 @@ public class OrderServiceImpl implements OrderService {
                                                      .orElseThrow(() -> new ResourceNotFoundException("RestaurantTable", "id", order.getRestaurantTable().getId())));
         }
         if (order.getReservation() != null) {
-            existingOrder.setReservation(reservationRepository.findById(order.getReservation().getId())
-                                                 .orElseThrow(() -> new ResourceNotFoundException("Reservation", "id", order.getReservation().getId())));
+            Reservation reservation = reservationRepository.findById(order.getReservation().getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Reservation", "id", order.getReservation().getId()));
+            existingOrder.setReservation(reservation);
+
+            if (order.getRestaurantTable() == null) {
+                existingOrder.setRestaurantTable(reservation.getRestaurantTable());
+            }
         }
 
         return orderRepository.save(existingOrder);

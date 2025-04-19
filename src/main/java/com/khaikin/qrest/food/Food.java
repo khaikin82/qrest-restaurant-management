@@ -30,6 +30,10 @@ public class Food {
     private Integer quantity;
     private String imageUrl;
 
+    private String imageName;
+    private String imageType;
+    private String imagePath; // Đường dẫn tới ảnh lưu trong thư mục
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
@@ -41,28 +45,4 @@ public class Food {
     @JsonIgnore
     @OneToMany(mappedBy = "food")
     private List<FoodOrder> foodOrders = new ArrayList<>();
-
-    public Food(String name, String description, BigDecimal price, Integer quantity, String imageUrl, Category category) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.quantity = quantity;
-        this.imageUrl = imageUrl;
-        this.category = category;
-    }
-
-    public Food(String name, String description, BigDecimal price, Integer quantity, String imageUrl) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.quantity = quantity;
-        this.imageUrl = imageUrl;
-    }
-
-    public Food(String name, String description, BigDecimal price, Integer quantity) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.quantity = quantity;
-    }
 }

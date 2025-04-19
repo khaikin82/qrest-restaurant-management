@@ -5,6 +5,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,11 @@ public class RestaurantTableServiceImpl implements RestaurantTableService {
     public RestaurantTable getTableById(Long id) {
         return restaurantTableRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Table", "tableId", id));
+    }
+
+    @Override
+    public List<RestaurantTable> getAvailableTablesAtTime(LocalDateTime time) {
+        return restaurantTableRepository.findAvailableTablesAtTime(time);
     }
 
     @Override

@@ -1,130 +1,3 @@
-USE qrest_management;
--- Drop tables if they exist (in reverse order of dependencies)
-DROP TABLE IF EXISTS payment;
-DROP TABLE IF EXISTS food_order;
-DROP TABLE IF EXISTS combo_order;
-DROP TABLE IF EXISTS restaurant_order;
-DROP TABLE IF EXISTS reservation;
-DROP TABLE IF EXISTS restaurant_table;
-DROP TABLE IF EXISTS combo_food;
-DROP TABLE IF EXISTS combo;
-DROP TABLE IF EXISTS food;
-DROP TABLE IF EXISTS category;
-DROP TABLE IF EXISTS users;
-
--- Create tables
-CREATE TABLE category (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    description TEXT,
-    image_url TEXT
-);
-
-CREATE TABLE food (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    description TEXT,
-    price DECIMAL(15, 2) NOT NULL,
-    quantity INT NOT NULL,
-    image_url TEXT,
-    category_id BIGINT,
-    FOREIGN KEY (category_id) REFERENCES category(id)
-);
-
-CREATE TABLE combo (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    description TEXT,
-    price DECIMAL(15, 2) NOT NULL,
-    image_url TEXT
-);
-
-CREATE TABLE combo_food (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    combo_id BIGINT,
-    food_id BIGINT,
-    quantity INT,
-    FOREIGN KEY (combo_id) REFERENCES combo(id),
-    FOREIGN KEY (food_id) REFERENCES food(id)
-);
-
-CREATE TABLE restaurant_table (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(50) UNIQUE NOT NULL,
-    capacity INT NOT NULL,
-    status VARCHAR(30) NOT NULL CHECK (
-        status IN (
-            'AVAILABLE', 'OCCUPIED', 'RESERVED'
-        )
-    )
-);
-
-
-CREATE TABLE reservation (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    booking_time DATETIME NOT NULL,
-    arrival_time DATETIME NOT NULL,
-    number_of_guests INT NOT NULL,
-    is_confirmed BOOLEAN DEFAULT FALSE,
-    deposit DECIMAL(15, 2) DEFAULT 0.0,
-    customer_name VARCHAR(100) NOT NULL,
-    customer_phone VARCHAR(20) NOT NULL,
-    restaurant_table_id BIGINT,
-    FOREIGN KEY (restaurant_table_id) REFERENCES restaurant_table(id)
-);
-
-CREATE TABLE restaurant_order (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    total_price DECIMAL(15, 2) NOT NULL,
-    note TEXT,
-    order_status VARCHAR(20) NOT NULL,
-    order_time DATETIME NOT NULL,
-    restaurant_table_id BIGINT,
-    reservation_id BIGINT,
-    FOREIGN KEY (restaurant_table_id) REFERENCES restaurant_table(id),
-    FOREIGN KEY (reservation_id) REFERENCES reservation(id)
-);
-
-CREATE TABLE food_order (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    quantity INT NOT NULL,
-    price DECIMAL(15, 2) NOT NULL,
-    food_id BIGINT,
-    order_id BIGINT,
-    FOREIGN KEY (food_id) REFERENCES food(id),
-    FOREIGN KEY (order_id) REFERENCES restaurant_order(id)
-);
-
-CREATE TABLE combo_order (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    quantity INT NOT NULL,
-    price DECIMAL(15, 2) NOT NULL,
-    combo_id BIGINT,
-    order_id BIGINT,
-    FOREIGN KEY (combo_id) REFERENCES combo(id),
-    FOREIGN KEY (order_id) REFERENCES restaurant_order(id)
-);
-
-CREATE TABLE payment (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    payment_time DATETIME NOT NULL,
-    total_price DECIMAL(15, 2) NOT NULL,
-    payment_method VARCHAR(20) NOT NULL,
-    order_id BIGINT,
-    FOREIGN KEY (order_id) REFERENCES restaurant_order(id)
-);
-
-CREATE TABLE users (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(100) NOT NULL,
-    full_name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    phone VARCHAR(20),
-    role VARCHAR(20) NOT NULL,
-    is_active BOOLEAN DEFAULT TRUE
-);
-
 -- Insert sample data for categories
 INSERT INTO category (name, description) VALUES
 ('Noodles', 'Various types of noodle dishes'),
@@ -341,4 +214,26 @@ INSERT INTO users (username, password, full_name, email, phone, role, is_active)
 ('admin', 'admin123', 'Admin User', 'admin@restaurant.com', '123-456-7890', 'admin', TRUE),
 ('waiter', 'waiter123', 'Jane Waiter', 'waiter2@restaurant.com', '777-888-9999', 'waiter', TRUE),
 ('cashier', 'cashier123', 'Alice Cashier', 'cashier2@restaurant.com', '111-222-3333', 'cashier', TRUE),
-('chef', 'chef123', 'Sarah Kitchen', 'kitchen2@restaurant.com', '999-888-7777', 'chef', TRUE); 
+('chef', 'chef123', 'Sarah Kitchen', 'kitchen2@restaurant.com', '999-888-7777', 'chef', TRUE);
+
+INSERT INTO staff (full_name, dob, phone_number, address, salary, position) VALUES
+('Nguyễn Minh Quân', '2001-03-15', '0901000001', 'Hà Nội', 400.00, 'WAITER'),
+('Trần Thị Thuỳ Dung', '2000-07-22', '0901000002', 'TP.HCM', 500.00, 'CASHIER'),
+('Lê Hoàng Nam', '1998-11-30', '0901000003', 'Đà Nẵng', 800.00, 'CHEF'),
+('Phạm Anh Tuấn', '2002-05-09', '0901000004', 'Cần Thơ', 450.00, 'WAITER'),
+('Võ Thị Kim Ngân', '2000-09-01', '0901000005', 'Huế', 550.00, 'CASHIER'),
+('Đỗ Văn Hậu', '1999-06-18', '0901000006', 'Hải Phòng', 1300.00, 'CHEF'),
+('Nguyễn Thị Lan', '2003-12-25', '0901000007', 'Hà Nội', 350.00, 'WAITER'),
+('Trần Quốc Bảo', '2001-01-20', '0901000008', 'TP.HCM', 600.00, 'CASHIER'),
+('Lê Thị Bích Phượng', '2000-08-12', '0901000009', 'Đà Nẵng', 600.00, 'CHEF'),
+('Phạm Trung Kiên', '2002-04-14', '0901000010', 'Cần Thơ', 500.00, 'WAITER'),
+('Hoàng Ngọc Hà', '2003-10-05', '0901000011', 'Huế', 300.00, 'CASHIER'),
+('Đinh Văn Khải', '1997-07-07', '0901000012', 'Hà Nội', 1000.00, 'CHEF'),
+('Nguyễn Thanh Tùng', '2001-11-01', '0901000013', 'TP.HCM', 550.00, 'WAITER'),
+('Lê Thị Mai', '2000-02-28', '0901000014', 'Hải Dương', 600.00, 'CASHIER'),
+('Trần Minh Đức', '1996-03-03', '0901000015', 'Đà Nẵng', 1400.00, 'CHEF'),
+('Vũ Thị Hằng', '2002-06-16', '0901000016', 'Hà Nội', 400.00, 'WAITER'),
+('Phan Nhật Huy', '2000-09-19', '0901000017', 'TP.HCM', 550.00, 'CASHIER'),
+('Đoàn Thị Như Quỳnh', '2001-01-11', '0901000018', 'Huế', 650.00, 'CHEF'),
+('Ngô Hoàng Long', '2002-08-08', '0901000019', 'Đồng Nai', 500.00, 'WAITER'),
+('Nguyễn Thị Diễm My', '2003-05-23', '0901000020', 'Cần Thơ', 400.00, 'CASHIER');

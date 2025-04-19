@@ -2,11 +2,13 @@ package com.khaikin.qrest.restauranttable;
 
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -26,6 +28,13 @@ public class RestaurantTableController {
     public ResponseEntity<RestaurantTable> getTableById(@PathVariable @Positive Long id) {
         RestaurantTable restaurantTable = restaurantTableService.getTableById(id);
         return ResponseEntity.ok(restaurantTable);
+    }
+
+    @GetMapping("/available")
+    public ResponseEntity<List<RestaurantTable>> getAvailableTablesAtTime(
+            @RequestParam("time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime time) {
+        List<RestaurantTable> tables = restaurantTableService.getAvailableTablesAtTime(time);
+        return ResponseEntity.ok(tables);
     }
 
     @PostMapping

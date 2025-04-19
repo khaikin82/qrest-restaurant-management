@@ -3,5 +3,8 @@ package com.khaikin.qrest.staff;
 public enum Position {
     WAITER,
     CASHIER,
-    CHEF
+    CHEF,
+    DISHWASHER,
+    SECURITY,
+    CLEANER
 }

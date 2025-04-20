@@ -5,6 +5,7 @@ import com.khaikin.qrest.table.RestaurantTable;
 import com.khaikin.qrest.table.RestaurantTableRepository;
 import com.khaikin.qrest.tablereservation.TableReservation;
 import com.khaikin.qrest.tablereservation.TableReservationRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
+    @Transactional
     public Reservation createReservation(ReservationRequest reservationRequest) {
         Reservation reservation = modelMapper.map(reservationRequest, Reservation.class);
         List<TableReservation> tableReservations = new ArrayList<>();

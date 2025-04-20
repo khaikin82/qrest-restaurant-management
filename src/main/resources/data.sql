@@ -88,11 +88,11 @@ INSERT INTO restaurant_table (name, capacity, status) VALUES
 ('B8', 8, "AVAILABLE"),
 ('B9', 8, "AVAILABLE"),
 ('B10', 8, "AVAILABLE"),
-('C1', 12, "AVAILABLE"),
-('C2', 12, "AVAILABLE"),
-('C3', 12, "AVAILABLE"),
-('C4', 12, "AVAILABLE"),
-('C5', 12, "AVAILABLE"),
+('C1', 2, "AVAILABLE"),
+('C2', 2, "AVAILABLE"),
+('C3', 2, "AVAILABLE"),
+('C4', 2, "AVAILABLE"),
+('C5', 2, "AVAILABLE"),
 ('VIP1', 4, "AVAILABLE");
 
 

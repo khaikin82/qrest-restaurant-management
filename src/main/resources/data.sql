@@ -1,56 +1,56 @@
 -- Insert sample data for categories
 INSERT INTO category (name, description) VALUES
+('Combo', 'Combination meals with multiple items'),
 ('Noodles', 'Various types of noodle dishes'),
 ('Rice', 'Rice-based dishes from various cuisines'),
 ('Vege', 'Vegetarian dishes'),
 ('Drink', 'Refreshing beverages'),
 ('Dessert', 'Sweet courses to end a meal'),
-('Fried Food', 'Crispy fried dishes'),
-('Combo', 'Combination meals with multiple items');
+('Fried Food', 'Crispy fried dishes');
 
 -- Insert sample data for foods
 INSERT INTO food (name, description, price, quantity, image_url, category_id) VALUES
-('Beef Noodles', 'Noodles stir-fried with tender beef and vegetables', 7.99, 50, 'https://img.freepik.com/free-photo/high-angle-vietnamese-dish-with-mint_23-2148381198.jpg', 1),
-('Chicken Fried Rice', 'Fried rice with juicy chicken and mixed vegetables', 6.99, 75, 'https://img.freepik.com/free-photo/high-angle-traditional-asian-meal-with-chopsticks_23-2148694371.jpg', 2),
-('Vegetarian Salad', 'A healthy mix of fresh vegetables and herbs', 5.49, 30, 'https://img.freepik.com/free-photo/top-view-tasty-salad-with-vegetables_23-2148515491.jpg', 3),
-('Pineapple Fried Rice', 'Fragrant rice stir-fried with pineapple, shrimp, and cashews', 8.49, 100, 'https://img.freepik.com/free-photo/high-view-pineapple-plate-with-cutlery_23-2148494708.jpg', 2),
-('Spaghetti Bolognese', 'Classic Italian spaghetti with a rich meat sauce', 9.99, 50, 'https://img.taste.com.au/5qlr1PkR/taste/2016/11/spaghetti-bolognese-106560-1.jpeg', 1),
-('Vegetable Soup', 'A warming soup made from seasonal vegetables', 4.99, 40, 'https://example.com/vegetable_soup.jpg', 3),
-('Fried Chicken', 'Crispy and juicy fried chicken pieces', 6.49, 150, 'https://example.com/fried_chicken.jpg', 6),
-('Chicken Wings', 'Spicy grilled chicken wings served with dipping sauce', 5.99, 120, 'https://example.com/chicken_wings.jpg', 6),
-('Beef Burger', 'Juicy beef patty with fresh lettuce, tomato, and cheese', 7.49, 80, 'https://img.freepik.com/free-photo/side-view-double-cheeseburger-with-grilled-beef-patties-cheese-lettuce-leaf-burger-buns_141793-4883.jpg', 6),
-('Veggie Burger', 'Delicious veggie patty with fresh vegetables', 6.49, 60, 'https://example.com/veggie_burger.jpg', 3),
-('Grilled Fish', 'Grilled fish served with a lemon butter sauce', 10.49, 40, 'https://example.com/grilled_fish.jpg', 1),
-('Tacos', 'Mexican tacos filled with beef, lettuce, and salsa', 5.49, 90, 'https://example.com/tacos.jpg', 6),
-('Fish and Chips', 'Crispy fried fish served with golden fries', 8.99, 110, 'https://example.com/fish_and_chips.jpg', 6),
-('Lamb Kebabs', 'Juicy grilled lamb served with rice and vegetables', 11.99, 60, 'https://example.com/lamb_kebabs.jpg', 6),
-('Pasta Primavera', 'Pasta tossed with fresh vegetables in a light sauce', 7.99, 70, 'https://example.com/pasta_primavera.jpg', 1),
-('Cheeseburger', 'Classic cheeseburger with pickles, onions, and ketchup', 6.99, 130, 'https://example.com/cheeseburger.jpg', 6),
-('Mushroom Risotto', 'Creamy risotto with fresh mushrooms and parmesan cheese', 8.49, 50, 'https://example.com/mushroom_risotto.jpg', 3),
-('Peking Duck', 'Crispy duck served with pancakes and hoisin sauce', 14.99, 30, 'https://example.com/peking_duck.jpg', 6),
-('Pizza Margherita', 'Simple pizza with fresh mozzarella, basil, and tomato sauce', 9.49, 80, 'https://example.com/pizza_margherita.jpg', 1),
-('Chocolate Cake', 'Rich chocolate cake with creamy frosting', 5.99, 60, 'https://example.com/chocolate_cake.jpg', 5),
-('Pho Bo', 'Traditional Vietnamese beef noodle soup with herbs', 7.49, 60, 'https://img.freepik.com/free-photo/vietnamese-noodle-soup-table_23-2149251213.jpg', 1),
-('Bun Cha', 'Grilled pork served with rice vermicelli noodles and dipping sauce', 6.99, 40, 'https://img.freepik.com/free-photo/traditional-vietnamese-bun-cha-meal_23-2149261021.jpg', 1),
-('Broken Rice with Grilled Pork', 'Broken rice with grilled pork chop, egg, and pickled vegetables', 7.99, 80, 'https://img.freepik.com/free-photo/vietnamese-broken-rice-dish-with-egg-meat_23-2149261018.jpg', 2),
-('Yangzhou Fried Rice', 'Colorful fried rice with sausage, shrimp, and vegetables', 6.49, 90, 'https://img.freepik.com/free-photo/fried-rice-with-vegetables-white-plate_123827-21332.jpg', 2),
-('Fresh Spring Rolls', 'Fresh rolls with shrimp, herbs, and rice vermicelli, served with peanut sauce', 4.99, 70, 'https://img.freepik.com/free-photo/vietnamese-spring-rolls-served-with-peanut-sauce_114579-2257.jpg', 3),
-('Bubble Milk Tea', 'Sweet milk tea with chewy tapioca pearls', 3.99, 120, 'https://img.freepik.com/free-photo/bubble-tea-drink-glass_1150-35609.jpg', 4),
-('Three-Color Dessert', 'Vietnamese dessert with mung beans, jelly, and coconut milk', 4.49, 65, 'https://img.freepik.com/free-photo/vietnamese-dessert-che-ba-mau_1150-34687.jpg', 5),
-('Fried Spring Rolls', 'Crispy fried rolls stuffed with minced pork and vegetables', 5.49, 85, 'https://img.freepik.com/free-photo/top-view-fried-spring-rolls-with-chili-sauce_23-2148822692.jpg', 6);
+('Beef Noodles', 'Noodles stir-fried with tender beef and vegetables', 7.99, 50, 'https://img.freepik.com/free-photo/high-angle-vietnamese-dish-with-mint_23-2148381198.jpg', 2),
+('Chicken Fried Rice', 'Fried rice with juicy chicken and mixed vegetables', 6.99, 75, 'https://img.freepik.com/free-photo/high-angle-traditional-asian-meal-with-chopsticks_23-2148694371.jpg', 3),
+('Vegetarian Salad', 'A healthy mix of fresh vegetables and herbs', 5.49, 30, 'https://img.freepik.com/free-photo/top-view-tasty-salad-with-vegetables_23-2148515491.jpg', 4),
+('Pineapple Fried Rice', 'Fragrant rice stir-fried with pineapple, shrimp, and cashews', 8.49, 100, 'https://img.freepik.com/free-photo/high-view-pineapple-plate-with-cutlery_23-2148494708.jpg', 3),
+('Spaghetti Bolognese', 'Classic Italian spaghetti with a rich meat sauce', 9.99, 50, 'https://img.taste.com.au/5qlr1PkR/taste/2016/11/spaghetti-bolognese-106560-1.jpeg', 2),
+('Vegetable Soup', 'A warming soup made from seasonal vegetables', 4.99, 40, 'https://example.com/vegetable_soup.jpg', 4),
+('Fried Chicken', 'Crispy and juicy fried chicken pieces', 6.49, 150, 'https://example.com/fried_chicken.jpg', 7),
+('Chicken Wings', 'Spicy grilled chicken wings served with dipping sauce', 5.99, 120, 'https://example.com/chicken_wings.jpg', 7),
+('Beef Burger', 'Juicy beef patty with fresh lettuce, tomato, and cheese', 7.49, 80, 'https://img.freepik.com/free-photo/side-view-double-cheeseburger-with-grilled-beef-patties-cheese-lettuce-leaf-burger-buns_141793-4883.jpg', 7),
+('Veggie Burger', 'Delicious veggie patty with fresh vegetables', 6.49, 60, 'https://example.com/veggie_burger.jpg', 4),
+('Grilled Fish', 'Grilled fish served with a lemon butter sauce', 10.49, 40, 'https://example.com/grilled_fish.jpg', 2),
+('Tacos', 'Mexican tacos filled with beef, lettuce, and salsa', 5.49, 90, 'https://example.com/tacos.jpg', 7),
+('Fish and Chips', 'Crispy fried fish served with golden fries', 8.99, 110, 'https://example.com/fish_and_chips.jpg', 7),
+('Lamb Kebabs', 'Juicy grilled lamb served with rice and vegetables', 11.99, 60, 'https://example.com/lamb_kebabs.jpg', 7),
+('Pasta Primavera', 'Pasta tossed with fresh vegetables in a light sauce', 7.99, 70, 'https://example.com/pasta_primavera.jpg', 2),
+('Cheeseburger', 'Classic cheeseburger with pickles, onions, and ketchup', 6.99, 130, 'https://example.com/cheeseburger.jpg', 7),
+('Mushroom Risotto', 'Creamy risotto with fresh mushrooms and parmesan cheese', 8.49, 50, 'https://example.com/mushroom_risotto.jpg', 4),
+('Peking Duck', 'Crispy duck served with pancakes and hoisin sauce', 14.99, 30, 'https://example.com/peking_duck.jpg', 7),
+('Pizza Margherita', 'Simple pizza with fresh mozzarella, basil, and tomato sauce', 9.49, 80, 'https://example.com/pizza_margherita.jpg', 2),
+('Chocolate Cake', 'Rich chocolate cake with creamy frosting', 5.99, 60, 'https://example.com/chocolate_cake.jpg', 6),
+('Pho Bo', 'Traditional Vietnamese beef noodle soup with herbs', 7.49, 60, 'https://img.freepik.com/free-photo/vietnamese-noodle-soup-table_23-2149251213.jpg', 2),
+('Bun Cha', 'Grilled pork served with rice vermicelli noodles and dipping sauce', 6.99, 40, 'https://img.freepik.com/free-photo/traditional-vietnamese-bun-cha-meal_23-2149261021.jpg', 2),
+('Broken Rice with Grilled Pork', 'Broken rice with grilled pork chop, egg, and pickled vegetables', 7.99, 80, 'https://img.freepik.com/free-photo/vietnamese-broken-rice-dish-with-egg-meat_23-2149261018.jpg', 3),
+('Yangzhou Fried Rice', 'Colorful fried rice with sausage, shrimp, and vegetables', 6.49, 90, 'https://img.freepik.com/free-photo/fried-rice-with-vegetables-white-plate_123827-21332.jpg', 3),
+('Fresh Spring Rolls', 'Fresh rolls with shrimp, herbs, and rice vermicelli, served with peanut sauce', 4.99, 70, 'https://img.freepik.com/free-photo/vietnamese-spring-rolls-served-with-peanut-sauce_114579-2257.jpg', 4),
+('Bubble Milk Tea', 'Sweet milk tea with chewy tapioca pearls', 3.99, 120, 'https://img.freepik.com/free-photo/bubble-tea-drink-glass_1150-35609.jpg', 5),
+('Three-Color Dessert', 'Vietnamese dessert with mung beans, jelly, and coconut milk', 4.49, 65, 'https://img.freepik.com/free-photo/vietnamese-dessert-che-ba-mau_1150-34687.jpg', 6),
+('Fried Spring Rolls', 'Crispy fried rolls stuffed with minced pork and vegetables', 5.49, 85, 'https://img.freepik.com/free-photo/top-view-fried-spring-rolls-with-chili-sauce_23-2148822692.jpg', 7);
 
 -- Insert sample data for combos
 INSERT INTO combo (name, description, price, image_url, category_id) VALUES
 ('Vietnamese Classic', 'A traditional combo featuring Pho Bo, Fried Spring Rolls, and Bubble Milk Tea.', 14.99,
-'https://hd1.hotdeal.vn/images/uploads/2015/06/27/153681/153681-pho-bo-uc-pho-bo-gia-truyen-solex-body-1.jpg', 7),
+'https://hd1.hotdeal.vn/images/uploads/2015/06/27/153681/153681-pho-bo-uc-pho-bo-gia-truyen-solex-body-1.jpg', 1),
 ('Tropical Rice Set', 'Fried rice lovers'' dream: Pineapple Fried Rice, Yangzhou Fried Rice, and Chicken Wings.', 15.99,
- 'https://img.freepik.com/free-photo/high-view-pineapple-plate-with-cutlery_23-2148494708.jpg', 7),
+ 'https://img.freepik.com/free-photo/high-view-pineapple-plate-with-cutlery_23-2148494708.jpg', 1),
 ('Vegetarian Delight', 'A healthy and colorful mix of Vegetarian Salad, Vegetable Soup, and Mushroom Risotto.', 13.49,
-'https://img.freepik.com/free-photo/top-view-tasty-salad-with-vegetables_23-2148515491.jpg', 7),
+'https://img.freepik.com/free-photo/top-view-tasty-salad-with-vegetables_23-2148515491.jpg', 1),
 ('Grill and Chill', 'Perfect for meat lovers – Grilled Fish, Chicken Wings, and Chocolate Cake for dessert.', 16.99,
-'https://example.com/grilled_fish.jpg', 7),
+'https://example.com/grilled_fish.jpg', 1),
 ('Fried Feast', 'A crispy combo of Fried Chicken, Fried Spring Rolls, and Fish and Chips.', 16.49,
-'https://img.freepik.com/free-photo/top-view-fried-spring-rolls-with-chili-sauce_23-2148822692.jpg', 7);
+'https://img.freepik.com/free-photo/top-view-fried-spring-rolls-with-chili-sauce_23-2148822692.jpg', 1);
 
 -- Insert sample data for combo_food relationships
 INSERT INTO combo_food (combo_id, food_id) VALUES

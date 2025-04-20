@@ -1,12 +1,12 @@
 -- Insert sample data for categories
 INSERT INTO category (name, description) VALUES
-('Combo', 'Combination meals with multiple items'),
 ('Noodles', 'Various types of noodle dishes'),
 ('Rice', 'Rice-based dishes from various cuisines'),
 ('Vege', 'Vegetarian dishes'),
 ('Drink', 'Refreshing beverages'),
 ('Dessert', 'Sweet courses to end a meal'),
-('Fried Food', 'Crispy fried dishes');
+('Fried Food', 'Crispy fried dishes'),
+('Combo', 'Combination meals with multiple items');
 
 -- Insert sample data for foods
 INSERT INTO food (name, description, price, quantity, image_url, category_id) VALUES
@@ -40,12 +40,17 @@ INSERT INTO food (name, description, price, quantity, image_url, category_id) VA
 ('Fried Spring Rolls', 'Crispy fried rolls stuffed with minced pork and vegetables', 5.49, 85, 'https://img.freepik.com/free-photo/top-view-fried-spring-rolls-with-chili-sauce_23-2148822692.jpg', 6);
 
 -- Insert sample data for combos
-INSERT INTO combo (name, description, price, image_url) VALUES
-('Vietnamese Classic', 'A traditional combo featuring Pho Bo, Fried Spring Rolls, and Bubble Milk Tea.', 14.99, 'https://hd1.hotdeal.vn/images/uploads/2015/06/27/153681/153681-pho-bo-uc-pho-bo-gia-truyen-solex-body-1.jpg'),
-('Tropical Rice Set', 'Fried rice lovers'' dream: Pineapple Fried Rice, Yangzhou Fried Rice, and Chicken Wings.', 15.99, 'https://img.freepik.com/free-photo/high-view-pineapple-plate-with-cutlery_23-2148494708.jpg'),
-('Vegetarian Delight', 'A healthy and colorful mix of Vegetarian Salad, Vegetable Soup, and Mushroom Risotto.', 13.49, 'https://img.freepik.com/free-photo/top-view-tasty-salad-with-vegetables_23-2148515491.jpg'),
-('Grill and Chill', 'Perfect for meat lovers – Grilled Fish, Chicken Wings, and Chocolate Cake for dessert.', 16.99, 'https://example.com/grilled_fish.jpg'),
-('Fried Feast', 'A crispy combo of Fried Chicken, Fried Spring Rolls, and Fish and Chips.', 16.49, 'https://img.freepik.com/free-photo/top-view-fried-spring-rolls-with-chili-sauce_23-2148822692.jpg');
+INSERT INTO combo (name, description, price, image_url, category_id) VALUES
+('Vietnamese Classic', 'A traditional combo featuring Pho Bo, Fried Spring Rolls, and Bubble Milk Tea.', 14.99,
+'https://hd1.hotdeal.vn/images/uploads/2015/06/27/153681/153681-pho-bo-uc-pho-bo-gia-truyen-solex-body-1.jpg', 7),
+('Tropical Rice Set', 'Fried rice lovers'' dream: Pineapple Fried Rice, Yangzhou Fried Rice, and Chicken Wings.', 15.99,
+ 'https://img.freepik.com/free-photo/high-view-pineapple-plate-with-cutlery_23-2148494708.jpg', 7),
+('Vegetarian Delight', 'A healthy and colorful mix of Vegetarian Salad, Vegetable Soup, and Mushroom Risotto.', 13.49,
+'https://img.freepik.com/free-photo/top-view-tasty-salad-with-vegetables_23-2148515491.jpg', 7),
+('Grill and Chill', 'Perfect for meat lovers – Grilled Fish, Chicken Wings, and Chocolate Cake for dessert.', 16.99,
+'https://example.com/grilled_fish.jpg', 7),
+('Fried Feast', 'A crispy combo of Fried Chicken, Fried Spring Rolls, and Fish and Chips.', 16.49,
+'https://img.freepik.com/free-photo/top-view-fried-spring-rolls-with-chili-sauce_23-2148822692.jpg', 7);
 
 -- Insert sample data for combo_food relationships
 INSERT INTO combo_food (combo_id, food_id) VALUES
@@ -239,12 +244,6 @@ INSERT INTO payment (payment_time, total_price, payment_method, order_id) VALUES
 ('2024-04-13 20:30:00', 35.98, 'IN_CASH', 5),
 ('2024-04-14 21:30:00', 42.97, 'BANK_TRANSFER', 6);
 
--- Insert sample data for users
-INSERT INTO users (username, password, full_name, email, phone, role, is_active) VALUES
-('admin', 'admin123', 'Admin User', 'admin@restaurant.com', '123-456-7890', 'admin', TRUE),
-('waiter', 'waiter123', 'Jane Waiter', 'waiter2@restaurant.com', '777-888-9999', 'waiter', TRUE),
-('cashier', 'cashier123', 'Alice Cashier', 'cashier2@restaurant.com', '111-222-3333', 'cashier', TRUE),
-('chef', 'chef123', 'Sarah Kitchen', 'kitchen2@restaurant.com', '999-888-7777', 'chef', TRUE);
 
 INSERT INTO staff (full_name, dob, phone_number, address, salary, position, image_url) VALUES
 ('Nguyễn Minh Quân', '2001-03-15', '0901000001', 'Hà Nội', 400.00, 'WAITER', 'https://cdn.eva.vn/upload/1-2021/images/2021-03-28/images2796494_1dep-1616935824-313-width660height661.jpg'),
@@ -275,3 +274,4 @@ INSERT INTO staff (full_name, dob, phone_number, address, salary, position, imag
 ('Phạm Văn Khánh', '1992-03-27', '0901000011', 'Bắc Ninh', 430.00, 'SECURITY', NULL),
 ('Bùi Thị Hồng', '2001-10-03', '0901000012', 'Hòa Bình', 300.00, 'CLEANER', NULL),
 ('Trần Văn Đông', '2000-01-17', '0901000013', 'Vĩnh Long', 310.00, 'CLEANER', NULL);
+

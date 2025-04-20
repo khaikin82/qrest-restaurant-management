@@ -44,6 +44,7 @@ CREATE TABLE combo (
     image_url TEXT,
     image_name VARCHAR(255),
     image_type VARCHAR(255),
+    category_id BIGINT,
     image_path VARCHAR(255)
 );
 
@@ -132,16 +133,6 @@ CREATE TABLE payment (
     FOREIGN KEY (order_id) REFERENCES restaurant_order(id)
 );
 
-CREATE TABLE users (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(100) NOT NULL,
-    full_name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    phone VARCHAR(20),
-    role VARCHAR(20) NOT NULL,
-    is_active BOOLEAN DEFAULT TRUE
-);
 
 CREATE TABLE staff (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -152,4 +143,14 @@ CREATE TABLE staff (
     salary DECIMAL(15,2),
     position VARCHAR(100),
     image_url TEXT
+);
+
+-- Tạo bảng user
+CREATE TABLE users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    staff_id BIGINT,
+    role VARCHAR(50),
+    CONSTRAINT fk_users_staff FOREIGN KEY (staff_id) REFERENCES staff(id)
 );

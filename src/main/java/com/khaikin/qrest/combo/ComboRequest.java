@@ -1,5 +1,6 @@
 package com.khaikin.qrest.combo;
 
+import com.khaikin.qrest.category.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -14,4 +15,5 @@ public class ComboRequest {
     private BigDecimal price;
     private String imageUrl;
     private List<ComboItem> comboItems;
+    private Long categoryId;
 }

@@ -1,5 +1,7 @@
 package com.khaikin.qrest.combo;
 
+import com.khaikin.qrest.category.Category;
+import com.khaikin.qrest.category.CategoryRepository;
 import com.khaikin.qrest.combofood.ComboFood;
 import com.khaikin.qrest.combofood.ComboFoodRepository;
 import com.khaikin.qrest.exception.ResourceNotFoundException;
@@ -23,6 +25,7 @@ public class ComboServiceImpl implements ComboService {
     private final ComboRepository comboRepository;
     private final FoodRepository foodRepository;
     private final ComboFoodRepository comboFoodRepository;
+    private final CategoryRepository categoryRepository;
     private final String uploadDir = "uploads/images/combo";
 
     @Override
@@ -60,6 +63,14 @@ public class ComboServiceImpl implements ComboService {
         }
         comboFoodRepository.saveAll(comboFoods);
         combo.setComboFoods(comboFoods);
+
+        Long categoryId = comboRequest.getCategoryId();
+        if (categoryId != null) {
+            Category category = categoryRepository.findById(categoryId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", categoryId));
+            combo.setCategory(category);
+        }
+
         return comboRepository.save(combo);
     }
 
@@ -110,6 +121,14 @@ public class ComboServiceImpl implements ComboService {
         combo.setImageName(imageName);
         combo.setImageType(imageType);
         combo.setImagePath(path.toString());
+
+        Long categoryId = comboRequest.getCategoryId();
+        if (categoryId != null) {
+            Category category = categoryRepository.findById(categoryId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", categoryId));
+            combo.setCategory(category);
+        }
+
         return comboRepository.save(combo);
     }
 

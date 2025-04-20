@@ -1,6 +1,7 @@
 package com.khaikin.qrest.combo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.khaikin.qrest.category.Category;
 import com.khaikin.qrest.combofood.ComboFood;
 import com.khaikin.qrest.comboorder.ComboOrder;
 import jakarta.persistence.*;
@@ -31,6 +32,9 @@ public class Combo {
     private String imageType;
     private String imagePath; // Đường dẫn tới ảnh lưu trong thư mục
 
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     @OneToMany(mappedBy = "combo")
     private List<ComboFood> comboFoods = new ArrayList<>();

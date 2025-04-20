@@ -198,16 +198,7 @@ INSERT INTO payment (payment_time, total_price, payment_method, order_id) VALUES
 ('2024-04-12 14:30:00', 89.95, 'IN_CASH', 3),
 ('2024-04-12 21:30:00', 120.90, 'BANK_TRANSFER', 4),
 ('2024-04-13 20:30:00', 35.98, 'IN_CASH', 5),
-('2024-04-14 21:30:00', 42.97, 'BANK_TRANSFER', 6),
-('2024-04-15 19:30:00', 78.96, 'IN_CASH', 7),
-('2024-04-16 21:30:00', 95.94, 'BANK_TRANSFER', 8),
-('2024-04-10 19:30:00', 55.96, 'IN_CASH', 9),
-('2024-04-10 21:00:00', 68.95, 'BANK_TRANSFER', 10),
-('2024-04-09 21:30:00', 82.94, 'IN_CASH', 11),
-('2024-04-09 19:30:00', 75.93, 'BANK_TRANSFER', 12),
-('2024-04-08 20:30:00', 65.92, 'IN_CASH', 13),
-('2024-04-08 22:00:00', 58.91, 'BANK_TRANSFER', 14),
-('2024-04-07 19:30:00', 72.90, 'IN_CASH', 15);
+('2024-04-14 21:30:00', 42.97, 'BANK_TRANSFER', 6);
 
 -- Insert sample data for users
 INSERT INTO users (username, password, full_name, email, phone, role, is_active) VALUES

@@ -16,5 +16,7 @@ public interface RestaurantTableService {
 
     RestaurantTable updateTable(Long id, RestaurantTable restaurantTable);
 
+    RestaurantTable updateTableStatus(Long id, RestaurantTableStatus status);
+
     void deleteTableById(Long id);
 }

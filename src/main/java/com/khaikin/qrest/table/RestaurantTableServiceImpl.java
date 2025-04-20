@@ -67,6 +67,14 @@ public class RestaurantTableServiceImpl implements RestaurantTableService {
     }
 
     @Override
+    public RestaurantTable updateTableStatus(Long id, RestaurantTableStatus status) {
+        RestaurantTable existingRestaurantTable = restaurantTableRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Table", "tableId", id));
+        existingRestaurantTable.setStatus(status);
+        return restaurantTableRepository.save(existingRestaurantTable);
+    }
+
+    @Override
     public void deleteTableById(Long id) {
         RestaurantTable existingRestaurantTable = restaurantTableRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Table", "tableId", id));

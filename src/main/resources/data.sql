@@ -1,5 +1,6 @@
 -- Insert sample data for categories
 INSERT INTO category (name, description) VALUES
+('Combo', 'Combination meals with multiple items'),
 ('Noodles', 'Various types of noodle dishes'),
 ('Rice', 'Rice-based dishes from various cuisines'),
 ('Vege', 'Vegetarian dishes'),

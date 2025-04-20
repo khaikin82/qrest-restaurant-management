@@ -56,6 +56,13 @@ public class RestaurantTableController {
         return ResponseEntity.ok(updatedRestaurantTable);
     }
 
+    @PutMapping("/{id}/status/{status}")
+    public ResponseEntity<RestaurantTable> updateTableStatus(@PathVariable @Positive Long id,
+                                                        @PathVariable RestaurantTableStatus status) {
+        RestaurantTable updatedRestaurantTable = restaurantTableService.updateTableStatus(id, status);
+        return ResponseEntity.ok(updatedRestaurantTable);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTableById(@PathVariable @Positive Long id) {
         restaurantTableService.deleteTableById(id);

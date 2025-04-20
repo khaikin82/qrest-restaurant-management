@@ -1,13 +1,16 @@
 package com.khaikin.qrest.reservation;
 
 import com.khaikin.qrest.exception.ResourceNotFoundException;
-import com.khaikin.qrest.restauranttable.RestaurantTable;
-import com.khaikin.qrest.restauranttable.RestaurantTableRepository;
+import com.khaikin.qrest.table.RestaurantTable;
+import com.khaikin.qrest.table.RestaurantTableRepository;
+import com.khaikin.qrest.tablereservation.TableReservation;
+import com.khaikin.qrest.tablereservation.TableReservationRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,6 +18,7 @@ import java.util.List;
 public class ReservationServiceImpl implements ReservationService {
     private final ReservationRepository reservationRepository;
     private final RestaurantTableRepository restaurantTableRepository;
+    private final TableReservationRepository tableReservationRepository;
     private final ModelMapper modelMapper;
 
     @Override
@@ -30,11 +34,22 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public Reservation createReservation(ReservationRequest reservationRequest) {
-        RestaurantTable table = restaurantTableRepository.findById(reservationRequest.getRestaurantTableId())
-                .orElseThrow(() -> new ResourceNotFoundException("RestaurantTable", "id",
-                                                                 reservationRequest.getRestaurantTableId()));
         Reservation reservation = modelMapper.map(reservationRequest, Reservation.class);
-        reservation.setRestaurantTable(table);
+        List<TableReservation> tableReservations = new ArrayList<>();
+        if (reservationRequest.getRestaurantTableIds() != null) {
+            for (Long restaurantTableId : reservationRequest.getRestaurantTableIds()) {
+                RestaurantTable restaurantTable = restaurantTableRepository.findById(restaurantTableId)
+                        .orElseThrow(() -> new ResourceNotFoundException("Table", "tableId", restaurantTableId));
+                TableReservation tableReservation = new TableReservation();
+                tableReservation.setRestaurantTable(restaurantTable);
+                tableReservation.setReservation(reservation);
+
+                tableReservations.add(tableReservation);
+            }
+            tableReservationRepository.saveAll(tableReservations);
+            reservation.setTableReservations(tableReservations);
+        }
+
         reservation.setBookingTime(LocalDateTime.now());
         return reservationRepository.save(reservation);
     }
@@ -51,11 +66,7 @@ public class ReservationServiceImpl implements ReservationService {
         existingReservation.setDeposit(reservation.getDeposit());
         existingReservation.setCustomerName(reservation.getCustomerName());
         existingReservation.setCustomerPhone(reservation.getCustomerPhone());
-
-        if (reservation.getRestaurantTable() != null) {
-            existingReservation.setRestaurantTable(restaurantTableRepository.findById(reservation.getRestaurantTable().getId())
-                                                           .orElseThrow(() -> new ResourceNotFoundException("RestaurantTable", "id", reservation.getRestaurantTable().getId())));
-        }
+        existingReservation.setTableReservations(reservation.getTableReservations());
 
         return reservationRepository.save(existingReservation);
     }

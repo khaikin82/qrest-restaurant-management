@@ -1,4 +1,4 @@
-package com.khaikin.qrest.restauranttable;
+package com.khaikin.qrest.table;
 
 import com.khaikin.qrest.exception.ResourceNotFoundException;
 import jakarta.transaction.Transactional;

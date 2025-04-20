@@ -22,6 +22,7 @@ public class Staff {
 
     private String phoneNumber;
     private String address;
+    private String imageUrl;
 
     @Column(precision = 15, scale = 2)
     private BigDecimal salary;

@@ -2,7 +2,9 @@
 DROP TABLE IF EXISTS payment;
 DROP TABLE IF EXISTS food_order;
 DROP TABLE IF EXISTS combo_order;
+DROP TABLE IF EXISTS restaurant_table_order;
 DROP TABLE IF EXISTS restaurant_order;
+DROP TABLE IF EXISTS restaurant_table_reservation;
 DROP TABLE IF EXISTS reservation;
 DROP TABLE IF EXISTS restaurant_table;
 DROP TABLE IF EXISTS combo_food;
@@ -11,7 +13,6 @@ DROP TABLE IF EXISTS food;
 DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS staff;
-
 
 -- Create tables
 CREATE TABLE category (
@@ -40,7 +41,10 @@ CREATE TABLE combo (
     name VARCHAR(100) NOT NULL,
     description TEXT,
     price DECIMAL(15, 2) NOT NULL,
-    image_url TEXT
+    image_url TEXT,
+    image_name VARCHAR(255),
+    image_type VARCHAR(255),
+    image_path VARCHAR(255)
 );
 
 CREATE TABLE combo_food (
@@ -52,17 +56,13 @@ CREATE TABLE combo_food (
     FOREIGN KEY (food_id) REFERENCES food(id)
 );
 
+-- Tạo bảng restaurant_table
 CREATE TABLE restaurant_table (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(50) UNIQUE NOT NULL,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) UNIQUE NOT NULL,
     capacity INT NOT NULL,
-    status VARCHAR(30) NOT NULL CHECK (
-        status IN (
-            'AVAILABLE', 'OCCUPIED', 'RESERVED'
-        )
-    )
+    status ENUM('AVAILABLE', 'OCCUPIED', 'RESERVED') DEFAULT 'AVAILABLE'
 );
-
 
 CREATE TABLE reservation (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -72,22 +72,36 @@ CREATE TABLE reservation (
     is_confirmed BOOLEAN DEFAULT FALSE,
     deposit DECIMAL(15, 2) DEFAULT 0.0,
     customer_name VARCHAR(100) NOT NULL,
-    customer_phone VARCHAR(20) NOT NULL,
-    restaurant_table_id BIGINT,
-    FOREIGN KEY (restaurant_table_id) REFERENCES restaurant_table(id)
+    customer_phone VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE restaurant_order (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     total_price DECIMAL(15, 2) NOT NULL,
     note TEXT,
-    order_status VARCHAR(20) NOT NULL,
-    order_time DATETIME NOT NULL,
+    order_status ENUM('PENDING', 'PROCESSING', 'COMPLETED', 'CANCELLED'),
+    order_time DATETIME,
+    reservation_id BIGINT,
+    FOREIGN KEY (reservation_id) REFERENCES reservation (id) ON DELETE SET NULL
+);
+
+-- Tạo bảng RestaurantTableOrder
+CREATE TABLE restaurant_table_order (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    restaurant_table_id BIGINT,
+    order_id BIGINT,
+    FOREIGN KEY (restaurant_table_id) REFERENCES restaurant_table(id),
+    FOREIGN KEY (order_id) REFERENCES restaurant_order(id)
+);
+
+CREATE TABLE restaurant_table_reservation (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     restaurant_table_id BIGINT,
     reservation_id BIGINT,
     FOREIGN KEY (restaurant_table_id) REFERENCES restaurant_table(id),
     FOREIGN KEY (reservation_id) REFERENCES reservation(id)
 );
+
 
 CREATE TABLE food_order (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -136,5 +150,6 @@ CREATE TABLE staff (
     phone_number VARCHAR(20),
     address VARCHAR(255),
     salary DECIMAL(15,2),
-    position VARCHAR(20)
+    position VARCHAR(100),
+    image_url TEXT
 );

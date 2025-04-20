@@ -4,6 +4,7 @@ import com.khaikin.qrest.combo.Combo;
 import com.khaikin.qrest.combo.ComboRepository;
 import com.khaikin.qrest.comboorder.ComboOrder;
 import com.khaikin.qrest.comboorder.ComboOrderRepository;
+import com.khaikin.qrest.exception.ConflictException;
 import com.khaikin.qrest.exception.ResourceNotFoundException;
 import com.khaikin.qrest.food.Food;
 import com.khaikin.qrest.food.FoodRepository;
@@ -11,17 +12,17 @@ import com.khaikin.qrest.foodorder.FoodOrder;
 import com.khaikin.qrest.foodorder.FoodOrderRepository;
 import com.khaikin.qrest.reservation.Reservation;
 import com.khaikin.qrest.reservation.ReservationRepository;
-import com.khaikin.qrest.restauranttable.RestaurantTable;
-import com.khaikin.qrest.restauranttable.RestaurantTableRepository;
+import com.khaikin.qrest.table.RestaurantTable;
+import com.khaikin.qrest.table.RestaurantTableRepository;
+import com.khaikin.qrest.tableorder.TableOrder;
+import com.khaikin.qrest.tableorder.TableOrderRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +34,7 @@ public class OrderServiceImpl implements OrderService {
     private final ComboRepository comboRepository;
     private final FoodOrderRepository foodOrderRepository;
     private final ComboOrderRepository comboOrderRepository;
+    private final TableOrderRepository tableOrderRepository;
 
 
     @Override
@@ -51,23 +53,32 @@ public class OrderServiceImpl implements OrderService {
     public Order createOrder(OrderRequest orderRequest) {
         Order order = new Order();
         Reservation reservation = null;
+        List<TableOrder> tableOrders = new ArrayList<>();
+
+        if (orderRequest.getRestaurantTableIds() != null) {
+            for (Long restaurantTableId : orderRequest.getRestaurantTableIds()) {
+                RestaurantTable restaurantTable = restaurantTableRepository.findById(restaurantTableId)
+                        .orElseThrow(() -> new ResourceNotFoundException("Table" , "tableId", restaurantTableId));
+                TableOrder tableOrder = new TableOrder();
+                tableOrder.setRestaurantTable(restaurantTable);
+                tableOrder.setOrder(order);
+
+                tableOrders.add(tableOrder);
+            }
+            tableOrderRepository.saveAll(tableOrders);
+            order.setTableOrders(tableOrders);
+        }
+
         if (orderRequest.getReservationId() != null) {
             reservation =  reservationRepository.findById(orderRequest.getReservationId())
                     .orElseThrow(() -> new ResourceNotFoundException("Reservation", "id",
                                                                      orderRequest.getReservationId()));
-        }
-        RestaurantTable table = null;
-        if (orderRequest.getRestaurantTableId() != null) {
-            table = restaurantTableRepository.findById(orderRequest.getRestaurantTableId())
-                    .orElseThrow(() -> new ResourceNotFoundException("RestaurantTable", "id",
-                                                                     orderRequest.getRestaurantTableId()));
-        } else {
-            if (reservation != null) {
-                table = reservation.getRestaurantTable();
+            if (reservation.getOrder() != null) {
+                throw new ConflictException("Reservation (ID: " + reservation.getId() + ") is already linked to an order.");
             }
         }
+
         
-        order.setRestaurantTable(table);
         order.setReservation(reservation);
         order.setNote(orderRequest.getNote());
         order.setOrderStatus(OrderStatus.PENDING);
@@ -126,18 +137,11 @@ public class OrderServiceImpl implements OrderService {
         existingOrder.setOrderStatus(order.getOrderStatus());
         existingOrder.setOrderTime(order.getOrderTime());
 
-        if (order.getRestaurantTable() != null) {
-            existingOrder.setRestaurantTable(restaurantTableRepository.findById(order.getRestaurantTable().getId())
-                                                     .orElseThrow(() -> new ResourceNotFoundException("RestaurantTable", "id", order.getRestaurantTable().getId())));
-        }
+
         if (order.getReservation() != null) {
             Reservation reservation = reservationRepository.findById(order.getReservation().getId())
                     .orElseThrow(() -> new ResourceNotFoundException("Reservation", "id", order.getReservation().getId()));
             existingOrder.setReservation(reservation);
-
-            if (order.getRestaurantTable() == null) {
-                existingOrder.setRestaurantTable(reservation.getRestaurantTable());
-            }
         }
 
         return orderRepository.save(existingOrder);

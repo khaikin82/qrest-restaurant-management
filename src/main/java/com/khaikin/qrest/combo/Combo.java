@@ -27,6 +27,11 @@ public class Combo {
     private BigDecimal price;
     private String imageUrl;
 
+    private String imageName;
+    private String imageType;
+    private String imagePath; // Đường dẫn tới ảnh lưu trong thư mục
+
+
     @OneToMany(mappedBy = "combo")
     private List<ComboFood> comboFoods = new ArrayList<>();
 

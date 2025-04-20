@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 @Service
 public class PdfService {
@@ -29,7 +30,8 @@ public class PdfService {
         // Add order details
         document.add(new Paragraph("Order ID: " + order.getId()));
         document.add(new Paragraph("Date: " + payment.getPaymentTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)));
-        document.add(new Paragraph("Table: " + order.getRestaurantTable().getName()));
+        document.add(new Paragraph("Table: " + Objects.requireNonNull(
+                order.getTableOrders().get(0).getRestaurantTable().getName())));
         document.add(new Paragraph("\n"));
 
         // Create items table

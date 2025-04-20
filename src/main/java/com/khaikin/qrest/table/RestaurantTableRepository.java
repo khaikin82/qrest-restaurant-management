@@ -1,4 +1,4 @@
-package com.khaikin.qrest.restauranttable;
+package com.khaikin.qrest.table;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

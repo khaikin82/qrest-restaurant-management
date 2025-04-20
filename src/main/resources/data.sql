@@ -96,34 +96,72 @@ INSERT INTO restaurant_table (name, capacity, status) VALUES
 ('VIP1', 4, "AVAILABLE");
 
 
--- Insert sample data for reservations
-INSERT INTO reservation (booking_time, arrival_time, number_of_guests, is_confirmed, deposit, customer_name, customer_phone, restaurant_table_id) VALUES
-('2024-04-11 18:00:00', '2024-04-11 19:00:00', 4, TRUE, 20.00, 'John Smith', '123-456-7890', 1),
-('2024-04-11 19:30:00', '2024-04-11 20:30:00', 6, TRUE, 30.00, 'Jane Doe', '098-765-4321', 13),
-('2024-04-12 12:00:00', '2024-04-12 13:00:00', 8, TRUE, 40.00, 'Robert Johnson', '555-123-4567', 20),
-('2024-04-12 18:30:00', '2024-04-12 19:30:00', 12, TRUE, 50.00, 'Emily Davis', '777-888-9999', 23),
-('2024-04-13 19:00:00', '2024-04-13 20:00:00', 4, FALSE, 0.00, 'Michael Wilson', '222-333-4444', 5),
-('2024-04-14 20:00:00', '2024-04-14 21:00:00', 6, FALSE, 0.00, 'Sarah Brown', '111-222-3333', 14),
-('2024-04-15 18:00:00', '2024-04-15 19:00:00', 8, FALSE, 0.00, 'David Miller', '444-555-6666', 21),
-('2024-04-16 19:30:00', '2024-04-16 20:30:00', 12, FALSE, 0.00, 'Lisa Anderson', '999-888-7777', 24);
+-- Insert sample data for reservations (full name, Vietnamese phone format, USD deposit)
+INSERT INTO reservation (
+    booking_time, arrival_time, number_of_guests,
+    is_confirmed, deposit, customer_name, customer_phone
+) VALUES
+('2024-04-11 18:00:00', '2024-04-11 19:00:00', 4, TRUE, 20.00, 'Johnathan Smith', '0901234567'),
+('2024-04-11 19:30:00', '2024-04-11 20:30:00', 6, TRUE, 30.00, 'Isabella Nguyen', '0912345678'),
+('2024-04-12 12:00:00', '2024-04-12 13:00:00', 8, TRUE, 40.00, 'Robert Johnson', '0923456789'),
+('2024-04-12 18:30:00', '2024-04-12 19:30:00', 12, TRUE, 60.00, 'Emily Davis', '0934567890'),
+('2024-04-13 19:00:00', '2024-04-13 20:00:00', 4, FALSE, 0.00, 'Michael Wilson', '0945678901'),
+('2024-04-14 20:00:00', '2024-04-14 21:00:00', 6, FALSE, 0.00, 'Sarah Brown', '0956789012'),
+('2024-04-15 18:00:00', '2024-04-15 19:00:00', 8, FALSE, 0.00, 'David Miller', '0967890123'),
+('2024-04-16 19:30:00', '2024-04-16 20:30:00', 12, FALSE, 0.00, 'Lisa Anderson', '0978901234');
 
--- Insert sample data for orders
-INSERT INTO restaurant_order (total_price, note, order_status, order_time, restaurant_table_id, reservation_id) VALUES
-(45.97, 'No onions please', 'COMPLETED', '2024-04-11 19:15:00', 1, 1),
-(62.97, 'Extra spicy', 'COMPLETED', '2024-04-11 20:45:00', 13, 2),
-(89.95, 'Birthday celebration', 'COMPLETED', '2024-04-12 13:15:00', 20, 3),
-(120.90, 'Anniversary dinner', 'COMPLETED', '2024-04-12 19:45:00', 23, 4),
-(35.98, NULL, 'PENDING', '2024-04-13 19:15:00', 5, 5),
-(42.97, 'Allergic to peanuts', 'PROCESSING', '2024-04-14 20:15:00', 14, 6),
-(78.96, NULL, 'PENDING', '2024-04-15 18:30:00', 21, 7),
-(95.94, 'Special occasion', 'PROCESSING', '2024-04-16 20:00:00', 24, 8),
-(55.96, 'Window seat preferred', 'COMPLETED', '2024-04-10 18:30:00', 3, NULL),
-(68.95, 'Quiet table please', 'COMPLETED', '2024-04-10 19:45:00', 15, NULL),
-(82.94, NULL, 'COMPLETED', '2024-04-09 20:00:00', 22, NULL),
-(75.93, 'Extra napkins', 'COMPLETED', '2024-04-09 18:15:00', 8, NULL),
-(65.92, 'High chair needed', 'COMPLETED', '2024-04-08 19:30:00', 12, NULL),
-(58.91, NULL, 'COMPLETED', '2024-04-08 20:45:00', 17, NULL),
-(72.90, 'Celebration cake', 'COMPLETED', '2024-04-07 18:00:00', 25, NULL);
+INSERT INTO restaurant_table_reservation (restaurant_table_id, reservation_id) VALUES
+(1, 1),
+(13, 2),
+(2, 3),
+(3, 3),
+(1, 4),
+(15, 4),
+(4, 5),
+(14, 6),
+(20, 7),
+(15, 8),
+(16, 8);
+
+-- Insert sample data for restaurant_order
+INSERT INTO restaurant_order (total_price, note, order_status, order_time, reservation_id) VALUES
+(45.97, 'No onions please', 'COMPLETED', '2024-04-11 19:15:00', NULL),
+(62.97, 'Extra spicy', 'COMPLETED', '2024-04-11 20:45:00', NULL),
+(89.95, 'Birthday celebration', 'COMPLETED', '2024-04-12 13:15:00', NULL),
+(120.90, 'Anniversary dinner', 'COMPLETED', '2024-04-12 19:45:00', 4),
+(35.98, NULL, 'PENDING', '2024-04-13 19:15:00', NULL),
+(42.97, 'Allergic to peanuts', 'PROCESSING', '2024-04-14 20:15:00', 6),
+(78.96, NULL, 'PENDING', '2024-04-15 18:30:00', 7),
+(95.94, 'Special occasion', 'PROCESSING', '2024-04-16 20:00:00', NULL),
+(55.96, 'Window seat preferred', 'COMPLETED', '2024-04-10 18:30:00', NULL),
+(68.95, 'Quiet table please', 'COMPLETED', '2024-04-10 19:45:00', NULL),
+(82.94, NULL, 'COMPLETED', '2024-04-09 20:00:00', NULL),
+(75.93, 'Extra napkins', 'COMPLETED', '2024-04-09 18:15:00', NULL),
+(65.92, 'High chair needed', 'COMPLETED', '2024-04-08 19:30:00', NULL),
+(58.91, NULL, 'COMPLETED', '2024-04-08 20:45:00', NULL),
+(72.90, 'Celebration cake', 'COMPLETED', '2024-04-07 18:00:00', NULL);
+
+INSERT INTO restaurant_table_order (restaurant_table_id, order_id) VALUES
+(1, 1),
+(2, 1),   -- order 1 có thêm bàn 2
+(3, 1),   -- order 1 có thêm bàn 3
+(13, 2),
+(20, 3),
+(6, 3),   -- order 3 có thêm bàn 6
+(23, 4),
+(5, 5),
+(9, 5),   -- order 5 có thêm bàn 9
+(14, 6),
+(21, 7),
+(24, 8),
+(3, 9),
+(15, 10),
+(16, 10), -- order 10 có thêm bàn 16
+(22, 11),
+(8, 12),
+(12, 13),
+(17, 14),
+(25, 15);
 
 -- Insert sample data for food orders
 INSERT INTO food_order (quantity, price, food_id, order_id) VALUES
@@ -216,24 +254,32 @@ INSERT INTO users (username, password, full_name, email, phone, role, is_active)
 ('cashier', 'cashier123', 'Alice Cashier', 'cashier2@restaurant.com', '111-222-3333', 'cashier', TRUE),
 ('chef', 'chef123', 'Sarah Kitchen', 'kitchen2@restaurant.com', '999-888-7777', 'chef', TRUE);
 
-INSERT INTO staff (full_name, dob, phone_number, address, salary, position) VALUES
-('Nguyễn Minh Quân', '2001-03-15', '0901000001', 'Hà Nội', 400.00, 'WAITER'),
-('Trần Thị Thuỳ Dung', '2000-07-22', '0901000002', 'TP.HCM', 500.00, 'CASHIER'),
-('Lê Hoàng Nam', '1998-11-30', '0901000003', 'Đà Nẵng', 800.00, 'CHEF'),
-('Phạm Anh Tuấn', '2002-05-09', '0901000004', 'Cần Thơ', 450.00, 'WAITER'),
-('Võ Thị Kim Ngân', '2000-09-01', '0901000005', 'Huế', 550.00, 'CASHIER'),
-('Đỗ Văn Hậu', '1999-06-18', '0901000006', 'Hải Phòng', 1300.00, 'CHEF'),
-('Nguyễn Thị Lan', '2003-12-25', '0901000007', 'Hà Nội', 350.00, 'WAITER'),
-('Trần Quốc Bảo', '2001-01-20', '0901000008', 'TP.HCM', 600.00, 'CASHIER'),
-('Lê Thị Bích Phượng', '2000-08-12', '0901000009', 'Đà Nẵng', 600.00, 'CHEF'),
-('Phạm Trung Kiên', '2002-04-14', '0901000010', 'Cần Thơ', 500.00, 'WAITER'),
-('Hoàng Ngọc Hà', '2003-10-05', '0901000011', 'Huế', 300.00, 'CASHIER'),
-('Đinh Văn Khải', '1997-07-07', '0901000012', 'Hà Nội', 1000.00, 'CHEF'),
-('Nguyễn Thanh Tùng', '2001-11-01', '0901000013', 'TP.HCM', 550.00, 'WAITER'),
-('Lê Thị Mai', '2000-02-28', '0901000014', 'Hải Dương', 600.00, 'CASHIER'),
-('Trần Minh Đức', '1996-03-03', '0901000015', 'Đà Nẵng', 1400.00, 'CHEF'),
-('Vũ Thị Hằng', '2002-06-16', '0901000016', 'Hà Nội', 400.00, 'WAITER'),
-('Phan Nhật Huy', '2000-09-19', '0901000017', 'TP.HCM', 550.00, 'CASHIER'),
-('Đoàn Thị Như Quỳnh', '2001-01-11', '0901000018', 'Huế', 650.00, 'CHEF'),
-('Ngô Hoàng Long', '2002-08-08', '0901000019', 'Đồng Nai', 500.00, 'WAITER'),
-('Nguyễn Thị Diễm My', '2003-05-23', '0901000020', 'Cần Thơ', 400.00, 'CASHIER');
+INSERT INTO staff (full_name, dob, phone_number, address, salary, position, image_url) VALUES
+('Nguyễn Minh Quân', '2001-03-15', '0901000001', 'Hà Nội', 400.00, 'WAITER', 'https://cdn.eva.vn/upload/1-2021/images/2021-03-28/images2796494_1dep-1616935824-313-width660height661.jpg'),
+('Trần Thị Thuỳ Dung', '2000-07-22', '0901000002', 'TP.HCM', 500.00, 'CASHIER', 'https://kenh14cdn.com/2019/3/7/5301629225053921961409043040056750658027520n-1551924968498331276673.jpg'),
+('Lê Hoàng Nam', '1998-11-30', '0901000003', 'Đà Nẵng', 800.00, 'CHEF', 'https://cdn11.dienmaycholon.vn/filewebdmclnew/public/userupload/files/Image%20FP_2024/hinh-anime-4.jpg'),
+('Phạm Anh Tuấn', '2002-05-09', '0901000004', 'Cần Thơ', 450.00, 'WAITER', 'https://sieuthihanguc.net/wp-content/uploads/2024/09/anime-girl-13tXs9iN.webp'),
+('Võ Thị Kim Ngân', '2000-09-01', '0901000005', 'Huế', 550.00, 'CASHIER', NULL),
+('Đỗ Văn Hậu', '1999-06-18', '0901000006', 'Hải Phòng', 1300.00, 'CHEF', 'https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/468719770_1245762753206282_4515101368064360920_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=NubtYD-8YrYQ7kNvwEXBYee&_nc_oc=AdlrvXOax5JzOhVNO0__rkDeih0ZMUCy1v-dTz_PZMa3R17EkerUKl8Vb793tiyLueo&_nc_zt=23&_nc_ht=scontent.fhan14-4.fna&_nc_gid=gKsDNnlqLlgiGSySrel25Q&oh=00_AfEaoz08irqT04pHOIEZeJBx-spcVkP0kQku_tn1ZlsjUA&oe=680A78FA'),
+('Nguyễn Thị Lan', '2003-12-25', '0901000007', 'Hà Nội', 350.00, 'WAITER', 'https://scontent.fhan14-2.fna.fbcdn.net/v/t1.6435-9/118313275_970083550134039_6814075035813550769_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=94e2a3&_nc_ohc=PMCch095PU0Q7kNvwFEA3CX&_nc_oc=Adm5igUWGykrXk_PRmRq-GcMn3zFcc3LpzOmI0SpZ4TTt8dj1fh1vVz4zWoZGDDyvd4&_nc_zt=23&_nc_ht=scontent.fhan14-2.fna&_nc_gid=DhrnEnwzky8dISh2CgM94w&oh=00_AfE2LHIqrucybCCTSzzOA2dRC4G4tNntJfiRM4BexmCv0w&oe=682C24DF'),
+('Trần Quốc Bảo', '2001-01-20', '0901000008', 'TP.HCM', 600.00, 'CASHIER', NULL),
+('Lê Thị Bích Phượng', '2000-08-12', '0901000009', 'Đà Nẵng', 600.00, 'CHEF', 'https://scontent.fhan14-5.fna.fbcdn.net/v/t39.30808-6/476378837_2000516083766848_7211361303318404140_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=mOatBrf6TzAQ7kNvwF51dWj&_nc_oc=Adn95kkg-ohrk1yWL9Zcsp219rqdZsYSEapnkoJ6KkSwXYv0fnYucnp8iER58_x9IaY&_nc_zt=23&_nc_ht=scontent.fhan14-5.fna&_nc_gid=-iqn7b1VQHWbgoh6yQcGXA&oh=00_AfECRGFimYnVb5_SBDpfZ2IR79jJI9cxpcYFO7PwY06x4w&oe=680A769E'),
+('Phạm Trung Kiên', '2002-04-14', '0901000010', 'Cần Thơ', 500.00, 'WAITER', NULL),
+('Hoàng Ngọc Hà', '2003-10-05', '0901000011', 'Huế', 300.00, 'CASHIER', NULL),
+('Đinh Văn Khải', '1997-07-07', '0901000012', 'Hà Nội', 1000.00, 'CHEF', NULL),
+('Nguyễn Thanh Tùng', '2001-11-01', '0901000013', 'TP.HCM', 550.00, 'WAITER', NULL),
+('Lê Thị Mai', '2000-02-28', '0901000014', 'Hải Dương', 600.00, 'CASHIER', NULL),
+('Trần Minh Đức', '1996-03-03', '0901000015', 'Đà Nẵng', 1400.00, 'CHEF', NULL),
+('Vũ Thị Hằng', '2002-06-16', '0901000016', 'Hà Nội', 400.00, 'WAITER', NULL),
+('Phan Nhật Huy', '2000-09-19', '0901000017', 'TP.HCM', 550.00, 'CASHIER', NULL),
+('Đoàn Thị Như Quỳnh', '2001-01-11', '0901000018', 'Huế', 650.00, 'CHEF', NULL),
+('Ngô Hoàng Long', '2002-08-08', '0901000019', 'Đồng Nai', 500.00, 'WAITER', NULL),
+('Nguyễn Thị Diễm My', '2003-05-23', '0901000020', 'Cần Thơ', 400.00, 'CASHIER', NULL),
+('Ngô Văn Hậu', '1995-12-10', '0901000006', 'Bình Dương', 350.00, 'DISHWASHER', NULL),
+('Đặng Thị Mai', '1999-04-25', '0901000007', 'Nghệ An', 360.00, 'DISHWASHER', NULL),
+('Trần Văn Phú', '1997-02-14', '0901000008', 'Quảng Nam', 370.00, 'DISHWASHER', NULL),
+('Lý Thành Trung', '1994-08-19', '0901000009', 'Gia Lai', 420.00, 'SECURITY', NULL),
+('Nguyễn Thị Thảo', '1996-06-05', '0901000010', 'Khánh Hòa', 410.00, 'SECURITY', NULL),
+('Phạm Văn Khánh', '1992-03-27', '0901000011', 'Bắc Ninh', 430.00, 'SECURITY', NULL),
+('Bùi Thị Hồng', '2001-10-03', '0901000012', 'Hòa Bình', 300.00, 'CLEANER', NULL),
+('Trần Văn Đông', '2000-01-17', '0901000013', 'Vĩnh Long', 310.00, 'CLEANER', NULL);

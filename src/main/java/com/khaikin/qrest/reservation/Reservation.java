@@ -2,7 +2,8 @@ package com.khaikin.qrest.reservation;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.khaikin.qrest.order.Order;
-import com.khaikin.qrest.restauranttable.RestaurantTable;
+import com.khaikin.qrest.table.RestaurantTable;
+import com.khaikin.qrest.tablereservation.TableReservation;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,6 +11,8 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -31,9 +34,8 @@ public class Reservation {
     private String customerName;
     private String customerPhone;
 
-    @ManyToOne
-    @JoinColumn(name = "restaurant_table_id")
-    private RestaurantTable restaurantTable;
+    @OneToMany(mappedBy = "reservation")
+    private List<TableReservation> tableReservations = new ArrayList<>();
 
     @JsonIgnore
     @OneToOne(mappedBy = "reservation")

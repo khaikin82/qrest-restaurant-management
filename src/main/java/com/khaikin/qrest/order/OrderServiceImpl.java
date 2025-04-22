@@ -14,6 +14,8 @@ import com.khaikin.qrest.reservation.Reservation;
 import com.khaikin.qrest.reservation.ReservationRepository;
 import com.khaikin.qrest.table.RestaurantTable;
 import com.khaikin.qrest.table.RestaurantTableRepository;
+import com.khaikin.qrest.table.RestaurantTableService;
+import com.khaikin.qrest.table.RestaurantTableStatus;
 import com.khaikin.qrest.tableorder.TableOrder;
 import com.khaikin.qrest.tableorder.TableOrderRepository;
 import jakarta.transaction.Transactional;
@@ -35,6 +37,7 @@ public class OrderServiceImpl implements OrderService {
     private final FoodOrderRepository foodOrderRepository;
     private final ComboOrderRepository comboOrderRepository;
     private final TableOrderRepository tableOrderRepository;
+    private final RestaurantTableService restaurantTableService;
 
 
     @Override
@@ -57,8 +60,9 @@ public class OrderServiceImpl implements OrderService {
 
         if (orderRequest.getRestaurantTableIds() != null) {
             for (Long restaurantTableId : orderRequest.getRestaurantTableIds()) {
-                RestaurantTable restaurantTable = restaurantTableRepository.findById(restaurantTableId)
-                        .orElseThrow(() -> new ResourceNotFoundException("Table" , "tableId", restaurantTableId));
+                RestaurantTable restaurantTable = restaurantTableService.updateTableStatus(restaurantTableId,
+                                                                                           RestaurantTableStatus.OCCUPIED,
+                                                                                           RestaurantTableStatus.OCCUPIED);
                 TableOrder tableOrder = new TableOrder();
                 tableOrder.setRestaurantTable(restaurantTable);
                 tableOrder.setOrder(order);
@@ -136,6 +140,7 @@ public class OrderServiceImpl implements OrderService {
         existingOrder.setNote(order.getNote());
         existingOrder.setOrderStatus(order.getOrderStatus());
         existingOrder.setOrderTime(order.getOrderTime());
+        existingOrder.setTableOrders(order.getTableOrders());
 
 
         if (order.getReservation() != null) {
@@ -151,6 +156,10 @@ public class OrderServiceImpl implements OrderService {
     public void deleteOrderById(Long id) {
         Order existingOrder = orderRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order", "id", id));
+        for (TableOrder tableOrder : existingOrder.getTableOrders()) {
+            restaurantTableService.updateTableStatus(tableOrder.getRestaurantTable().getId(),
+                                                     RestaurantTableStatus.AVAILABLE);
+        }
         orderRepository.delete(existingOrder);
     }
 

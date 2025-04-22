@@ -8,7 +8,7 @@ public interface RestaurantTableService {
 
     RestaurantTable getTableById(Long id);
 
-    public List<RestaurantTable> getAvailableTablesAtTime(LocalDateTime time);
+    List<RestaurantTable> getAvailableTablesAtTime(LocalDateTime time);
 
     RestaurantTable createTable(RestaurantTable restaurantTable);
 
@@ -17,6 +17,8 @@ public interface RestaurantTableService {
     RestaurantTable updateTable(Long id, RestaurantTable restaurantTable);
 
     RestaurantTable updateTableStatus(Long id, RestaurantTableStatus status);
+    RestaurantTable updateTableStatus(RestaurantTable restaurantTable, RestaurantTableStatus status);
+    RestaurantTable updateTableStatus(Long id, RestaurantTableStatus status, RestaurantTableStatus errorStatus);
 
     void deleteTableById(Long id);
 }

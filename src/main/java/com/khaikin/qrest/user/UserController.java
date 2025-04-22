@@ -1,5 +1,6 @@
 package com.khaikin.qrest.user;
 
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -20,17 +21,17 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
+    public ResponseEntity<UserDto> getUserById(@PathVariable @Positive Long id) {
         return ResponseEntity.ok(userService.getUserById(id));
     }
 
-    @PutMapping("/{id}/staff")
-    public ResponseEntity<UserDto> updateUserStaff(@PathVariable Long id, @PathVariable Long staffId) {
+    @PutMapping("/{id}/staff/{staffId}")
+    public ResponseEntity<UserDto> updateUserStaff(@PathVariable @Positive Long id, @PathVariable @Positive Long staffId) {
         return ResponseEntity.ok(userService.updateUserStaff(id, staffId));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUserById(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteUserById(@PathVariable @Positive Long id) {
         userService.deleteUserById(id);
         return ResponseEntity.noContent().build();
     }

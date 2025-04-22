@@ -1,6 +1,8 @@
 package com.khaikin.qrest.user;
 
+import com.khaikin.qrest.exception.BadRequestException;
 import com.khaikin.qrest.exception.ConflictException;
+import com.khaikin.qrest.exception.InvalidCredentialsException;
 import com.khaikin.qrest.exception.ResourceNotFoundException;
 import com.khaikin.qrest.staff.Staff;
 import com.khaikin.qrest.staff.StaffRepository;
@@ -49,7 +51,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
 
         if (!passwordEncoder.matches(rawPassword, user.getPassword())) {
-            throw new RuntimeException("Invalid password");
+            throw new InvalidCredentialsException("Invalid password");
         }
         return user;
     }
@@ -60,7 +62,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
 
         if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
-            throw new RuntimeException("Old password is incorrect");
+            throw new BadRequestException("Old password is incorrect");
         }
 
         user.setPassword(passwordEncoder.encode(newPassword));

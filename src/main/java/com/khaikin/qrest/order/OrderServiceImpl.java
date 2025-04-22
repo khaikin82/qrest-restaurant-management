@@ -153,6 +153,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Order updateOrderStatus(Long id, OrderStatus orderStatus) {
+        Order existingOrder = orderRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Order", "id", id));
+        existingOrder.setOrderStatus(orderStatus);
+        return orderRepository.save(existingOrder);
+    }
+
+    @Override
     public void deleteOrderById(Long id) {
         Order existingOrder = orderRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order", "id", id));

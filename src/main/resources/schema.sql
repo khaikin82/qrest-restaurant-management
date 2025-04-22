@@ -80,7 +80,7 @@ CREATE TABLE restaurant_order (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     total_price DECIMAL(15, 2) NOT NULL,
     note TEXT,
-    order_status ENUM('PENDING', 'PROCESSING', 'COMPLETED', 'CANCELLED'),
+    order_status ENUM('PENDING', 'PROCESSING', 'PROCESSED', 'COMPLETED', 'CANCELLED'),
     order_time DATETIME,
     reservation_id BIGINT,
     FOREIGN KEY (reservation_id) REFERENCES reservation (id) ON DELETE SET NULL

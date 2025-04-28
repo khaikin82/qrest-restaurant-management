@@ -3,6 +3,7 @@ package com.khaikin.qrest.reservation;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class ReservationRequest {
@@ -12,5 +13,5 @@ public class ReservationRequest {
     private Double deposit;
     private String customerName;
     private String customerPhone;
-    private Long restaurantTableId;
+    private List<Long> restaurantTableIds;
 }

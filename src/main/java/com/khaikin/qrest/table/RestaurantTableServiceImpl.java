@@ -1,5 +1,6 @@
-package com.khaikin.qrest.restauranttable;
+package com.khaikin.qrest.table;
 
+import com.khaikin.qrest.exception.ConflictException;
 import com.khaikin.qrest.exception.ResourceNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -63,6 +64,31 @@ public class RestaurantTableServiceImpl implements RestaurantTableService {
         existingRestaurantTable.setCapacity(restaurantTable.getCapacity());
         existingRestaurantTable.setStatus(restaurantTable.getStatus());
 
+        return restaurantTableRepository.save(existingRestaurantTable);
+    }
+
+    @Override
+    public RestaurantTable updateTableStatus(Long id, RestaurantTableStatus status) {
+        RestaurantTable existingRestaurantTable = restaurantTableRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Table", "tableId", id));
+        existingRestaurantTable.setStatus(status);
+        return restaurantTableRepository.save(existingRestaurantTable);
+    }
+
+    @Override
+    public RestaurantTable updateTableStatus(RestaurantTable restaurantTable, RestaurantTableStatus status) {
+        restaurantTable.setStatus(status);
+        return restaurantTableRepository.save(restaurantTable);
+    }
+
+    @Override
+    public RestaurantTable updateTableStatus(Long id, RestaurantTableStatus status, RestaurantTableStatus errorStatus) {
+        RestaurantTable existingRestaurantTable = restaurantTableRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Table", "tableId", id));
+        if (existingRestaurantTable.getStatus() == errorStatus) {
+            throw new ConflictException("Table with id=" + id + " has status: " + errorStatus);
+        }
+        existingRestaurantTable.setStatus(status);
         return restaurantTableRepository.save(existingRestaurantTable);
     }
 

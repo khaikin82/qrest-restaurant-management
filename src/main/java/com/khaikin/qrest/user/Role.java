@@ -1,8 +1,9 @@
 package com.khaikin.qrest.user;
 
 public enum Role {
-    OWNER,
+    ADMIN,
     WAITER,
     CASHIER,
-    CHEF
+    CHEF,
+    USER
 }

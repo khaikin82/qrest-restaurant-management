@@ -1,10 +1,15 @@
 package com.khaikin.qrest.exception;
 
 import com.khaikin.qrest.payloads.ApiResponse;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -23,15 +28,42 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(apiResponse);
     }
 
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public ResponseEntity<ApiResponse<Map<String, String>>> handleValidationErrors(MethodArgumentNotValidException ex) {
-//        Map<String, String> errors = new HashMap<>();
-//        ex.getBindingResult().getFieldErrors()
-//                .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
-//
-//        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-//                .body(new ApiResponse<>(false, "Validation failed", errors));
-//    }
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<ApiResponse> handleInvalidCredentialsException(InvalidCredentialsException e) {
+        String message = e.getMessage();
+        ApiResponse apiResponse = new ApiResponse(message, false);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(apiResponse);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ApiResponse> handleBadRequestException(BadRequestException e) {
+        String message = e.getMessage();
+        ApiResponse apiResponse = new ApiResponse(message, false);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponse> handleValidationErrors(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getFieldErrors()
+                .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
+        ApiResponse apiResponse = new ApiResponse(errors.toString(), false);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ApiResponse> handleConstraintViolation(ConstraintViolationException ex) {
+        Map<String, String> errors = new HashMap<>();
+
+        ex.getConstraintViolations().forEach(cv -> {
+            String path = cv.getPropertyPath().toString();
+            String message = cv.getMessage();
+            errors.put(path, message);
+        });
+        ApiResponse apiResponse = new ApiResponse(errors.toString(), false);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
+    }
+
 //
 //    @ExceptionHandler(Exception.class)
 //    public ResponseEntity<ApiResponse<Void>> handleGeneralException(Exception ex) {

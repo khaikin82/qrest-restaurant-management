@@ -1,8 +1,9 @@
-package com.khaikin.qrest.restauranttable;
+package com.khaikin.qrest.table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.khaikin.qrest.order.Order;
 import com.khaikin.qrest.reservation.Reservation;
+import com.khaikin.qrest.tableorder.TableOrder;
+import com.khaikin.qrest.tablereservation.TableReservation;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,11 +30,11 @@ public class RestaurantTable {
 
     @JsonIgnore
     @OneToMany(mappedBy = "restaurantTable")
-    private List<Reservation> reservations = new ArrayList<>();
+    private List<TableReservation> tableReservations = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "restaurantTable")
-    private List<Order> orders = new ArrayList<>();
+    private List<TableOrder> tableOrders = new ArrayList<>();
 
     public RestaurantTable(String name, int capacity) {
         this.name = name;

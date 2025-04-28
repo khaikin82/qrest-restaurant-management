@@ -1,4 +1,4 @@
-package com.khaikin.qrest.restauranttable;
+package com.khaikin.qrest.table;
 
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
@@ -53,6 +53,13 @@ public class RestaurantTableController {
     @PutMapping("/{id}")
     public ResponseEntity<RestaurantTable> updateTable(@PathVariable @Positive Long id, @RequestBody RestaurantTable restaurantTable) {
         RestaurantTable updatedRestaurantTable = restaurantTableService.updateTable(id, restaurantTable);
+        return ResponseEntity.ok(updatedRestaurantTable);
+    }
+
+    @PutMapping("/{id}/status/{status}")
+    public ResponseEntity<RestaurantTable> updateTableStatus(@PathVariable @Positive Long id,
+                                                        @PathVariable RestaurantTableStatus status) {
+        RestaurantTable updatedRestaurantTable = restaurantTableService.updateTableStatus(id, status);
         return ResponseEntity.ok(updatedRestaurantTable);
     }
 

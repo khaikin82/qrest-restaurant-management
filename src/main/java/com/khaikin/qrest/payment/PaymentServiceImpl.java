@@ -4,9 +4,10 @@ import com.khaikin.qrest.order.Order;
 import com.khaikin.qrest.order.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.net.InetAddress;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
+import java.net.UnknownHostException;
 import java.util.List;
 
 @Service
@@ -163,9 +164,19 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public byte[] generateQrCode(Long paymentId) {
         Payment payment = getPaymentById(paymentId);
-        
+        String serverUrl;
+        try {
+            String ip = InetAddress.getLocalHost().getHostAddress();
+            int port = 8080; // tự set port nếu biết
+            serverUrl = "http://" + ip + ":" + port;
+        } catch (UnknownHostException e) {
+            serverUrl = "http://localhost:8080";
+            throw new RuntimeException("Cannot determine server IP address", e);
+        }
         // Tạo URL đầy đủ cho QR code, dẫn đến file PDF hóa đơn
-        String serverUrl = "http://localhost:8080";
+        
+        String appDir = System.getProperty("user.dir");
+        System.out.println(appDir);
         String fullUrl = serverUrl + payment.getInvoicePdfPath();
         
         // Nếu không có đường dẫn PDF, tạo JSON với thông tin thanh toán

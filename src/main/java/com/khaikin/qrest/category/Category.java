@@ -1,6 +1,7 @@
 package com.khaikin.qrest.category;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.khaikin.qrest.combo.Combo;
 import com.khaikin.qrest.food.Food;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,6 +27,10 @@ public class Category {
     @JsonIgnore
     @OneToMany(mappedBy = "category")
     private List<Food> foods = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "category")
+    private List<Combo> combos = new ArrayList<>();
 
     public Category(String name, String description, String imageUrl) {
         this.name = name;

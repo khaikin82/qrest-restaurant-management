@@ -1,11 +1,22 @@
 package com.khaikin.qrest.combo;
 
+import com.khaikin.qrest.exception.ConflictException;
+import com.khaikin.qrest.exception.ResourceNotFoundException;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -33,6 +44,51 @@ public class ComboController {
     @PutMapping("/{id}")
     public ResponseEntity<Combo> updateCombo(@PathVariable @Positive Long id, @RequestBody Combo combo) {
         return ResponseEntity.ok(comboService.updateCombo(id, combo));
+    }
+
+    @GetMapping("/{id}/image")
+    public ResponseEntity<Resource> getImageByComboId(@PathVariable Long id) {
+        try {
+            Combo combo = comboService.getComboById(id);
+            String imagePath = combo.getImagePath();
+            Path filePath = Paths.get(imagePath);
+            Resource resource = new FileSystemResource(filePath);
+
+            // Kiểm tra xem tệp có tồn tại không
+            if (resource.exists()) {
+                String contentType = Files.probeContentType(filePath);
+                return ResponseEntity.ok()
+                        .contentType(MediaType.parseMediaType(contentType != null ? contentType : "image/jpeg"))
+                        .body(resource);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @PostMapping("/with-image")
+    public ResponseEntity<Combo> createCombo(@RequestPart ComboRequest comboRequest, @RequestPart MultipartFile imageFile) {
+        try {
+            Combo newCombo = comboService.createCombo(comboRequest, imageFile);
+            return new ResponseEntity<>(newCombo, HttpStatus.CREATED);
+        } catch (Exception e) {
+            throw new ConflictException("Conflict Error: Create Combo with Image");
+        }
+    }
+
+    @PutMapping("/with-image/{id}")
+    public ResponseEntity<Combo> updateCombo(@PathVariable Long id, @RequestPart Combo combo,
+                                           @RequestPart MultipartFile imageFile) {
+        try {
+            Combo newCombo = comboService.updateCombo(id, combo, imageFile);
+            return new ResponseEntity<>(newCombo, HttpStatus.CREATED);
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("combo", "comboId", id);
+        } catch (Exception e) {
+            throw new ConflictException("Conflict Error: Update Combo");
+        }
     }
 
     @DeleteMapping("/{id}")

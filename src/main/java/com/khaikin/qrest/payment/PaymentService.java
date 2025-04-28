@@ -16,6 +16,9 @@ public interface PaymentService {
     RevenueResponse calculateMonthlyRevenue(LocalDateTime startDate);
     RevenueResponse calculateQuarterlyRevenue(LocalDateTime startDate);
     RevenueResponse calculateYearlyRevenue(LocalDateTime startDate);
+    RevenueResponse calculateCurrentMonthRevenue(LocalDateTime startDate);
+    RevenueResponse calculateCurrentQuarterRevenue(LocalDateTime startDate);
+    RevenueResponse calculateCurrentYearRevenue(LocalDateTime startDate);
     
     // PDF generation
     byte[] generateInvoicePdf(Long paymentId) throws Exception;

@@ -134,6 +134,33 @@ public class PaymentController {
         return ResponseEntity.ok(paymentService.calculateYearlyRevenue(date));
     }
 
+    @GetMapping("/revenue/currentMonth")
+    public ResponseEntity<RevenueResponse> getCurrentMonthRevenue(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
+        if (date == null) {
+            date = LocalDateTime.now();
+        }
+        return ResponseEntity.ok(paymentService.calculateCurrentMonthRevenue(date));
+    }
+
+    @GetMapping("/revenue/currentQuarter")
+    public ResponseEntity<RevenueResponse> getCurrentQuarterRevenue(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
+        if (date == null) {
+            date = LocalDateTime.now();
+        }
+        return ResponseEntity.ok(paymentService.calculateCurrentQuarterRevenue(date));
+    }
+
+    @GetMapping("/revenue/currentYear")
+    public ResponseEntity<RevenueResponse> getCurrentYearRevenue(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
+        if (date == null) {
+            date = LocalDateTime.now();
+        }
+        return ResponseEntity.ok(paymentService.calculateCurrentYearRevenue(date));
+    }
+
     // PDF generation endpoint
     @GetMapping("/{id}/invoice")
     public ResponseEntity<byte[]> generateInvoice(@PathVariable Long id) throws Exception {

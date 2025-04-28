@@ -93,6 +93,7 @@ public class PaymentServiceImpl implements PaymentService {
         );
     }
 
+    // tinh tu dau thang den cuoi thang duoc, phuc vu cho viec tao bieu do so sanh
     @Override
     public RevenueResponse calculateWeeklyRevenue(LocalDateTime date) {
         // Lấy thứ hai đầu tuần (ngày 1 của tuần)
@@ -150,6 +151,58 @@ public class PaymentServiceImpl implements PaymentService {
         return new RevenueResponse(
             startOfYear,
             endOfYear,
+            revenue != null ? revenue : 0.0,
+            "YEARLY"
+        );
+    }
+
+    //tinh tu dau thang den ngay hien tai thoi
+    @Override
+    public RevenueResponse calculateCurrentMonthRevenue(LocalDateTime date) {
+        // Lấy ngày 1 của tháng
+        LocalDateTime startOfMonth = date.withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
+        // Lấy thời điểm hiện tại
+        LocalDateTime now = LocalDateTime.now();
+        
+        Double revenue = paymentRepository.calculateRevenueBetweenDates(startOfMonth, now);
+        return new RevenueResponse(
+            startOfMonth,
+            now,
+            revenue != null ? revenue : 0.0,
+            "MONTHLY"
+        );
+    }
+    
+    @Override
+    public RevenueResponse calculateCurrentQuarterRevenue(LocalDateTime date) {
+        // Xác định quý
+        int month = date.getMonthValue();
+        int quarter = (month - 1) / 3 + 1;
+        // Lấy ngày đầu tiên của quý
+        LocalDateTime startOfQuarter = date.withMonth((quarter - 1) * 3 + 1).withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
+        // Lấy thời điểm hiện tại
+        LocalDateTime now = LocalDateTime.now();
+        
+        Double revenue = paymentRepository.calculateRevenueBetweenDates(startOfQuarter, now);
+        return new RevenueResponse(
+            startOfQuarter,
+            now,
+            revenue != null ? revenue : 0.0,
+            "QUARTERLY"
+        );
+    }
+    
+    @Override
+    public RevenueResponse calculateCurrentYearRevenue(LocalDateTime date) {
+        // Lấy ngày 1 tháng 1 của năm
+        LocalDateTime startOfYear = date.withMonth(1).withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
+        // Lấy thời điểm hiện tại
+        LocalDateTime now = LocalDateTime.now();
+        
+        Double revenue = paymentRepository.calculateRevenueBetweenDates(startOfYear, now);
+        return new RevenueResponse(
+            startOfYear,
+            now,
             revenue != null ? revenue : 0.0,
             "YEARLY"
         );

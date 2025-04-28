@@ -6,9 +6,15 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/payments")
@@ -17,9 +23,48 @@ public class PaymentController {
     @Autowired
     private PaymentService paymentService;
 
+    @Autowired
+    private Path invoiceStoragePath;
+
     @PostMapping
-    public ResponseEntity<Payment> createPayment(@RequestBody PaymentRequest paymentRequest) {
-        return ResponseEntity.ok(paymentService.createPayment(paymentRequest));
+    public ResponseEntity<Payment> createPayment(@RequestBody Map<String, Object> requestMap) {
+        System.out.println("Raw payment request: " + requestMap);
+        
+        // Trích xuất dữ liệu từ request
+        Long orderId = null;
+        PaymentMethod paymentMethod = null;
+        
+        try {
+            // Xử lý orderId
+            if (requestMap.containsKey("orderId")) {
+                if (requestMap.get("orderId") instanceof Number) {
+                    orderId = ((Number) requestMap.get("orderId")).longValue();
+                } else if (requestMap.get("orderId") instanceof String) {
+                    orderId = Long.parseLong((String) requestMap.get("orderId"));
+                }
+            }
+            
+            // Xử lý paymentMethod
+            if (requestMap.containsKey("paymentMethod")) {
+                String paymentMethodStr = String.valueOf(requestMap.get("paymentMethod"));
+                paymentMethod = PaymentMethod.valueOf(paymentMethodStr);
+            }
+            
+            if (orderId == null) {
+                throw new IllegalArgumentException("orderId không thể là null");
+            }
+            
+            if (paymentMethod == null) {
+                throw new IllegalArgumentException("paymentMethod không thể là null");
+            }
+            
+            PaymentRequest paymentRequest = new PaymentRequest(orderId, paymentMethod);
+            System.out.println("Processed payment request: " + paymentRequest);
+            return ResponseEntity.ok(paymentService.createPayment(paymentRequest));
+        } catch (Exception e) {
+            System.err.println("Error processing payment request: " + e.getMessage());
+            throw e;
+        }
     }
 
     @GetMapping("/{id}")
@@ -46,20 +91,47 @@ public class PaymentController {
     // Revenue calculation endpoints
     @GetMapping("/revenue/daily")
     public ResponseEntity<RevenueResponse> getDailyRevenue(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
+        if (date == null) {
+            date = LocalDateTime.now();
+        }
         return ResponseEntity.ok(paymentService.calculateDailyRevenue(date));
     }
 
     @GetMapping("/revenue/weekly")
     public ResponseEntity<RevenueResponse> getWeeklyRevenue(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate) {
-        return ResponseEntity.ok(paymentService.calculateWeeklyRevenue(startDate));
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
+        if (date == null) {
+            date = LocalDateTime.now();
+        }
+        return ResponseEntity.ok(paymentService.calculateWeeklyRevenue(date));
     }
 
     @GetMapping("/revenue/monthly")
     public ResponseEntity<RevenueResponse> getMonthlyRevenue(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate) {
-        return ResponseEntity.ok(paymentService.calculateMonthlyRevenue(startDate));
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
+        if (date == null) {
+            date = LocalDateTime.now();
+        }
+        return ResponseEntity.ok(paymentService.calculateMonthlyRevenue(date));
+    }
+
+    @GetMapping("/revenue/quarterly")
+    public ResponseEntity<RevenueResponse> getQuarterlyRevenue(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
+        if (date == null) {
+            date = LocalDateTime.now();
+        }
+        return ResponseEntity.ok(paymentService.calculateQuarterlyRevenue(date));
+    }
+
+    @GetMapping("/revenue/yearly")
+    public ResponseEntity<RevenueResponse> getYearlyRevenue(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
+        if (date == null) {
+            date = LocalDateTime.now();
+        }
+        return ResponseEntity.ok(paymentService.calculateYearlyRevenue(date));
     }
 
     // PDF generation endpoint
@@ -74,5 +146,40 @@ public class PaymentController {
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(pdfBytes);
+    }
+
+    // Endpoint để lấy file PDF đã lưu
+    @GetMapping("/invoices/{fileName:.+}")
+    public ResponseEntity<Resource> getInvoiceFile(@PathVariable String fileName) {
+        Path filePath = invoiceStoragePath.resolve(fileName);
+        File file = filePath.toFile();
+        
+        if (!file.exists()) {
+            return ResponseEntity.notFound().build();
+        }
+        
+        Resource resource = new FileSystemResource(file);
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData("filename", fileName);
+        
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(resource);
+    }
+
+    // QR Code generation endpoint
+    @GetMapping("/{id}/qrcode")
+    public ResponseEntity<byte[]> generateQrCode(@PathVariable Long id) {
+        byte[] qrCodeBytes = paymentService.generateQrCode(id);
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_PNG);
+        headers.setContentDispositionFormData("filename", "invoice-" + id + "-qrcode.png");
+        
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(qrCodeBytes);
     }
 }

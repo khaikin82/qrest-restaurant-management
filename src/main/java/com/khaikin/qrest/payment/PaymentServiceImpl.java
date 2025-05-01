@@ -8,6 +8,7 @@ import java.net.InetAddress;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -95,74 +96,118 @@ public class PaymentServiceImpl implements PaymentService {
 
     // tinh tu dau thang den cuoi thang duoc, phuc vu cho viec tao bieu do so sanh
     @Override
-    public RevenueResponse calculateWeeklyRevenue(LocalDateTime date) {
+    public Double calculateWeeklyRevenue(LocalDateTime date) {
         // Lấy thứ hai đầu tuần (ngày 1 của tuần)
         LocalDateTime startOfWeek = date.with(java.time.temporal.TemporalAdjusters.previousOrSame(java.time.DayOfWeek.MONDAY)).withHour(0).withMinute(0).withSecond(0);
         // Lấy chủ nhật cuối tuần (ngày 7 của tuần)
         LocalDateTime endOfWeek = startOfWeek.plusDays(6).withHour(23).withMinute(59).withSecond(59);
         
         Double revenue = paymentRepository.calculateRevenueBetweenDates(startOfWeek, endOfWeek);
-        return new RevenueResponse(
-            startOfWeek,
-            endOfWeek,
-            revenue != null ? revenue : 0.0,
-            "WEEKLY"
-        );
+        return revenue;
     }
 
     @Override
-    public RevenueResponse calculateMonthlyRevenue(LocalDateTime date) {
+    public Double calculateMonthRevenue(LocalDateTime date) {
         // Lấy ngày 1 của tháng
-        LocalDateTime startOfMonth = date.withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0);
-        // Lấy ngày cuối cùng của tháng
-        LocalDateTime endOfMonth = date.with(TemporalAdjusters.lastDayOfMonth()).withHour(23).withMinute(59).withSecond(59);
+        LocalDateTime startOfMonth = date.withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
+        // Lấy thời điểm hiện tại
+        LocalDateTime endOfMonth = date.with(TemporalAdjusters.lastDayOfMonth()).withHour(23).withMinute(59).withSecond(59).withNano(999999999);
         
         Double revenue = paymentRepository.calculateRevenueBetweenDates(startOfMonth, endOfMonth);
-        return new RevenueResponse(
-            startOfMonth,
-            endOfMonth,
-            revenue != null ? revenue : 0.0,
-            "MONTHLY"
-        );
-    }
-
-    @Override   
-    public RevenueResponse calculateQuarterlyRevenue(LocalDateTime date) {
-        int month = date.getMonthValue();
-        int quarter = (month - 1) / 3 + 1;
-        LocalDateTime startOfQuarter = date.withMonth((quarter - 1) * 3 + 1).withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0);
-        LocalDateTime endOfQuarter = startOfQuarter.plusMonths(3).minusDays(1).withHour(23).withMinute(59).withSecond(59);
-        
-        Double revenue = paymentRepository.calculateRevenueBetweenDates(startOfQuarter, endOfQuarter);
-        return new RevenueResponse(
-            startOfQuarter,
-            endOfQuarter,
-            revenue != null ? revenue : 0.0,
-            "QUARTERLY"
-        );
+        return revenue;
     }
 
     @Override
-    public RevenueResponse calculateYearlyRevenue(LocalDateTime date) {
-        LocalDateTime startOfYear = date.withMonth(1).withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0);
-        LocalDateTime endOfYear = startOfYear.plusYears(1).minusDays(1).withHour(23).withMinute(59).withSecond(59);
+    public List<Double> calculateMonthlyRevenue(LocalDateTime date) {
+        // Get first day of the month
+        LocalDateTime startOfMonth = date.withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
+        // Get last day of the month
+        LocalDateTime endOfMonth = date.with(TemporalAdjusters.lastDayOfMonth()).withHour(23).withMinute(59).withSecond(59).withNano(999999999);
         
-        Double revenue = paymentRepository.calculateRevenueBetweenDates(startOfYear, endOfYear);
-        return new RevenueResponse(
-            startOfYear,
-            endOfYear,
-            revenue != null ? revenue : 0.0,
-            "YEARLY"
-        );
+        List<Double> monthlyRevenue = new ArrayList<>();
+        // Iterate through each day of the month
+        for (LocalDateTime currentDate = startOfMonth; 
+             !currentDate.isAfter(endOfMonth); 
+             currentDate = currentDate.plusDays(1)) {
+            Double revenue = paymentRepository.calculateDailyRevenue(currentDate);
+            // Handle null case (if no revenue for that day)
+            monthlyRevenue.add(revenue != null ? revenue : 0.0);
+        }
+        
+        return monthlyRevenue;
+    }
+
+    @Override
+    public List<Double> calculateQuarterlyRevenue(LocalDateTime date) {
+        // Determine the quarter and set start/end dates
+        int month = date.getMonthValue();
+        int quarter = (month - 1) / 3 + 1;
+        LocalDateTime startOfQuarter = date.withMonth((quarter - 1) * 3 + 1)
+                .withDayOfMonth(1)
+                .withHour(0)
+                .withMinute(0)
+                .withSecond(0)
+                .withNano(0);
+        LocalDateTime endOfQuarter = startOfQuarter.plusMonths(3)
+                .minusDays(1)
+                .withHour(23)
+                .withMinute(59)
+                .withSecond(59)
+                .withNano(999999999);
+    
+        List<Double> weeklyRevenues = new ArrayList<>();
+        
+        // Start from the first Monday of the quarter
+        LocalDateTime currentWeekStart = startOfQuarter
+                .with(TemporalAdjusters.previousOrSame(java.time.DayOfWeek.MONDAY));
+        
+        // Iterate through weeks until reaching or passing end of quarter
+        while (!currentWeekStart.isAfter(endOfQuarter)) {
+            // Calculate revenue for the week
+            Double weeklyRevenue = calculateWeeklyRevenue(currentWeekStart);
+            weeklyRevenues.add(weeklyRevenue != null ? weeklyRevenue : 0.0);
+            
+            // Move to next Monday
+            currentWeekStart = currentWeekStart.plusWeeks(1);
+        }
+        
+        return weeklyRevenues;
+    }
+
+    @Override
+    public List<Double> calculateYearlyRevenue(LocalDateTime date) {
+        // Set start of year
+        LocalDateTime startOfYear = date.withMonth(1)
+                .withDayOfMonth(1)
+                .withHour(0)
+                .withMinute(0)
+                .withSecond(0)
+                .withNano(0);
+        
+        List<Double> monthlyRevenues = new ArrayList<>();
+        
+        // Iterate through each month of the year
+        LocalDateTime currentMonth = startOfYear;
+        for (int i = 0; i < 12; i++) {
+            // Calculate revenue for the current month
+            Double monthlyRevenue = calculateMonthRevenue(currentMonth);
+            monthlyRevenues.add(monthlyRevenue != null ? monthlyRevenue : 0.0);
+            
+            // Move to the first day of the next month
+            currentMonth = currentMonth.plusMonths(1);
+        }
+        
+        return monthlyRevenues;
     }
 
     //tinh tu dau thang den ngay hien tai thoi
     @Override
-    public RevenueResponse calculateCurrentMonthRevenue(LocalDateTime date) {
-        // Lấy ngày 1 của tháng
-        LocalDateTime startOfMonth = date.withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
+    public RevenueResponse calculateCurrentMonthRevenue() {
         // Lấy thời điểm hiện tại
         LocalDateTime now = LocalDateTime.now();
+        // Lấy ngày 1 của tháng
+        LocalDateTime startOfMonth = now.withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
+
         
         Double revenue = paymentRepository.calculateRevenueBetweenDates(startOfMonth, now);
         return new RevenueResponse(
@@ -174,15 +219,14 @@ public class PaymentServiceImpl implements PaymentService {
     }
     
     @Override
-    public RevenueResponse calculateCurrentQuarterRevenue(LocalDateTime date) {
-        // Xác định quý
-        int month = date.getMonthValue();
-        int quarter = (month - 1) / 3 + 1;
-        // Lấy ngày đầu tiên của quý
-        LocalDateTime startOfQuarter = date.withMonth((quarter - 1) * 3 + 1).withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
+    public RevenueResponse calculateCurrentQuarterRevenue() {
         // Lấy thời điểm hiện tại
         LocalDateTime now = LocalDateTime.now();
-        
+        // Xác định quý
+        int month = now.getMonthValue();
+        int quarter = (month - 1) / 3 + 1;
+        // Lấy ngày đầu tiên của quý
+        LocalDateTime startOfQuarter = now.withMonth((quarter - 1) * 3 + 1).withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
         Double revenue = paymentRepository.calculateRevenueBetweenDates(startOfQuarter, now);
         return new RevenueResponse(
             startOfQuarter,
@@ -193,11 +237,11 @@ public class PaymentServiceImpl implements PaymentService {
     }
     
     @Override
-    public RevenueResponse calculateCurrentYearRevenue(LocalDateTime date) {
-        // Lấy ngày 1 tháng 1 của năm
-        LocalDateTime startOfYear = date.withMonth(1).withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
+    public RevenueResponse calculateCurrentYearRevenue() {
         // Lấy thời điểm hiện tại
         LocalDateTime now = LocalDateTime.now();
+        // Lấy ngày 1 tháng 1 của năm
+        LocalDateTime startOfYear = now.withMonth(1).withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0).withNano(0);
         
         Double revenue = paymentRepository.calculateRevenueBetweenDates(startOfYear, now);
         return new RevenueResponse(
@@ -248,5 +292,10 @@ public class PaymentServiceImpl implements PaymentService {
         
         // Tạo QR code từ đường dẫn hoặc dữ liệu
         return qrCodeService.generateQrCode(fullUrl);
+    }
+
+    @Override
+    public List<Payment> getPaymentByDate(LocalDateTime date) {
+        return paymentRepository.findPaymentsByDate(date);
     }
 }

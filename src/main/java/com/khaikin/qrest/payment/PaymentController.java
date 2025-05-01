@@ -98,17 +98,17 @@ public class PaymentController {
         return ResponseEntity.ok(paymentService.calculateDailyRevenue(date));
     }
 
-    @GetMapping("/revenue/weekly")
-    public ResponseEntity<RevenueResponse> getWeeklyRevenue(
+    @GetMapping("/revenue/paymentList")
+    public ResponseEntity<List<Payment>> getPaymentList(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
         if (date == null) {
             date = LocalDateTime.now();
         }
-        return ResponseEntity.ok(paymentService.calculateWeeklyRevenue(date));
+        return ResponseEntity.ok(paymentService.getPaymentByDate(date));
     }
 
     @GetMapping("/revenue/monthly")
-    public ResponseEntity<RevenueResponse> getMonthlyRevenue(
+    public ResponseEntity<List<Double>> getMonthlyRevenue(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
         if (date == null) {
             date = LocalDateTime.now();
@@ -117,7 +117,7 @@ public class PaymentController {
     }
 
     @GetMapping("/revenue/quarterly")
-    public ResponseEntity<RevenueResponse> getQuarterlyRevenue(
+    public ResponseEntity<List<Double>> getQuarterlyRevenue(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
         if (date == null) {
             date = LocalDateTime.now();
@@ -126,7 +126,7 @@ public class PaymentController {
     }
 
     @GetMapping("/revenue/yearly")
-    public ResponseEntity<RevenueResponse> getYearlyRevenue(
+    public ResponseEntity<List<Double>> getYearlyRevenue(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
         if (date == null) {
             date = LocalDateTime.now();
@@ -140,7 +140,7 @@ public class PaymentController {
         if (date == null) {
             date = LocalDateTime.now();
         }
-        return ResponseEntity.ok(paymentService.calculateCurrentMonthRevenue(date));
+        return ResponseEntity.ok(paymentService.calculateCurrentMonthRevenue());
     }
 
     @GetMapping("/revenue/currentQuarter")
@@ -149,7 +149,7 @@ public class PaymentController {
         if (date == null) {
             date = LocalDateTime.now();
         }
-        return ResponseEntity.ok(paymentService.calculateCurrentQuarterRevenue(date));
+        return ResponseEntity.ok(paymentService.calculateCurrentQuarterRevenue());
     }
 
     @GetMapping("/revenue/currentYear")
@@ -158,7 +158,7 @@ public class PaymentController {
         if (date == null) {
             date = LocalDateTime.now();
         }
-        return ResponseEntity.ok(paymentService.calculateCurrentYearRevenue(date));
+        return ResponseEntity.ok(paymentService.calculateCurrentYearRevenue());
     }
 
     // PDF generation endpoint

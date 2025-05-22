@@ -9,6 +9,8 @@ import com.khaikin.qrest.comboorder.ComboOrder;
 import com.khaikin.qrest.food.Food;
 import com.khaikin.qrest.foodorder.FoodOrder;
 import com.khaikin.qrest.order.Order;
+import com.khaikin.qrest.tableorder.TableOrder;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -38,6 +41,11 @@ public class PdfService {
      * @throws Exception Nếu có lỗi khi tạo PDF
      */
     public String generateAndSaveInvoice(Order order, Payment payment) throws Exception {
+        List<TableOrder> tableOrders = order.getTableOrders();
+        List<String> tableName = new ArrayList<>();
+        for (TableOrder it : tableOrders) {
+            tableName.add(it.getRestaurantTable().getName());
+        }
         Document document = new Document();
         
         // Tạo tên file với ngày giờ
@@ -59,7 +67,7 @@ public class PdfService {
         document.add(new Paragraph("Payment ID: " + payment.getId()));
         document.add(new Paragraph("Order ID: " + order.getId()));
         document.add(new Paragraph("Time: " + payment.getPaymentTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"))));
-        document.add(new Paragraph("Table: " + order.getRestaurantTable().getName()));
+        document.add(new Paragraph("Tables: " + tableName));
         document.add(new Paragraph("Payment method: " + payment.getPaymentMethod()));
         document.add(Chunk.NEWLINE);
         
@@ -139,6 +147,11 @@ public class PdfService {
      * @throws Exception Nếu có lỗi khi tạo PDF
      */
     public byte[] generateInvoice(Order order, Payment payment) throws Exception {
+        List<TableOrder> tableOrders = order.getTableOrders();
+        List<String> tableName = new ArrayList<>();
+        for (TableOrder it : tableOrders) {
+            tableName.add(it.getRestaurantTable().getName());
+        }
         Document document = new Document();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         
@@ -156,7 +169,7 @@ public class PdfService {
         document.add(new Paragraph("Payment ID: " + payment.getId()));
         document.add(new Paragraph("Order ID: " + order.getId()));
         document.add(new Paragraph("Time: " + payment.getPaymentTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"))));
-        document.add(new Paragraph("Table: " + order.getRestaurantTable().getName()));
+        document.add(new Paragraph("Tables: " + tableName));
         document.add(new Paragraph("Payment method: " + payment.getPaymentMethod()));
         document.add(Chunk.NEWLINE);
         

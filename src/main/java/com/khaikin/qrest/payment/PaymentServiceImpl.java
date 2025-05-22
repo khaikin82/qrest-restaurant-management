@@ -2,6 +2,8 @@ package com.khaikin.qrest.payment;
 
 import com.khaikin.qrest.order.Order;
 import com.khaikin.qrest.order.OrderRepository;
+import com.khaikin.qrest.tableorder.TableOrder;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.net.InetAddress;
@@ -279,6 +281,11 @@ public class PaymentServiceImpl implements PaymentService {
         // Nếu không có đường dẫn PDF, tạo JSON với thông tin thanh toán
         if (payment.getInvoicePdfPath() == null || payment.getInvoicePdfPath().isEmpty()) {
             Order order = payment.getOrder();
+            List<TableOrder> tableOrders = order.getTableOrders();
+            List<String> tableName = new ArrayList<>();
+            for (TableOrder it : tableOrders) {
+                tableName.add(it.getRestaurantTable().getName());
+            }
             fullUrl = String.format(
                 "{\"invoice_id\":%d,\"order_id\":%d,\"total_price\":%.2f,\"payment_method\":\"%s\",\"payment_time\":\"%s\",\"table\":\"%s\"}",
                 paymentId,
@@ -286,7 +293,7 @@ public class PaymentServiceImpl implements PaymentService {
                 payment.getTotalPrice(),
                 payment.getPaymentMethod(),
                 payment.getPaymentTime(),
-                order.getRestaurantTable().getName()
+                tableName
             );
         }
         

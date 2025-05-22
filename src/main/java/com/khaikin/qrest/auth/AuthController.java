@@ -22,7 +22,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
         // Nếu role không được gửi, mặc định là USER
-        Role role = request.getRole() != null ? request.getRole() : Role.USER;
+        Role role = request.getRole() != null ? request.getRole() : Role.CHEF ;
 
         User user = userService.register(request.getUsername(), request.getPassword(), role);
         String token = jwtService.generateToken(user);

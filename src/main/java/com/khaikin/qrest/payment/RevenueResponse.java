@@ -13,5 +13,5 @@ public class RevenueResponse {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private Double totalRevenue;
-    private String periodType; // DAILY, WEEKLY, MONTHLY
+    private String periodType; // DAILY, WEEKLY, MONTHLY, QUARTERLY, YEARLY
 } 

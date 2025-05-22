@@ -8,6 +8,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/staffs")
@@ -19,6 +21,13 @@ public class StaffController {
     @GetMapping
     public ResponseEntity<List<Staff>> getAllStaffs() {
         return ResponseEntity.ok(staffService.getAllStaffs());
+    }
+
+    @GetMapping("/getStaffSalaries")
+    public ResponseEntity<List<StaffDTO>> getStaffSalaries() {
+        List<Staff> staffList = staffService.getAllStaffs();
+        List<StaffDTO> staffDTOs = staffList.stream().map(staff -> new StaffDTO(staff.getId(), staff.getFullName(), staff.getSalary(), staff.getPosition())).collect(Collectors.toList());
+        return ResponseEntity.ok(staffDTOs);
     }
 
     @GetMapping("/{id}")

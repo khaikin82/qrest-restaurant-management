@@ -4,6 +4,7 @@ import com.khaikin.qrest.comboorder.ComboOrder;
 import com.khaikin.qrest.foodorder.FoodOrder;
 import com.khaikin.qrest.reservation.Reservation;
 import com.khaikin.qrest.tableorder.TableOrder;
+import com.khaikin.qrest.table.RestaurantTable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -44,4 +45,8 @@ public class Order {
     @OneToOne
     @JoinColumn(name = "reservation_id")
     private Reservation reservation;
+
+    @ManyToOne
+    @JoinColumn(name = "restaurant_table_id")
+    private RestaurantTable restaurantTable;
 }

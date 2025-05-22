@@ -12,9 +12,16 @@ public interface PaymentService {
     
     // Revenue calculation methods
     RevenueResponse calculateDailyRevenue(LocalDateTime date);
-    RevenueResponse calculateWeeklyRevenue(LocalDateTime startDate);
-    RevenueResponse calculateMonthlyRevenue(LocalDateTime startDate);
-    
+    Double calculateWeeklyRevenue(LocalDateTime date);
+    public Double calculateMonthRevenue(LocalDateTime date);
+    List<Double> calculateMonthlyRevenue(LocalDateTime startDate);
+    List<Double> calculateQuarterlyRevenue(LocalDateTime startDate);
+    List<Double> calculateYearlyRevenue(LocalDateTime startDate);
+    RevenueResponse calculateCurrentMonthRevenue();
+    RevenueResponse calculateCurrentQuarterRevenue();
+    RevenueResponse calculateCurrentYearRevenue();
+    public List<Payment> getPaymentByDate(LocalDateTime date);
     // PDF generation
     byte[] generateInvoicePdf(Long paymentId) throws Exception;
+    byte[] generateQrCode(Long paymentId);
 }

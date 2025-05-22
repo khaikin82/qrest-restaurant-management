@@ -5,6 +5,7 @@ import com.khaikin.qrest.user.Role;
 import com.khaikin.qrest.user.User;
 import com.khaikin.qrest.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class AuthController {
 
         User user = userService.register(request.getUsername(), request.getPassword(), role);
         String token = jwtService.generateToken(user);
-        return ResponseEntity.ok(new AuthResponse(token));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new AuthResponse(token));
     }
 
     @PostMapping("/login")
@@ -49,5 +50,12 @@ public class AuthController {
     public ResponseEntity<String> logout() {
         // Logout chỉ đơn giản là client xóa token
         return ResponseEntity.ok("Logged out");
+    }
+
+    @PostMapping("/create-account")
+    public ResponseEntity<CreateAccountResponse> createAccount(@RequestBody Role role) {
+        CreateAccountResponse response = userService.createAccount(role);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

@@ -1,5 +1,6 @@
 package com.khaikin.qrest.user;
 
+import com.khaikin.qrest.auth.CreateAccountResponse;
 import com.khaikin.qrest.exception.BadRequestException;
 import com.khaikin.qrest.exception.ConflictException;
 import com.khaikin.qrest.exception.InvalidCredentialsException;
@@ -15,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -123,5 +125,32 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 user.getPassword(),
                 List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole()))
         );
+    }
+
+    @Override
+    public CreateAccountResponse createAccount(Role role) {
+        long count = userRepository.countByRole(role);
+        long nextNumber = count + 1;
+
+        String username = role.name().toLowerCase() + String.format("%03d", nextNumber);
+
+        String password = generateRandomPassword(8);
+
+        register(username, password, role);
+
+        return new CreateAccountResponse(username, password, role);
+    }
+
+    private String generateRandomPassword(int length) {
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        SecureRandom random = new SecureRandom();
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(chars.length());
+            sb.append(chars.charAt(index));
+        }
+
+        return sb.toString();
     }
 }

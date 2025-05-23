@@ -31,10 +31,6 @@ public class Food {
     @Column(columnDefinition = "TEXT")
     private String imageUrl;
 
-    private String imageName;
-    private String imageType;
-    private String imagePath; // Đường dẫn tới ảnh lưu trong thư mục
-
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;

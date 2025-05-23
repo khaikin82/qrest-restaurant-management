@@ -29,9 +29,6 @@ CREATE TABLE food (
     price DECIMAL(15, 2) NOT NULL,
     quantity INT NOT NULL,
     image_url TEXT,
-    image_name VARCHAR(255),
-    image_type VARCHAR(255),
-    image_path VARCHAR(255),
     category_id BIGINT,
     FOREIGN KEY (category_id) REFERENCES category(id)
 );
@@ -42,10 +39,7 @@ CREATE TABLE combo (
     description TEXT,
     price DECIMAL(15, 2) NOT NULL,
     image_url TEXT,
-    image_name VARCHAR(255),
-    image_type VARCHAR(255),
-    category_id BIGINT,
-    image_path VARCHAR(255)
+    category_id BIGINT
 );
 
 CREATE TABLE combo_food (

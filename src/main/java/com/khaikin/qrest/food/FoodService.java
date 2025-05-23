@@ -1,6 +1,7 @@
 package com.khaikin.qrest.food;
 
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -15,10 +16,10 @@ public interface FoodService {
 
     Food updateFood(Long id, Food food);
 
-    public Food createFood(Food food, MultipartFile imageFile)
+    Food createFood(Food food, MultipartFile imageFile, HttpServletRequest request)
             throws IOException;
 
-    public Food updateFood(Long id, Food food, MultipartFile updateImageFile)
+    Food updateFood(Long id, Food food, MultipartFile updateImageFile, HttpServletRequest request)
             throws IOException;
 
     void deleteFoodById(Long id);

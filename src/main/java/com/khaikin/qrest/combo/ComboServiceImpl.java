@@ -7,6 +7,8 @@ import com.khaikin.qrest.combofood.ComboFoodRepository;
 import com.khaikin.qrest.exception.ResourceNotFoundException;
 import com.khaikin.qrest.food.Food;
 import com.khaikin.qrest.food.FoodRepository;
+import com.khaikin.qrest.util.FileStorageService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +28,8 @@ public class ComboServiceImpl implements ComboService {
     private final FoodRepository foodRepository;
     private final ComboFoodRepository comboFoodRepository;
     private final CategoryRepository categoryRepository;
-    private final String uploadDir = "uploads/images/combo";
+    private final FileStorageService fileStorageService;
+    private final String uploadDir = "images/combo";
 
     @Override
     public List<Combo> getAllCombos() {
@@ -86,7 +89,7 @@ public class ComboServiceImpl implements ComboService {
     }
 
     @Override
-    public Combo createCombo(ComboRequest comboRequest, MultipartFile imageFile)
+    public Combo createCombo(ComboRequest comboRequest, MultipartFile imageFile, HttpServletRequest request)
             throws IOException {
         Combo combo = new Combo();
         combo.setName(comboRequest.getName());
@@ -110,17 +113,8 @@ public class ComboServiceImpl implements ComboService {
         comboFoodRepository.saveAll(comboFoods);
         combo.setComboFoods(comboFoods);
 
-        // image
-        String imageName = System.currentTimeMillis() + "_" + imageFile.getOriginalFilename();
-        String imageType = imageFile.getContentType();
-
-        Path path = Paths.get(uploadDir + imageName);
-        Files.createDirectories(path.getParent());  // Tạo thư mục nếu chưa tồn tại
-        imageFile.transferTo(path.toFile());
-
-        combo.setImageName(imageName);
-        combo.setImageType(imageType);
-        combo.setImagePath(path.toString());
+        String imageUrl = fileStorageService.storeFile(imageFile, uploadDir, request);
+        combo.setImageUrl(imageUrl);
 
         Long categoryId = comboRequest.getCategoryId();
         if (categoryId != null) {
@@ -133,7 +127,7 @@ public class ComboServiceImpl implements ComboService {
     }
 
     @Override
-    public Combo updateCombo(Long id, Combo combo, MultipartFile updateImageFile)
+    public Combo updateCombo(Long id, Combo combo, MultipartFile updateImageFile, HttpServletRequest request)
             throws IOException {
         Combo existingCombo = comboRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Combo", "comboId", id));
@@ -142,15 +136,9 @@ public class ComboServiceImpl implements ComboService {
         existingCombo.setDescription(combo.getDescription());
         existingCombo.setPrice(combo.getPrice());
 
-        String imageName = System.currentTimeMillis() + "_" + updateImageFile.getOriginalFilename();
-        String imageType = updateImageFile.getContentType();
-        Path path = Paths.get(Paths.get(uploadDir).toAbsolutePath() + "/" + imageName);
-        Files.createDirectories(path.getParent());  // Tạo thư mục nếu chưa tồn tại
-        updateImageFile.transferTo(path.toFile());
+        String imageUrl = fileStorageService.storeFile(updateImageFile, uploadDir, request);
+        existingCombo.setImageUrl(imageUrl);
 
-        existingCombo.setImageName(imageName);
-        existingCombo.setImageType(imageType);
-        existingCombo.setImagePath(path.toString());
         return comboRepository.save(existingCombo);
     }
 

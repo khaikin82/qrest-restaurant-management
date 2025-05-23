@@ -1,6 +1,5 @@
 package com.khaikin.qrest.order;
 
-import com.khaikin.qrest.payment.Payment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

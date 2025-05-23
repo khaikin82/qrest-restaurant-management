@@ -13,7 +13,6 @@ import com.khaikin.qrest.foodorder.FoodOrderRepository;
 import com.khaikin.qrest.reservation.Reservation;
 import com.khaikin.qrest.reservation.ReservationRepository;
 import com.khaikin.qrest.table.RestaurantTable;
-import com.khaikin.qrest.table.RestaurantTableRepository;
 import com.khaikin.qrest.table.RestaurantTableService;
 import com.khaikin.qrest.table.RestaurantTableStatus;
 import com.khaikin.qrest.tableorder.TableOrder;
@@ -30,7 +29,6 @@ import java.util.*;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
-    private final RestaurantTableRepository restaurantTableRepository;
     private final ReservationRepository reservationRepository;
     private final FoodRepository foodRepository;
     private final ComboRepository comboRepository;

@@ -1,7 +1,6 @@
 package com.khaikin.qrest.tablereservation;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.khaikin.qrest.order.Order;
 import com.khaikin.qrest.reservation.Reservation;
 import com.khaikin.qrest.table.RestaurantTable;
 import jakarta.persistence.*;

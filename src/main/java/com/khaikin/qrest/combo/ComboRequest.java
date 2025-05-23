@@ -1,6 +1,5 @@
 package com.khaikin.qrest.combo;
 
-import com.khaikin.qrest.category.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

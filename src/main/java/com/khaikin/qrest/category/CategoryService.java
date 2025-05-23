@@ -1,6 +1,5 @@
 package com.khaikin.qrest.category;
 
-import com.khaikin.qrest.food.Food;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.multipart.MultipartFile;
 

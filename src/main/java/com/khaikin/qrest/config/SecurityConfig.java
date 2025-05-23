@@ -1,6 +1,5 @@
 package com.khaikin.qrest.config;
 
-import com.khaikin.qrest.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -30,8 +29,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @EnableMethodSecurity
 public class SecurityConfig {
-    private final JwtService jwtService;
-    private final UserService userService;
 
     @Value("${jwt.secret}")
     private String jwtSecret;

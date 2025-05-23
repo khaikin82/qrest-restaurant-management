@@ -1,11 +1,15 @@
 package com.khaikin.qrest.staff;
 
+import com.khaikin.qrest.exception.ConflictException;
+import com.khaikin.qrest.exception.ResourceNotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collector;
@@ -50,5 +54,31 @@ public class StaffController {
     public ResponseEntity<Void> deleteStaff(@PathVariable @Positive Long id) {
         staffService.deleteStaff(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/with-image")
+    public ResponseEntity<Staff> createStaff(@RequestPart Staff staff,
+                                             @RequestPart MultipartFile imageFile,
+                                             HttpServletRequest request) {
+        try {
+            Staff newStaff = staffService.createStaff(staff, imageFile, request);
+            return ResponseEntity.status(HttpStatus.CREATED).body(newStaff);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new ConflictException("Conflict Error: Create Staff with Image");
+        }
+    }
+
+    @PutMapping("/with-image/{id}")
+    public ResponseEntity<Staff> updateStaff(@PathVariable Long id, @RequestPart Staff staff,
+                                                   @RequestPart MultipartFile imageFile, HttpServletRequest request) {
+        try {
+            Staff newStaff = staffService.updateStaff(id, staff, imageFile, request);
+            return ResponseEntity.status(HttpStatus.CREATED).body(newStaff);
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("staff", "staffId", id);
+        } catch (Exception e) {
+            throw new ConflictException("Conflict Error: Update staff");
+        }
     }
 }

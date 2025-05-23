@@ -128,8 +128,9 @@ CREATE TABLE payment (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     payment_time DATETIME NOT NULL,
     total_price DECIMAL(15, 2) NOT NULL,
-    payment_method VARCHAR(20) NOT NULL,
-    order_id BIGINT,
+    payment_method VARCHAR(100) NOT NULL,
+    order_id BIGINT UNIQUE,
+    invoice_pdf_path VARCHAR(255),
     FOREIGN KEY (order_id) REFERENCES restaurant_order(id)
 );
 

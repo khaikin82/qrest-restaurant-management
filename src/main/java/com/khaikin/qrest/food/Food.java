@@ -28,6 +28,7 @@ public class Food {
     @Column(precision = 15, scale = 2)
     private BigDecimal price;
     private Integer quantity;
+    @Column(columnDefinition = "TEXT")
     private String imageUrl;
 
     private String imageName;

@@ -26,6 +26,7 @@ public class Combo {
     private String description;
     @Column(precision = 15, scale = 2)
     private BigDecimal price;
+    @Column(columnDefinition = "TEXT")
     private String imageUrl;
 
     private String imageName;

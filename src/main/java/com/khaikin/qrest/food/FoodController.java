@@ -1,5 +1,7 @@
 package com.khaikin.qrest.food;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.khaikin.qrest.exception.ConflictException;
 import com.khaikin.qrest.exception.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -46,8 +48,10 @@ public class FoodController {
 
 
     @PostMapping("/with-image")
-    public ResponseEntity<Food> createFood(@RequestPart Food food, @RequestPart MultipartFile imageFile, HttpServletRequest request) {
+    public ResponseEntity<Food> createFood(@RequestPart("food") String foodJson, @RequestPart("imageFile") MultipartFile imageFile, HttpServletRequest request)  throws JsonProcessingException {
         try {
+            ObjectMapper mapper = new ObjectMapper();
+            Food food = mapper.readValue(foodJson, Food.class);
             Food newFood = foodService.createFood(food, imageFile, request);
             return new ResponseEntity<>(newFood, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -57,11 +61,13 @@ public class FoodController {
     }
 
     @PutMapping("/with-image/{id}")
-    public ResponseEntity<Food> updateFood(@PathVariable Long id, @RequestPart Food food,
+    public ResponseEntity<Food> updateFood(@PathVariable Long id, @RequestPart("food") String foodJson,
                                            @RequestPart MultipartFile imageFile, HttpServletRequest request) {
         try {
+            ObjectMapper mapper = new ObjectMapper();
+            Food food = mapper.readValue(foodJson, Food.class);
             Food newFood = foodService.updateFood(id, food, imageFile, request);
-            return new ResponseEntity<>(newFood, HttpStatus.CREATED);
+            return new ResponseEntity<>(newFood, HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException("food", "foodId", id);
         } catch (Exception e) {

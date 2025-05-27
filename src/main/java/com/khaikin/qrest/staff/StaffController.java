@@ -1,7 +1,9 @@
 package com.khaikin.qrest.staff;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.khaikin.qrest.exception.ConflictException;
 import com.khaikin.qrest.exception.ResourceNotFoundException;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
@@ -56,10 +58,12 @@ public class StaffController {
     }
 
     @PostMapping("/with-image")
-    public ResponseEntity<Staff> createStaff(@RequestPart Staff staff,
+    public ResponseEntity<Staff> createStaff(@RequestPart("staff") String staffJson,
                                              @RequestPart MultipartFile imageFile,
                                              HttpServletRequest request) {
         try {
+            ObjectMapper mapper = new ObjectMapper();
+            Staff staff = mapper.readValue(staffJson, Staff.class);
             Staff newStaff = staffService.createStaff(staff, imageFile, request);
             return ResponseEntity.status(HttpStatus.CREATED).body(newStaff);
         } catch (Exception e) {
@@ -69,11 +73,13 @@ public class StaffController {
     }
 
     @PutMapping("/with-image/{id}")
-    public ResponseEntity<Staff> updateStaff(@PathVariable Long id, @RequestPart Staff staff,
+    public ResponseEntity<Staff> updateStaff(@PathVariable Long id, @RequestPart("staff") String staffJson,
                                                    @RequestPart MultipartFile imageFile, HttpServletRequest request) {
         try {
+            ObjectMapper mapper = new ObjectMapper();
+            Staff staff = mapper.readValue(staffJson, Staff.class);
             Staff newStaff = staffService.updateStaff(id, staff, imageFile, request);
-            return ResponseEntity.status(HttpStatus.CREATED).body(newStaff);
+            return ResponseEntity.status(HttpStatus.OK).body(newStaff);
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException("staff", "staffId", id);
         } catch (Exception e) {

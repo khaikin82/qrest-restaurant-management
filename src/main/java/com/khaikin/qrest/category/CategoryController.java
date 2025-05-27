@@ -1,7 +1,9 @@
 package com.khaikin.qrest.category;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.khaikin.qrest.exception.ConflictException;
 import com.khaikin.qrest.exception.ResourceNotFoundException;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
@@ -48,10 +50,12 @@ public class CategoryController {
     }
 
     @PostMapping("/with-image")
-    public ResponseEntity<Category> createCategory(@RequestPart Category category,
+    public ResponseEntity<Category> createCategory(@RequestPart("category") String categoryJson,
                                                    @RequestPart MultipartFile imageFile,
                                                    HttpServletRequest request) {
         try {
+            ObjectMapper mapper = new ObjectMapper();
+            Category category = mapper.readValue(categoryJson, Category.class);
             Category newCategory = categoryService.createCategory(category, imageFile, request);
             return ResponseEntity.status(HttpStatus.CREATED).body(newCategory);
         } catch (Exception e) {
@@ -61,11 +65,13 @@ public class CategoryController {
     }
 
     @PutMapping("/with-image/{id}")
-    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestPart Category category,
+    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestPart("category") String categoryJson,
                                            @RequestPart MultipartFile imageFile, HttpServletRequest request) {
         try {
+            ObjectMapper mapper = new ObjectMapper();
+            Category category = mapper.readValue(categoryJson, Category.class);
             Category newCategory = categoryService.updateCategory(id, category, imageFile, request);
-            return ResponseEntity.status(HttpStatus.CREATED).body(newCategory);
+            return ResponseEntity.status(HttpStatus.OK).body(newCategory);
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException("category", "categoryId", id);
         } catch (Exception e) {

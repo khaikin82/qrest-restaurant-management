@@ -64,7 +64,7 @@ public class ReservationServiceImpl implements ReservationService {
         existingReservation.setBookingTime(reservation.getBookingTime());
         existingReservation.setArrivalTime(reservation.getArrivalTime());
         existingReservation.setNumberOfGuests(reservation.getNumberOfGuests());
-        existingReservation.setConfirmed(reservation.isConfirmed());
+        existingReservation.setReservationStatus(reservation.getReservationStatus());
         existingReservation.setDeposit(reservation.getDeposit());
         existingReservation.setCustomerName(reservation.getCustomerName());
         existingReservation.setCustomerPhone(reservation.getCustomerPhone());
@@ -72,6 +72,15 @@ public class ReservationServiceImpl implements ReservationService {
 
         return reservationRepository.save(existingReservation);
     }
+
+    @Override
+    public Reservation updateReservationStatus(Long id, ReservationStatus reservationStatus) {
+        Reservation existingReservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Reservation", "id", id));
+        existingReservation.setReservationStatus(reservationStatus);
+        return reservationRepository.save(existingReservation);
+    }
+
 
     @Override
     public void deleteReservationById(Long id) {

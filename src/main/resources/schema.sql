@@ -64,11 +64,12 @@ CREATE TABLE reservation (
     booking_time DATETIME NOT NULL,
     arrival_time DATETIME NOT NULL,
     number_of_guests INT NOT NULL,
-    is_confirmed BOOLEAN DEFAULT FALSE,
+    reservation_status VARCHAR(20) NOT NULL, -- Enum: PENDING, CONFIRMED, COMPLETED, CANCELLED
     deposit DECIMAL(15, 2) DEFAULT 0.0,
     customer_name VARCHAR(100) NOT NULL,
     customer_phone VARCHAR(20) NOT NULL
 );
+
 
 CREATE TABLE restaurant_order (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,

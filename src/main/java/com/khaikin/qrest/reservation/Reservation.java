@@ -26,7 +26,10 @@ public class Reservation {
     private LocalDateTime arrivalTime;
 
     private Integer numberOfGuests;
-    private boolean isConfirmed; // cọc tiền xong sẽ là true
+
+    @Enumerated(EnumType.STRING)
+    private ReservationStatus reservationStatus; //  PENDING, CONFIRMED, COMPLETED, CANCELLED
+
     @Column(precision = 15, scale = 2)
     private BigDecimal deposit;
 

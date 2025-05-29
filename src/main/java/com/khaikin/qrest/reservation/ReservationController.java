@@ -35,6 +35,12 @@ public class ReservationController {
         return ResponseEntity.ok(reservationService.updateReservation(id, reservation));
     }
 
+    @PutMapping("/{id}/status")
+    public ResponseEntity<Reservation> updateReservationStatus(@PathVariable @Positive Long id,
+                                                          @PathVariable ReservationStatus reservationStatus) {
+        return ResponseEntity.ok(reservationService.updateReservationStatus(id, reservationStatus));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteReservationById(@PathVariable @Positive Long id) {
         reservationService.deleteReservationById(id);

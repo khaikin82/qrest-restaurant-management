@@ -9,7 +9,7 @@ import java.util.List;
 public class ReservationRequest {
     private LocalDateTime arrivalTime;
     private Integer numberOfGuests;
-    private boolean isConfirmed; // cọc tiền xong sẽ là true
+    private ReservationStatus reservationStatus; //  PENDING, CONFIRMED, COMPLETED, CANCELLED
     private Double deposit;
     private String customerName;
     private String customerPhone;

@@ -105,47 +105,70 @@ INSERT INTO restaurant_table (name, capacity, status) VALUES
 -- Insert sample data for reservations (full name, Vietnamese phone format, USD deposit)
 INSERT INTO reservation (
     booking_time, arrival_time, number_of_guests,
-    is_confirmed, deposit, customer_name, customer_phone
+    reservation_status, deposit, customer_name, customer_phone
 ) VALUES
-('2024-04-11 18:00:00', '2024-04-11 19:00:00', 4, TRUE, 20.00, 'Johnathan Smith', '0901234567'),
-('2024-04-11 19:30:00', '2024-04-11 20:30:00', 6, TRUE, 30.00, 'Isabella Nguyen', '0912345678'),
-('2024-04-12 12:00:00', '2024-04-12 13:00:00', 8, TRUE, 40.00, 'Robert Johnson', '0923456789'),
-('2024-04-12 18:30:00', '2024-04-12 19:30:00', 12, TRUE, 60.00, 'Emily Davis', '0934567890'),
-('2024-04-13 19:00:00', '2024-04-13 20:00:00', 4, FALSE, 0.00, 'Michael Wilson', '0945678901'),
-('2024-04-14 20:00:00', '2024-04-14 21:00:00', 6, FALSE, 0.00, 'Sarah Brown', '0956789012'),
-('2024-04-15 18:00:00', '2024-04-15 19:00:00', 8, FALSE, 0.00, 'David Miller', '0967890123'),
-('2024-04-16 19:30:00', '2024-04-16 20:30:00', 12, FALSE, 0.00, 'Lisa Anderson', '0978901234');
+('2024-04-11 18:00:00', '2024-04-11 19:00:00', 4, 'CONFIRMED', 20.00, 'Johnathan Smith', '0901234567'),
+('2024-04-11 19:30:00', '2024-04-11 20:30:00', 6, 'CONFIRMED', 30.00, 'Isabella Nguyen', '0912345678'),
+('2024-04-12 12:00:00', '2024-04-12 13:00:00', 8, 'CONFIRMED', 40.00, 'Robert Johnson', '0923456789'),
+('2024-04-12 18:30:00', '2024-04-12 19:30:00', 12, 'CONFIRMED', 60.00, 'Emily Davis', '0934567890'),
+('2024-04-13 19:00:00', '2024-04-13 20:00:00', 4, 'PENDING', 0.00, 'Michael Wilson', '0945678901'),
+('2024-04-14 20:00:00', '2024-04-14 21:00:00', 6, 'PENDING', 0.00, 'Sarah Brown', '0956789012'),
+('2024-04-15 18:00:00', '2024-04-15 19:00:00', 8, 'PENDING', 0.00, 'David Miller', '0967890123'),
+('2024-04-16 19:30:00', '2024-04-16 20:30:00', 12, 'PENDING', 0.00, 'Lisa Anderson', '0978901234'),
+
+-- COMPLETED
+('2024-04-05 18:00:00', '2024-04-05 19:00:00', 3, 'COMPLETED', 15.00, 'Alex Turner', '0900000001'),
+('2024-04-06 19:00:00', '2024-04-06 20:00:00', 5, 'COMPLETED', 25.00, 'Nina Dobrev', '0900000002'),
+
+-- CANCELLED
+('2024-04-07 18:30:00', '2024-04-07 19:30:00', 4, 'CANCELLED', 0.00, 'Chris Evans', '0900000003'),
+('2024-04-08 20:00:00', '2024-04-08 21:00:00', 6, 'CANCELLED', 0.00, 'Emma Watson', '0900000004'),
+
+-- CONFIRMED (mới)
+('2024-04-17 17:00:00', '2024-04-17 18:00:00', 2, 'CONFIRMED', 10.00, 'Mark Ruffalo', '0900000005'),
+
+-- PENDING (mới)
+('2024-04-18 19:30:00', '2024-04-18 20:30:00', 7, 'PENDING', 0.00, 'Zendaya Coleman', '0900000006');
+
 
 INSERT INTO restaurant_table_reservation (restaurant_table_id, reservation_id) VALUES
-(1, 1),
-(13, 2),
-(2, 3),
+(1, 1),     -- Johnathan Smith
+(13, 2),    -- Isabella Nguyen
+(2, 3),     -- Robert Johnson
 (3, 3),
-(1, 4),
+(1, 4),     -- Emily Davis
 (15, 4),
-(4, 5),
-(14, 6),
-(20, 7),
-(15, 8),
-(16, 8);
+(4, 5),     -- Michael Wilson
+(14, 6),    -- Sarah Brown
+(20, 7),    -- David Miller
+(15, 8),    -- Lisa Anderson
+(16, 8),
+(5, 9),     -- Alex Turner (COMPLETED)
+(6, 10),    -- Nina Dobrev
+(7, 11),    -- Chris Evans (CANCELLED)
+(8, 12),    -- Emma Watson
+(9, 13),    -- Mark Ruffalo
+(10, 14);   -- Zendaya Coleman
+
 
 -- Insert sample data for restaurant_order
 INSERT INTO restaurant_order (total_price, note, order_status, order_time, reservation_id) VALUES
-(45.97, 'No onions please', 'COMPLETED', '2024-04-11 19:15:00', NULL),
-(62.97, 'Extra spicy', 'COMPLETED', '2024-04-11 20:45:00', NULL),
-(89.95, 'Birthday celebration', 'COMPLETED', '2024-04-12 13:15:00', NULL),
+(45.97, 'No onions please', 'COMPLETED', '2024-04-11 19:15:00', 1),
+(62.97, 'Extra spicy', 'COMPLETED', '2024-04-11 20:45:00', 2),
+(89.95, 'Birthday celebration', 'COMPLETED', '2024-04-12 13:15:00', 3),
 (120.90, 'Anniversary dinner', 'COMPLETED', '2024-04-12 19:45:00', 4),
 (35.98, NULL, 'PENDING', '2024-04-13 19:15:00', NULL),
-(42.97, 'Allergic to peanuts', 'PROCESSING', '2024-04-14 20:15:00', 6),
-(78.96, NULL, 'PENDING', '2024-04-15 18:30:00', 7),
+(42.97, 'Allergic to peanuts', 'PROCESSING', '2024-04-14 20:15:00', NULL),
+(78.96, NULL, 'PENDING', '2024-04-15 18:30:00', NULL),
 (95.94, 'Special occasion', 'PROCESSING', '2024-04-16 20:00:00', NULL),
-(55.96, 'Window seat preferred', 'COMPLETED', '2024-04-10 18:30:00', NULL),
-(68.95, 'Quiet table please', 'COMPLETED', '2024-04-10 19:45:00', NULL),
+(55.96, 'Window seat preferred', 'COMPLETED', '2024-04-10 18:30:00', 9),
+(68.95, 'Quiet table please', 'COMPLETED', '2024-04-10 19:45:00', 10),
 (82.94, NULL, 'COMPLETED', '2024-04-09 20:00:00', NULL),
 (75.93, 'Extra napkins', 'COMPLETED', '2024-04-09 18:15:00', NULL),
-(65.92, 'High chair needed', 'COMPLETED', '2024-04-08 19:30:00', NULL),
-(58.91, NULL, 'COMPLETED', '2024-04-08 20:45:00', NULL),
+(65.92, 'High chair needed', 'COMPLETED', '2024-04-08 19:30:00', 13),
+(58.91, NULL, 'COMPLETED', '2024-04-08 20:45:00', 14),
 (72.90, 'Celebration cake', 'COMPLETED', '2024-04-07 18:00:00', NULL);
+
 
 INSERT INTO restaurant_table_order (restaurant_table_id, order_id) VALUES
 (1, 1),

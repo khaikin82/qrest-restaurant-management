@@ -159,6 +159,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public FoodOrder updateFoodOrderStatus(Long foodOrderId, boolean isCompleted) {
+        FoodOrder existingFoodOrder = foodOrderRepository.findById(foodOrderId)
+                .orElseThrow(() -> new ResourceNotFoundException("FoodOrder", "id", foodOrderId));
+        existingFoodOrder.setCompleted(isCompleted);
+        return foodOrderRepository.save(existingFoodOrder);
+    }
+
+    @Override
     public void deleteOrderById(Long id) {
         Order existingOrder = orderRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order", "id", id));

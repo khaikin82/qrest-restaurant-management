@@ -3,6 +3,7 @@ package com.khaikin.qrest.foodorder;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.khaikin.qrest.food.Food;
 import com.khaikin.qrest.order.Order;
+import com.khaikin.qrest.order.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +24,8 @@ public class FoodOrder {
     @Column(precision = 15, scale = 2, nullable = false)
     private BigDecimal price;
 
+    private boolean isCompleted;
+
     @ManyToOne
     @JoinColumn(name = "food_id")
     private Food food;
@@ -31,4 +34,6 @@ public class FoodOrder {
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
+
+
 }

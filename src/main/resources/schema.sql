@@ -103,6 +103,7 @@ CREATE TABLE food_order (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     quantity INT NOT NULL,
     price DECIMAL(15, 2) NOT NULL,
+    is_completed BOOLEAN DEFAULT FALSE,
     food_id BIGINT,
     order_id BIGINT,
     FOREIGN KEY (food_id) REFERENCES food(id),

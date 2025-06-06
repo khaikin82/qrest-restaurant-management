@@ -1,5 +1,6 @@
 package com.khaikin.qrest.order;
 
+import com.khaikin.qrest.foodorder.FoodOrder;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -49,6 +50,12 @@ public class OrderController {
     public ResponseEntity<Order> updateOrderStatus(@PathVariable Long id,
                                                    @RequestBody OrderStatus orderStatus) {
         return ResponseEntity.ok(orderService.updateOrderStatus(id, orderStatus));
+    }
+
+    @PatchMapping("/foods/{foodOrderId}/status/{isCompleted}")
+    public ResponseEntity<FoodOrder> updateFoodOrderStatus(@PathVariable Long foodOrderId,
+                                                           @PathVariable boolean isCompleted) {
+        return ResponseEntity.ok(orderService.updateFoodOrderStatus(foodOrderId, isCompleted));
     }
 
     @DeleteMapping("/{id}")

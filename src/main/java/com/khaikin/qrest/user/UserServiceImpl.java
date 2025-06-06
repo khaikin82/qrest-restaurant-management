@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.util.List;
@@ -84,6 +85,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return modelMapper.map(user, UserDto.class);
     }
 
+    @Transactional
     @Override
     public UserDto updateUserStaff(Long id, Long staffId) {
         User user = userRepository.findById(id)
@@ -91,6 +93,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Staff staff = staffRepository.findById(staffId)
                 .orElseThrow(() -> new ResourceNotFoundException("Staff", "staffId", staffId));
 
+        if (staff.getUser() != null) {
+            staff.getUser().setStaff(null);  // user cũ gỡ staff
+        }
         user.setStaff(staff);
         User savedUser = userRepository.save(user);
         return modelMapper.map(savedUser, UserDto.class);

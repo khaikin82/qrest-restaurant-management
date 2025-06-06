@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface RestaurantTableRepository extends JpaRepository<RestaurantTable, Long> {
     @Query(value = """
@@ -20,4 +21,6 @@ public interface RestaurantTableRepository extends JpaRepository<RestaurantTable
         )
     """, nativeQuery = true)
     List<RestaurantTable> findAvailableTablesAtTime(@Param("time") LocalDateTime time);
+
+    Optional<RestaurantTable> findByName(String name);
 }

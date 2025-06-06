@@ -13,5 +13,5 @@ public class ReservationRequest {
     private Double deposit;
     private String customerName;
     private String customerPhone;
-    private List<Long> restaurantTableIds;
+    private List<String> restaurantTableNames;
 }

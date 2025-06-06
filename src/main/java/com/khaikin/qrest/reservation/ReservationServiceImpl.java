@@ -38,10 +38,10 @@ public class ReservationServiceImpl implements ReservationService {
     public Reservation createReservation(ReservationRequest reservationRequest) {
         Reservation reservation = modelMapper.map(reservationRequest, Reservation.class);
         List<TableReservation> tableReservations = new ArrayList<>();
-        if (reservationRequest.getRestaurantTableIds() != null) {
-            for (Long restaurantTableId : reservationRequest.getRestaurantTableIds()) {
-                RestaurantTable restaurantTable = restaurantTableRepository.findById(restaurantTableId)
-                        .orElseThrow(() -> new ResourceNotFoundException("Table", "tableId", restaurantTableId));
+        if (reservationRequest.getRestaurantTableNames() != null) {
+            for (String restaurantTableName : reservationRequest.getRestaurantTableNames()) {
+                RestaurantTable restaurantTable = restaurantTableRepository.findByName(restaurantTableName)
+                        .orElseThrow(() -> new ResourceNotFoundException("Table", "name", restaurantTableName));
                 TableReservation tableReservation = new TableReservation();
                 tableReservation.setRestaurantTable(restaurantTable);
                 tableReservation.setReservation(reservation);

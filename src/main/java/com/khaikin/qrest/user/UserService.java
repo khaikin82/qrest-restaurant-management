@@ -14,5 +14,5 @@ public interface UserService {
     UserDto updateUserStaff(String username, Long staffId);
     void deleteUserById(Long userId);
 
-    public CreateAccountResponse createAccount(Role role);
+    CreateAccountResponse createAccount(Role role);
 }

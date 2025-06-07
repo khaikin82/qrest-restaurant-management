@@ -1,6 +1,7 @@
 package com.khaikin.qrest.staff;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.khaikin.qrest.exception.ConflictException;
 import com.khaikin.qrest.exception.ResourceNotFoundException;
 
@@ -63,6 +64,7 @@ public class StaffController {
                                              HttpServletRequest request) {
         try {
             ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule());
             Staff staff = mapper.readValue(staffJson, Staff.class);
             Staff newStaff = staffService.createStaff(staff, imageFile, request);
             return ResponseEntity.status(HttpStatus.CREATED).body(newStaff);
@@ -77,6 +79,7 @@ public class StaffController {
                                                    @RequestPart MultipartFile imageFile, HttpServletRequest request) {
         try {
             ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule());
             Staff staff = mapper.readValue(staffJson, Staff.class);
             Staff newStaff = staffService.updateStaff(id, staff, imageFile, request);
             return ResponseEntity.status(HttpStatus.OK).body(newStaff);

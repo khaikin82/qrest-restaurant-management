@@ -62,8 +62,9 @@ public class RestaurantTableServiceImpl implements RestaurantTableService {
 
         existingRestaurantTable.setName(restaurantTable.getName());
         existingRestaurantTable.setCapacity(restaurantTable.getCapacity());
-        existingRestaurantTable.setStatus(restaurantTable.getStatus());
-
+        if (restaurantTable.getStatus() != null) {
+            existingRestaurantTable.setStatus(restaurantTable.getStatus());
+        }
         return restaurantTableRepository.save(existingRestaurantTable);
     }
 

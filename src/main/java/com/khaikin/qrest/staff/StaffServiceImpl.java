@@ -1,10 +1,13 @@
 package com.khaikin.qrest.staff;
 
 import com.khaikin.qrest.exception.ResourceNotFoundException;
+import com.khaikin.qrest.user.User;
+import com.khaikin.qrest.user.UserRepository;
 import com.khaikin.qrest.util.FileStorageService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -15,6 +18,7 @@ import java.util.List;
 public class StaffServiceImpl implements StaffService {
     private final StaffRepository staffRepository;
     private final FileStorageService fileStorageService;
+    private final UserRepository userRepository;
     private final String uploadDir = "images/staff";
 
     @Override
@@ -72,10 +76,20 @@ public class StaffServiceImpl implements StaffService {
         return staffRepository.save(existing);
     }
 
+    @Transactional
     @Override
     public void deleteStaff(Long id) {
         Staff existingStaff = staffRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Staff", "staffId", id));
+
+        // Kiểm tra và hủy liên kết với User (nếu có)
+        User user = existingStaff.getUser();
+        if (user != null) {
+            user.setStaff(null);
+            existingStaff.setUser(null);
+            userRepository.save(user); // Lưu user để cập nhật liên kết
+        }
+
         staffRepository.delete(existingStaff);
     }
 }

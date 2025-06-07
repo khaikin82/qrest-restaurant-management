@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -113,10 +114,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return modelMapper.map(savedUser, UserDto.class);
     }
 
+    @Transactional
     @Override
     public void deleteUserById(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "userId", userId));
+
+        // Hủy liên kết staff trước khi xóa user
+        Staff staff = user.getStaff();
+        if (staff != null) {
+            staff.setUser(null); // Xóa liên kết trong Staff (nếu Staff có user)
+            user.setStaff(null); // Xóa liên kết trong User
+            staffRepository.save(staff); // Lưu Staff (nếu muốn đảm bảo DB cập nhật)
+        }
+
         userRepository.delete(user);
     }
 
@@ -134,17 +145,30 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public CreateAccountResponse createAccount(Role role) {
-        long count = userRepository.countByRole(role);
-        long nextNumber = count + 1;
+        String prefix = role.name().toLowerCase();
+        String pattern = "^" + prefix + "[0-9]{3,}$"; // regex chuẩn
 
-        String username = role.name().toLowerCase() + String.format("%03d", nextNumber);
+        Optional<User> userOpt = userRepository.findTopValidUsernameByRole(role.name(), pattern);
 
+        long nextNumber = 1;
+        if (userOpt.isPresent()) {
+            String lastUsername = userOpt.get().getUsername();
+            String numberPart = lastUsername.substring(prefix.length());
+            try {
+                nextNumber = Long.parseLong(numberPart) + 1;
+            } catch (NumberFormatException e) {
+//                nextNumber = 1; // fallback
+            }
+        }
+
+        String username = prefix + String.format("%03d", nextNumber);
         String password = generateRandomPassword(8);
 
         register(username, password, role);
 
         return new CreateAccountResponse(username, password, role);
     }
+
 
     private String generateRandomPassword(int length) {
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

@@ -302,7 +302,7 @@ INSERT INTO users (username, password, role, staff_id) VALUES
 ('admin', '$2a$10$MQKxiH6JvMlc6jjP5Vhi4OnjfmSdHkMfWrbhai5Oex2VJOBJGuIDe', 'ADMIN', NULL),
 ('khai', '$2a$10$0I8M.7sXKDY0kac0y7cLoOuJ1jtePPc.HQhsyVZD9Z.vpliUW37GK', 'ADMIN', NULL),
 ('waiter', '$2a$10$MSn.cDJqsuXqyD7nJiCO4.zg60x7XbdPzfXAJX/VAfLaGRsO3HDkO', 'WAITER', NULL),
-('waiter01', '$2a$10$c248l2Hr7fRG5TkFQbHqjeXE98ovaE/E8dhweedYKi6Ikw4tHXRe.', 'WAITER', NULL),
+('waiter001', '$2a$10$c248l2Hr7fRG5TkFQbHqjeXE98ovaE/E8dhweedYKi6Ikw4tHXRe.', 'WAITER', NULL),
 ('cashier',  '$2a$10$RLB7Zu2Q6Hg1yU80C6vjfeqCIs2WywI9ZfakovHD9kmmjd4oZEf6W', 'CASHIER', NULL),
 ('chef', '$2a$10$YSzUQ9aNCMXHI7xMrNkbjeIv2JHgUC51pNzz4GGFDbvInDl4nZW0i', 'CHEF', NULL),
 ('user', '$2a$10$ulydMg8pXIm/X2UBSfEhnuHN.jhJwnuspHPRWbcIec3jiN0hy.UEO', 'USER', NULL);

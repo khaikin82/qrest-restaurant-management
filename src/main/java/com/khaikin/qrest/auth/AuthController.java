@@ -53,9 +53,9 @@ public class AuthController {
     }
 
     @PostMapping("/create-account")
-    public ResponseEntity<CreateAccountResponse> createAccount(@RequestBody Role role) {
-        CreateAccountResponse response = userService.createAccount(role);
-
+    public ResponseEntity<CreateAccountResponse> createAccount(@RequestBody CreateAccountRequest request) {
+        CreateAccountResponse response = userService.createAccount(request);
+        
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

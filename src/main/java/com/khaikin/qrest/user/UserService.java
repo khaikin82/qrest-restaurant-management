@@ -1,5 +1,6 @@
 package com.khaikin.qrest.user;
 
+import com.khaikin.qrest.auth.CreateAccountRequest;
 import com.khaikin.qrest.auth.CreateAccountResponse;
 
 import java.util.List;
@@ -15,5 +16,5 @@ public interface UserService {
     UserDto updateUserStaff(String username, Long staffId);
     void deleteUserById(Long userId);
 
-    CreateAccountResponse createAccount(Role role);
+    CreateAccountResponse createAccount(CreateAccountRequest request);
 }

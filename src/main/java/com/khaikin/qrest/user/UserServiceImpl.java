@@ -1,5 +1,6 @@
 package com.khaikin.qrest.user;
 
+import com.khaikin.qrest.auth.CreateAccountRequest;
 import com.khaikin.qrest.auth.CreateAccountResponse;
 import com.khaikin.qrest.exception.BadRequestException;
 import com.khaikin.qrest.exception.ConflictException;
@@ -144,7 +145,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public CreateAccountResponse createAccount(Role role) {
+    public CreateAccountResponse createAccount(CreateAccountRequest request) {
+        Role role = request.getRole();
         String prefix = role.name().toLowerCase();
         String pattern = "^" + prefix + "[0-9]{3,}$"; // regex chuẩn
 
@@ -162,7 +164,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
 
         String username = prefix + String.format("%03d", nextNumber);
-        String password = generateRandomPassword(8);
+        String password = request.getPassword();
 
         register(username, password, role);
 

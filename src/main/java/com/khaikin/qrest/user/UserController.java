@@ -36,4 +36,11 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/change-password-account")
+    public ResponseEntity<String> changePassword(@RequestBody ChangePasswordAccountRequest request) {
+        String username = request.getUsername();
+        userService.changePasswordAccount(username, request.getNewPassword());
+        return ResponseEntity.ok("Password changed successfully! " + username);
+    }
+
 }

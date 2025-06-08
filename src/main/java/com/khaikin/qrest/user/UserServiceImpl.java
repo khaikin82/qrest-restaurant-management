@@ -74,6 +74,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public void changePasswordAccount(String username, String newPassword) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+    }
+
+    @Override
     public List<UserDto> getAllUsers() {
         return userRepository.findAll().stream()
                 .map(user -> modelMapper.map(user, UserDto.class))

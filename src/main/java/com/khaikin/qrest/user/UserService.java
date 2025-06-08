@@ -8,6 +8,7 @@ public interface UserService {
     User register(String username, String password, Role role);
     User authenticate(String username, String rawPassword);
     void changePassword(String username, String oldPassword, String newPassword);
+    void changePasswordAccount(String username, String newPassword);
     List<UserDto> getAllUsers();
     UserDto getUserById(Long userId);
     UserDto updateUserStaff(Long id, Long staffId);
